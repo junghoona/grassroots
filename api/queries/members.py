@@ -54,8 +54,6 @@ class MemberRepository:
                 id = result.fetchone()[0]
                 old_data = member.dict()
                 return MemberOut(id=id, **old_data)
-
-
     def get_all_members(self) -> MemberOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -67,11 +65,32 @@ class MemberRepository:
                     """
                 )
                 results = []
-                print("db.description", db.description)
                 for row in db.fetchall():
                     record = {}
                     for i, column in enumerate(db.description):
                         record[column.name] = row[i]
-                        print(record)
+                    results.append(MemberOut(**record))
+                return results
+    def get_members(self, community_id) -> MemberOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute("SELECT EXISTS(SELECT * FROM communities where id=(%s))", [community_id])
+                # check if community exists
+                if not db.fetchone()[0]:
+                    return {"message": "community does not exist"}
+                db.execute(
+                    """
+                    SELECT id, community, person
+                    FROM members
+                    WHERE community=%s
+                    ORDER BY person
+                    """,
+                    [community_id]
+                )
+                results = []
+                for row in db.fetchall():
+                    record = {}
+                    for i, column in enumerate(db.description):
+                        record[column.name] = row[i]
                     results.append(MemberOut(**record))
                 return results
