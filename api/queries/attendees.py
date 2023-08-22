@@ -8,6 +8,7 @@ class AttendeeIn(BaseModel):
 
 
 class AttendeeOut(BaseModel):
+    id: int
     event: int
     person: int
 
@@ -21,7 +22,7 @@ class Error(Exception):
 
 
 class attendeeRepository:
-    ''' Get all attendees for a particular event by their id '''
+    ''' Get all attendees for a particular event by event id '''
     def get_attendees_for_event(self, event: int) -> list[AttendeeOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -31,7 +32,7 @@ class attendeeRepository:
 
                 db.execute(
                     """
-                    SELECT event, person
+                    SELECT id, event, person
                     FROM attendees
                     WHERE event = %s
                     """,
@@ -39,15 +40,11 @@ class attendeeRepository:
                 )
 
                 results = []
-                for row in db.fetchall():
-                    record = {}
-                    for i, column in enumerate(db.description):
-                        record[column.name] = row[i]
-                    results.append(record)
-
+                for (id, event, person) in db.fetchall():
+                    results.append(AttendeeOut(id=id, event=event, person=person))
                 return results
 
-    ''' Create an attendee '''
+    ''' Create an attendee of a particular event with user id '''
     def create_attendee(self, attendee: AttendeeIn) -> AttendeeOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -80,3 +77,20 @@ class attendeeRepository:
                 id = result.fetchone()[0]
                 old_data = attendee.dict()
                 return AttendeeOut(id=id, **old_data)
+
+    ''' Delete an attendee of a particular event by attendee id '''
+    def delete_attendee(self, attendee_id: int) -> dict:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute("SELECT EXISTS(SELECT * FROM attendees WHERE id = %s);", [attendee_id])
+                if not db.fetchone()[0]:
+                    raise Error(message="Attendee does not exist", code=404)
+
+                db.execute(
+                    """
+                    DELETE FROM attendees
+                    WHERE id = %s
+                    """,
+                    [attendee_id],
+                )
+                return {"message": "Attendee deleted successfully", "code": 200}
