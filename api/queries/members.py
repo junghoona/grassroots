@@ -18,42 +18,42 @@ class MemberListOut(BaseModel):
 
 class MemberRepository:
     def create_member(self, member: MemberIn) -> MemberOut:
-        with pool.connection() as conn:
-            with conn.cursor() as db:
-                db.execute("SELECT EXISTS(SELECT * FROM communities where id=(%s))", [member.community])
-                community_exist = db.fetchone()[0]
-                db.execute("SELECT EXISTS(SELECT * FROM users where id=(%s))", [member.person])
-                user_exist = db.fetchone()[0]
-                # check if both community and user do not exist
-                if not community_exist and not user_exist:
-                    return {"message": "community and user not found"}
-                # check if community exists
-                if not community_exist:
-                    return {"message": "community not found"}
-                # check if user exists
-                if not user_exist:
-                    return {"message": "user not found"}
-                db.execute("SELECT EXISTS(SELECT * FROM members where person=(%s) AND community=(%s))", [member.person, member.community])
-                # check if member is already in community
-                if db.fetchone()[0]:
-                    return {"message": "member is already in community"}
-                result = db.execute(
-                    """
-                    INSERT INTO members (
-                        community,
-                        person
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute("SELECT EXISTS(SELECT * FROM communities where id=(%s))", [member.community])
+                    community_exist = db.fetchone()[0]
+                    db.execute("SELECT EXISTS(SELECT * FROM users where id=(%s))", [member.person])
+                    user_exist = db.fetchone()[0]
+                    # check if both community and user do not exist
+                    if not community_exist and not user_exist:
+                        return {"message": "community and user not found"}
+                    # check if community exists
+                    if not community_exist:
+                        return {"message": "community not found"}
+                    # check if user exists
+                    if not user_exist:
+                        return {"message": "user not found"}
+                    db.execute("SELECT EXISTS(SELECT * FROM members where person=(%s) AND community=(%s))", [member.person, member.community])
+                    # check if member is already in community
+                    if db.fetchone()[0]:
+                        return {"message": "member is already in community"}
+                    result = db.execute(
+                        """
+                        INSERT INTO members (
+                            community,
+                            person
+                        )
+                        VALUES (%s, %s)
+                        RETURNING id;
+                        """,
+                        [
+                            member.community,
+                            member.person
+                        ]
                     )
-                    VALUES (%s, %s)
-                    RETURNING id;
-                    """,
-                    [
-                        member.community,
-                        member.person
-                    ]
-                )
-                id = result.fetchone()[0]
-                old_data = member.dict()
-                return MemberOut(id=id, **old_data)
+                    id = result.fetchone()[0]
+                    old_data = member.dict()
+                    return MemberOut(id=id, **old_data)
     def get_all_members(self) -> MemberOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -94,3 +94,17 @@ class MemberRepository:
                         record[column.name] = row[i]
                     results.append(MemberOut(**record))
                 return results
+    def delete_member(self, member_id) -> None:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        DELETE FROM members
+                        WHERE id=%s
+                        """,
+                        [member_id]
+                    )
+                    return True
+        except Exception as e:
+            return False

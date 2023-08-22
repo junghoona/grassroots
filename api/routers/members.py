@@ -59,3 +59,10 @@ def get_members(
             return result
     except:
         return {"members": result}
+
+@router.delete("/api/members/{member_id}", response_model=bool)
+def delete_member(
+    member_id: int,
+    repo: MemberRepository = Depends(),
+):
+    return repo.delete_member(member_id)
