@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
-from routers import users, members, attendees, communities
+from routers import users, members, attendees, events, communities
 
 app = FastAPI()
 app.include_router(users.router)
 app.include_router(members.router)
 app.include_router(attendees.router)
+app.include_router(events.router)
 app.include_router(communities.router)
 
 app.add_middleware(

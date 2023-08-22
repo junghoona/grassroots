@@ -43,15 +43,16 @@ steps = [
         CREATE TABLE events (
             id SERIAL PRIMARY KEY NOT NULL,
             name VARCHAR(50) NOT NULL,
+            location VARCHAR(50) NOT NULL,
             city VARCHAR NOT NULL,
             state VARCHAR NOT NULL,
-            type VARCHAR(300),
-            description TEXT,
-            creator_id INTEGER NOT NULL REFERENCES users(id),
+            type VARCHAR(300) NOT NULL,
+            description TEXT NOT NULL,
+            creator INTEGER NOT NULL REFERENCES users(id),
             community INTEGER NOT NULL REFERENCES communities(id),
-            day DATE NOT NULL,
-            start_time TIME NOT NULL,
-            end_time TIME NOT NULL
+            day VARCHAR(50) NOT NULL,
+            start_time VARCHAR(50) NOT NULL,
+            end_time VARCHAR(50) NULL
         );
         """,
         # "Down" SQL statement
