@@ -43,3 +43,22 @@ def get_communities(
 ):
     '''Get a list of all community instances'''
     return repo.get_communities()
+
+
+@router.delete("/api/communities/{community_id}", response_model=Union[bool, Error])
+def delete_community(
+    community_id: int,
+    response: Response,
+    repo: CommunityRepository = Depends()
+):
+    '''Delete a single instance of a community'''
+    community = repo.get_community(community_id)
+    if isinstance(community, dict) and community.get('message') is not None:
+        response.status_code = 404
+        return {"message": "Invalid Id - Could not delete Community"}
+    else:
+        repo.delete_community(community_id)
+        return {"message": "Community deleted successfully"}
+        
+        
+    

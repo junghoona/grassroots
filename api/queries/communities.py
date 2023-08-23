@@ -79,7 +79,7 @@ class CommunityRepository:
                     )
                     record = result.fetchone()
                     if record is None:
-                        return {"message": "Invalid Id - Cannot return list of communities"}
+                        return {"message": "Invalid Id - Community does not exist"}
 
                     return CommunityOut(
                         id=record[0],
@@ -127,3 +127,18 @@ class CommunityRepository:
         except Exception as e:
             print(e)
             return {"message": "Could not get all communities"}
+
+    def delete_community(self, community_id: int) -> Union[bool, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        DELETE FROM communities
+                        WHERE id = %s
+                        """,
+                        [community_id],
+                    )
+        except Exception as e:
+            print(e)
+            return {"message": "Invalid Community ID - Could not delete the Community"}
