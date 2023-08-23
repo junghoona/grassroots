@@ -23,10 +23,9 @@ def create_event(
     return result
 
 
-# KEEP CODE for getting events in next issue merge
-# @router.get("/api/events", response_model=List[EventOut])
-# def get_events(
-#         repo: EventRepository = Depends()
-# ):
-#     '''Get ALL instances of events in a list response'''
-#     return repo.get_all()
+@router.get("/api/events", response_model=List[EventOut])
+def get_events(
+        repo: EventRepository = Depends()
+):
+    '''Get ALL instances of events in a list response'''
+    return repo.get_all()

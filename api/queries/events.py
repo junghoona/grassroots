@@ -1,10 +1,11 @@
 from pydantic import BaseModel
-from typing import Union
+from typing import Union, List
 from datetime import date
 from queries.pool import pool
 
 
 class Error(BaseModel):
+    error: str
     message: str
 
 
@@ -39,34 +40,67 @@ class EventOut(BaseModel):
 
 class EventRepository:
     '''Event Repository Pattern for Database'''
-    # KEEP THIS code for GET List issue in next merge
-    # def get_all(self) -> Union[List[EventOut], Error]:
-    #     with pool.connection as conn:
-    #         with conn.cursor as db:
-    #             result = db.execute(
-    #                 """
-    #                 SELECT (name, location, city, state, type, description,
-    #                         creator, community, day, start_time, end_time)
-    #                 FROM events
-    #                 ORDER BY day;
-    #                 """
-    #             )
-    #             result = []
-    #             for record in db:
-    #                 event = EventOut()
-    #                 result.append(event)
-    #             return result
+    def get_all(self) -> List[EventOut]:
+        '''Get method for list of events'''
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT
+                        id,
+                        name,
+                        location,
+                        city,
+                        state,
+                        type,
+                        description,
+                        creator,
+                        community,
+                        day,
+                        start_time,
+                        end_time
+                    FROM events
+                    ORDER BY day
+                    """,
+                )
+                result = []
+                for record in db:
+                    event = EventOut(
+                        id=record[0],
+                        name=record[1],
+                        location=record[2],
+                        city=record[3],
+                        state=record[4],
+                        type=record[5],
+                        description=record[6],
+                        creator=record[7],
+                        community=record[8],
+                        day=record[9],
+                        start_time=record[10],
+                        end_time=record[11]
+                    )
+                    result.append(event)
+                return result
 
     def create(self, event: EventIn) -> Union[EventOut, Error]:
-        '''Create method for EventRepo'''
+        '''Create method for event object'''
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
                         INSERT INTO events
-                            (name, location, city, state, type, description,
-                            creator, community, day, start_time, end_time)
+                            (name,
+                            location,
+                            city,
+                            state,
+                            type,
+                            description,
+                            creator,
+                            community,
+                            day,
+                            start_time,
+                            end_time)
                         VALUES
                             (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             RETURNING id;
@@ -89,5 +123,4 @@ class EventRepository:
                     old_data = event.dict()
                     return EventOut(id=id, **old_data)
         except Exception as e:
-            # return {"message": str(e)}
-            return Error(message=str(e))
+            return Error(error=str(e), message="Could not create event: Invalid user ID")
