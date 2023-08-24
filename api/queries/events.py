@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 from typing import Union, List
-from datetime import date
 from queries.pool import pool
+from psycopg.errors import ForeignKeyViolation
 
 
 class Error(BaseModel):
-    error: str
     message: str
+    code: int
 
 
 class EventIn(BaseModel):
@@ -40,32 +40,35 @@ class EventOut(BaseModel):
 
 class EventRepository:
     '''Event Repository Pattern for Database'''
-    def get_all(self) -> List[EventOut]:
-        '''Get method for list of events'''
-        with pool.connection() as conn:
-            with conn.cursor() as db:
-                result = db.execute(
-                    """
-                    SELECT
-                        id,
-                        name,
-                        location,
-                        city,
-                        state,
-                        type,
-                        description,
-                        creator,
-                        community,
-                        day,
-                        start_time,
-                        end_time
-                    FROM events
-                    ORDER BY day
-                    """,
-                )
-                result = []
-                for record in db:
-                    event = EventOut(
+    def get_event(self, event_id: int) -> Union[EventOut, Error]:
+        '''GET method for a specific event view'''
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT
+                            id,
+                            name,
+                            location,
+                            city,
+                            state,
+                            type,
+                            description,
+                            creator,
+                            community,
+                            day,
+                            start_time,
+                            end_time
+                        FROM events
+                        WHERE id = %s
+                        """,
+                        [event_id]
+                    )
+                    record = result.fetchone()
+                    if record is None:
+                        raise ValueError("Event does not exist")
+                    return EventOut(
                         id=record[0],
                         name=record[1],
                         location=record[2],
@@ -79,8 +82,55 @@ class EventRepository:
                         start_time=record[10],
                         end_time=record[11]
                     )
-                    result.append(event)
+        except ValueError as e:
+            return {"message": str(e), "code": 404}
+        except Exception as e:
+            return {"message": str(e), "code": 500}
+
+    def get_all(self) -> Union[List[EventOut], Error]:
+        '''GET method for list of events'''
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT
+                            id,
+                            name,
+                            location,
+                            city,
+                            state,
+                            type,
+                            description,
+                            creator,
+                            community,
+                            day,
+                            start_time,
+                            end_time
+                        FROM events
+                        ORDER BY day
+                        """,
+                    )
+                    result = []
+                    for record in db:
+                        event = EventOut(
+                            id=record[0],
+                            name=record[1],
+                            location=record[2],
+                            city=record[3],
+                            state=record[4],
+                            type=record[5],
+                            description=record[6],
+                            creator=record[7],
+                            community=record[8],
+                            day=record[9],
+                            start_time=record[10],
+                            end_time=record[11]
+                        )
+                        result.append(event)
                 return result
+        except Exception as e:
+            return {"message": str(e), "code": 500}
 
     def create(self, event: EventIn) -> Union[EventOut, Error]:
         '''Create method for event object'''
@@ -119,8 +169,44 @@ class EventRepository:
                             event.end_time
                         ]
                     )
-                    id = result.fetchone()[0]
+                    event_id = result.fetchone()[0]
                     old_data = event.dict()
-                    return EventOut(id=id, **old_data)
+                    return EventOut(id=event_id, **old_data)
+        except ForeignKeyViolation as e:
+            return {"message": str(e), "code": 400}
         except Exception as e:
-            return Error(error=str(e), message="Could not create event: Invalid user ID")
+            return {"message": str(e), "code": 500}
+
+    def delete(self, event_id: int) -> Union[dict, Error]:
+        '''Delete a specific event'''
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT EXISTS(SELECT * FROM events WHERE id = %s);
+                        """,
+                        [event_id]
+                    )
+                    record = result.fetchone()
+                    if not record[0]:
+                        raise ValueError("Event does not exist")
+                    db.execute(
+                        """
+                        DELETE FROM attendees
+                        WHERE event = %s;
+                        """,
+                        [event_id]
+                    )
+                    db.execute(
+                        """
+                        DELETE FROM events
+                        WHERE id = %s
+                        """,
+                        [event_id]
+                    )
+                    return {"message": "Event deleted", "code": 200}
+        except ValueError as e:
+            return {"message": str(e), "code": 404}
+        except Exception as e:
+            return {"message": str(e), "code": 500}
