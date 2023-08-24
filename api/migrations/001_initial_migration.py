@@ -10,8 +10,8 @@ steps = [
             bio TEXT,
             city VARCHAR NOT NULL,
             state VARCHAR NOT NULL,
-            email VARCHAR(100) NOT NULL,
-            password VARCHAR(50) NOT NULL
+            email VARCHAR(100) NOT NULL UNIQUE,
+            hashed_password TEXT NOT NULL
         );
         """,
         # "Down" SQL statement
@@ -29,7 +29,7 @@ steps = [
             state VARCHAR NOT NULL,
             type VARCHAR(300),
             description TEXT,
-            creator_id INTEGER NOT NULL REFERENCES users(id)
+            creator_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
         );
         """,
         # "Down" SQL statement
@@ -48,8 +48,8 @@ steps = [
             state VARCHAR NOT NULL,
             type VARCHAR(300) NOT NULL,
             description TEXT NOT NULL,
-            creator INTEGER NOT NULL REFERENCES users(id),
-            community INTEGER NOT NULL REFERENCES communities(id),
+            creator INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            community INTEGER NOT NULL REFERENCES communities(id) ON DELETE CASCADE,
             day VARCHAR(50) NOT NULL,
             start_time VARCHAR(50) NOT NULL,
             end_time VARCHAR(50) NULL
@@ -65,8 +65,8 @@ steps = [
         """
         CREATE TABLE members (
             id SERIAL PRIMARY KEY NOT NULL,
-            community INTEGER NOT NULL REFERENCES communities(id),
-            person INTEGER NOT NULL REFERENCES users(id)
+            community INTEGER NOT NULL REFERENCES communities(id) ON DELETE CASCADE,
+            person INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
         );
         """,
         # "Down" SQL statement
@@ -79,8 +79,8 @@ steps = [
         """
         CREATE TABLE attendees (
             id SERIAL PRIMARY KEY NOT NULL,
-            event INTEGER NOT NULL REFERENCES events(id),
-            person INTEGER NOT NULL REFERENCES users(id)
+            event INTEGER NOT NULL REFERENCES events(id) ON DELETE CASCADE,
+            person INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
         );
         """,
         # "Down" SQL statement

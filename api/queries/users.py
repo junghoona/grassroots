@@ -23,11 +23,15 @@ class UserOut(BaseModel):
     city: str
     state: str
     email: str
-    password: str
 
 
-class userRepository:
-    def create_user(self, user: UserIn) -> UserOut:
+
+class UserOutWithPassword(UserOut):
+    hashed_password: str
+
+
+class UserRepository:
+    def create_user(self, info: UserIn, hashed_password: str) -> UserOutWithPassword:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
@@ -40,22 +44,77 @@ class userRepository:
                         city,
                         state,
                         email,
-                        password
+                        hashed_password
                     )
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                    RETURNING id;
+                    RETURNING
+                        id,
+                        first_name,
+                        last_name,
+                        avatar,
+                        bio,
+                        city,
+                        state,
+                        email,
+                        hashed_password;
                     """,
                     [
-                        user.first_name,
-                        user.last_name,
-                        user.avatar,
-                        user.bio,
-                        user.city,
-                        user.state,
-                        user.email,
-                        user.password
+                        info.first_name,
+                        info.last_name,
+                        info.avatar,
+                        info.bio,
+                        info.city,
+                        info.state,
+                        info.email,
+                        hashed_password
                     ]
                 )
-                id = result.fetchone()[0]
-                old_data = user.dict()
-                return UserOut(id=id, **old_data)
+                record = result.fetchone()
+                return UserOutWithPassword(
+                        id=record[0],
+                        first_name=record[1],
+                        last_name=record[2],
+                        avatar=record[3],
+                        bio=record[4],
+                        city=record[5],
+                        state=record[6],
+                        email=record[7],
+                        hashed_password=record[8]
+                    )
+
+
+    def get_user(self, email: str) -> UserOutWithPassword:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT
+                        id,
+                        first_name,
+                        last_name,
+                        avatar,
+                        bio,
+                        city,
+                        state,
+                        email,
+                        hashed_password
+                    FROM users
+                    WHERE email = %s
+                    """,
+                    [email]
+
+                )
+                record = result.fetchone()
+                if record is None:
+                    return {"message": "Invalid ID"}
+                return UserOutWithPassword(
+                        id=record[0],
+                        first_name=record[1],
+                        last_name=record[2],
+                        avatar=record[3],
+                        bio=record[4],
+                        city=record[5],
+                        state=record[6],
+                        email=record[7],
+                        hashed_password=record[8]
+                )

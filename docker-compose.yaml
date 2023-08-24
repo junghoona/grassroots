@@ -7,16 +7,17 @@ services:
   postgres:
     image: postgres:14.5-bullseye
     volumes:
-        - postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     environment:
-        POSTGRES_PASSWORD: greenbean
-        POSTGRES_USER: green_user
-        POSTGRES_DB: green_db
+      POSTGRES_PASSWORD: greenbean
+      POSTGRES_USER: green_user
+      POSTGRES_DB: green_db
     ports:
-        - 15432:5432
+      - 15432:5432
 
   fastapi:
     environment:
+      SIGNING_KEY: 32f24976d6e27652a26a81f69b578fbbadd77732dd1b945a9eeecedc6770a31a
       CORS_HOST: http://localhost:3000
       DATABASE_URL: postgresql://green_user:greenbean@postgres/green_db
     build:
