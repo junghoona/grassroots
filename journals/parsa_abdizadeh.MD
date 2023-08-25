@@ -10,6 +10,10 @@
 
 # 8/21/2023
 
+- continued with endpoints:
+  > DELETE attendee
+  > GET attendees
+
 # 8/22/2023
 
 - approved merge requests

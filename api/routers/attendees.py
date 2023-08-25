@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Response, status
 from typing import Union
 from queries.attendees import AttendeeIn, attendeeRepository, AttendeeOut, Error
-
+from authenticator import authenticator
 
 router = APIRouter()
 
@@ -10,7 +10,8 @@ router = APIRouter()
 def create_attendee(
     attendee: AttendeeIn,
     response: Response,
-    repo: attendeeRepository = Depends()
+    repo: attendeeRepository = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data)
 ):
     ''' Create an attendee '''
     try:
@@ -46,7 +47,8 @@ def delete_attendee(
     event: int,
     attendee_id: int,
     response: Response,
-    repo: attendeeRepository = Depends()
+    repo: attendeeRepository = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data)
 ):
     ''' Delete an attendee '''
     try:
