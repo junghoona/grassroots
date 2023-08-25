@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Response
 from queries.members import MemberIn, MemberOut, MemberRepository, Error, MemberListOut
-from queries.members import MemberIn, MemberOut, MemberRepository, Error, MemberListOut
 from typing import Union
+from authenticator import authenticator
 
 router = APIRouter()
 
@@ -10,6 +10,7 @@ def create_member(
     member: MemberIn,
     response: Response,
     repo: MemberRepository = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     """
     Create a new member with the following info:
@@ -64,5 +65,6 @@ def get_members(
 def delete_member(
     member_id: int,
     repo: MemberRepository = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     return repo.delete_member(member_id)
