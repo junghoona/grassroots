@@ -6,15 +6,16 @@ from queries.communities import (
     CommunityOut,
     CommunityRepository
 )
-
+from authenticator import authenticator
 
 router = APIRouter()
 
 
 @router.post("/api/communities", response_model=Union[CommunityOut, Error])
-def create_community(
+async def create_community(
     community: CommunityIn,
     response: Response,
+    account_data: dict = Depends(authenticator.get_current_account_data),
     repo: CommunityRepository = Depends()
 ):
     '''Create an instance of community'''
@@ -46,9 +47,10 @@ def get_communities(
 
 
 @router.delete("/api/communities/{community_id}", response_model=Union[bool, Error])
-def delete_community(
+async def delete_community(
     community_id: int,
     response: Response,
+    account_data: dict = Depends(authenticator.get_current_account_data),
     repo: CommunityRepository = Depends()
 ):
     '''Delete a single instance of a community'''
@@ -59,6 +61,3 @@ def delete_community(
     else:
         repo.delete_community(community_id)
         return {"message": "Community deleted successfully"}
-        
-        
-    

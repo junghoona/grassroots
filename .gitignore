@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+journals/john_an.MD
+
 # C extensions
 *.so
 
