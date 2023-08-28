@@ -4,7 +4,8 @@ from queries.events import (
     Error,
     EventIn,
     EventOut,
-    EventRepository
+    EventRepository,
+    UpdatedEventIn
 )
 
 router = APIRouter()
@@ -59,3 +60,16 @@ def get_events(
     if isinstance(events, dict) and events.get("code") is not None:
         response.status_code = events["code"]
     return events
+
+
+@router.put("/api/events/{event_id}", response_model=Union[EventOut, Error])
+def update_event(
+    event_id: int,
+    event: UpdatedEventIn,
+    response: Response,
+    repo: EventRepository = Depends()
+) -> Union[EventOut, Error]:
+    updated_event = repo.update(event_id, event)
+    if isinstance(updated_event, dict) and updated_event.get("code") is not None:
+        response.status_code = updated_event["code"]
+    return updated_event

@@ -23,6 +23,14 @@ class EventIn(BaseModel):
     end_time: str
 
 
+class UpdatedEventIn(BaseModel):
+    location: str
+    description: str
+    day: str
+    start_time: str
+    end_time: str
+
+
 class EventOut(BaseModel):
     id: int
     name: str
@@ -210,3 +218,55 @@ class EventRepository:
             return {"message": str(e), "code": 404}
         except Exception as e:
             return {"message": str(e), "code": 500}
+
+    def update(self, event_id: int, event: UpdatedEventIn) -> Union[EventOut, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        UPDATE events
+                        SET location = %s
+                            , description = %s
+                            , day = %s
+                            , start_time = %s
+                            , end_time = %s
+                        WHERE id = %s;
+                        """,
+                        [
+                            event.location,
+                            event.description,
+                            event.day,
+                            event.start_time,
+                            event.end_time,
+                            event_id
+                        ]
+                    )
+                    result = db.execute(
+                        """
+                        SELECT * FROM events
+                        WHERE id = %s
+                        """,
+                        [event_id]
+                    )
+                    record = result.fetchone()
+                    if record is None:
+                        raise ValueError("Event does not exist")
+                    return EventOut(
+                        id=record[0],
+                        name=record[1],
+                        location=record[2],
+                        city=record[3],
+                        state=record[4],
+                        type=record[5],
+                        description=record[6],
+                        creator=record[7],
+                        community=record[8],
+                        day=record[9],
+                        start_time=record[10],
+                        end_time=record[11],
+                    )
+        except ValueError as e:
+            return {"message": str(e), "code": 404}
+        except Exception as e:
+            return {"message": str(e), "code": 400}
