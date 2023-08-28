@@ -1,6 +1,12 @@
 from pydantic import BaseModel
 from typing import Optional
 from queries.pool import pool
+from typing import Union
+
+
+class Error(BaseModel):
+    message: str
+    code: int
 
 
 class UserIn(BaseModel):
@@ -13,6 +19,11 @@ class UserIn(BaseModel):
     email: str
     password: str
 
+class UpdatedUserIn(BaseModel):
+    avatar: Optional[str]
+    bio: Optional[str]
+    city: str
+    state: str
 
 class UserOut(BaseModel):
     id: int
@@ -23,7 +34,6 @@ class UserOut(BaseModel):
     city: str
     state: str
     email: str
-
 
 
 class UserOutWithPassword(UserOut):
@@ -82,6 +92,52 @@ class UserRepository:
                         hashed_password=record[8]
                     )
 
+    def update(self, user_id: int, user: UpdatedUserIn) -> Union[UserOut, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        UPDATE users
+                        SET avatar = %s
+                          , bio = %s
+                          , city = %s
+                          , state = %s
+                        WHERE id = %s;
+                        """,
+                        [
+                            user.avatar,
+                            user.bio,
+                            user.city,
+                            user.state,
+                            user_id
+                        ]
+                    )
+                    result = db.execute(
+                        """
+                        SELECT * FROM users
+                        where id = %s
+                        """,
+                        [user_id]
+                    )
+
+                    record = result.fetchone()
+                    if record is None:
+                        raise ValueError("User does not exist")
+                    return UserOut(
+                        id=record[0],
+                        first_name=record[1],
+                        last_name=record[2],
+                        avatar=record[3],
+                        bio=record[4],
+                        city=record[5],
+                        state=record[6],
+                        email=record[7],
+                    )
+        except ValueError as e:
+            return {"message": str(e), "code": 400}
+        except Exception as e:
+            return {"message": str(e), "code": 400}
 
     def get_user(self, email: str) -> UserOutWithPassword:
         with pool.connection() as conn:

@@ -5,11 +5,12 @@ from fastapi import (
     APIRouter,
     Request
 )
-from queries.users import UserIn, UserRepository, UserOut, UserOutWithPassword
+from queries.users import UserIn, UserRepository, UserOut, Error, UpdatedUserIn
 from jwtdown_fastapi.authentication import Token
 from authenticator import authenticator
 from pydantic import BaseModel
 from psycopg.errors import UniqueViolation
+from typing import Union
 
 
 class UserForm(BaseModel):
@@ -67,3 +68,17 @@ async def create_account(
     token = await authenticator.login(response, request, form, repo)
 
     return UserToken(user=user, **token.dict())
+
+
+@router.put("/api/user/{user_id}", response_model=Union[UserOut, Error])
+async def update_user(
+    user_id: int,
+    user: UpdatedUserIn,
+    response: Response,
+    repo: UserRepository = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+) -> Union[UserOut, Error]:
+    updated_user = repo.update(user_id, user)
+    if isinstance(updated_user, dict) and updated_user.get("code") is not None:
+        response.status_code = updated_user["code"]
+    return updated_user
