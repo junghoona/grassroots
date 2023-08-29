@@ -1,5 +1,6 @@
 from typing import List, Union
 from fastapi import APIRouter, Depends, Response
+from authenticator import authenticator
 from queries.events import (
     Error,
     EventIn,
@@ -12,10 +13,11 @@ router = APIRouter()
 
 
 @router.post("/api/events", response_model=Union[EventOut, Error])
-def create_event(
+async def create_event(
     event: EventIn,
     response: Response,
-    repo: EventRepository = Depends()
+    repo: EventRepository = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     '''Create AN instance of an event'''
     new_event = repo.create(event)
@@ -38,10 +40,11 @@ def get_one_event(
 
 
 @router.delete("/api/events/{event_id}", response_model=Union[dict, Error])
-def delete_event(
+async def delete_event(
     event_id: int,
     response: Response,
-    repo: EventRepository = Depends()
+    repo: EventRepository = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ) -> dict:
     '''Get one specific event'''
     result = repo.delete(event_id)
@@ -63,12 +66,14 @@ def get_events(
 
 
 @router.put("/api/events/{event_id}", response_model=Union[EventOut, Error])
-def update_event(
+async def update_event(
     event_id: int,
     event: UpdatedEventIn,
     response: Response,
-    repo: EventRepository = Depends()
+    repo: EventRepository = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ) -> Union[EventOut, Error]:
+    '''Update an Event'''
     updated_event = repo.update(event_id, event)
     if isinstance(updated_event, dict) and updated_event.get("code") is not None:
         response.status_code = updated_event["code"]
