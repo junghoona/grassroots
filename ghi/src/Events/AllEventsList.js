@@ -26,7 +26,7 @@ const AllEventList = () => {
                 src={event.image}
                 className="img-fluid rounded-start"
                 alt="Event"
-                style={{ height: "100%", objectFit: "cover" }} // Adjust image size
+                style={{ height: "100%", objectFit: "cover" }}
               />
             </div>
             <div className="col-md-8">
