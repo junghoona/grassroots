@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 const SignupForm = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  // const [avatar, setAvatar] = useState("");
-  // const [bio, setBio] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [bio, setBio] = useState("");
   const [city, setCity] = useState([]);
   const [state, setState] = useState([]);
   const [email, setEmail] = useState("");
@@ -17,17 +17,17 @@ const SignupForm = () => {
   const handleRegistration = (e) => {
     e.preventDefault();
     const accountData = {
-      firstName: firstName,
-      lastName: lastName,
+      first_name: firstName,
+      last_name: lastName,
+      avatar: avatar,
+      bio: bio,
       city: city,
       state: state,
       username: email,
+      email: email,
       password: password,
     };
-    register(
-      accountData,
-      `${process.env.REACT_APP_USER_SERVICE_API_HOST}/api/accounts`
-    );
+    register(accountData, `${process.env.REACT_APP_API_HOST}/api/accounts`);
     e.target.reset();
     navigate("/login");
   };
@@ -56,6 +56,28 @@ const SignupForm = () => {
               className="form-control"
               onChange={(e) => {
                 setLastName(e.target.value);
+              }}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Avatar: </label>
+            <input
+              name="avatar"
+              type="text"
+              className="form-control"
+              onChange={(e) => {
+                setAvatar(e.target.value);
+              }}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Bio: </label>
+            <input
+              name="bio"
+              type="text"
+              className="form-control"
+              onChange={(e) => {
+                setBio(e.target.value);
               }}
             />
           </div>

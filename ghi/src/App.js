@@ -2,7 +2,8 @@ import { AuthProvider } from "@galvanize-inc/jwtdown-for-react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
-
+import Main from "./Main";
+import LogoutButton from "./Logout";
 import "./App.css";
 
 function App() {
@@ -14,9 +15,10 @@ function App() {
       <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
         <BrowserRouter basename={basename}>
           <Routes>
-            {/* <Route exact path="/" element={<Main />}></Route> */}
+            <Route exact path="/" element={<Main />}></Route>
             <Route exact path="/signup" element={<SignupForm />}></Route>
             <Route exact path="/login" element={<LoginForm />}></Route>
+            <Route exact path="/logout" element={<LogoutButton />}></Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>
