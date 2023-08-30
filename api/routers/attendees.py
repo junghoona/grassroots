@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response, status
+from fastapi import APIRouter, Depends, Response
 from typing import Union
 from queries.attendees import AttendeeIn, attendeeRepository, AttendeeOut, Error
 from authenticator import authenticator

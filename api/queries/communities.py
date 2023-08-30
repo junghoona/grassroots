@@ -6,6 +6,7 @@ from queries.pool import pool
 class Error(BaseModel):
     message: str
 
+
 class CommunityIn(BaseModel):
     name: str
     city: str
