@@ -15,7 +15,7 @@ COPY routers routers
 RUN python -m pip install -r requirements.txt
 
 # !! PORT env var needs to match with exposed port in caprover dashboard
-CMD uvicorn main:app --host 0.0.0.0 --port 80
+# CMD uvicorn main:app --host 0.0.0.0 --port 80
 
 
 # If you're using a relational database and want migrations
