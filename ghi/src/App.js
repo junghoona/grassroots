@@ -4,6 +4,7 @@ import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 import Main from "./Main";
 import LogoutButton from "./Logout";
+import EventDetails from "./Events/EventDetails";
 import "./App.css";
 
 function App() {
@@ -19,6 +20,11 @@ function App() {
             <Route exact path="/signup" element={<SignupForm />}></Route>
             <Route exact path="/login" element={<LoginForm />}></Route>
             <Route exact path="/logout" element={<LogoutButton />}></Route>
+            <Route
+              exact
+              path="/events/{event_id}"
+              element={<EventDetails />}
+            ></Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>
