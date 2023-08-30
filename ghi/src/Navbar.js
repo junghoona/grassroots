@@ -4,7 +4,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <NavLink className="navbar-brand" href="#">
+        <NavLink className="navbar-brand" to="http://localhost:3000/">
           Green Bean
         </NavLink>
         <button
@@ -20,15 +20,15 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarScroll">
           <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
-            <li className="nav-item">
+            <li className="nav-item px-3">
               <NavLink className="nav-link active" aria-current="page" href="#">
                 About
               </NavLink>
             </li>
-            <li className="nav-item dropdown">
+            <li className="nav-item dropdown px-3">
               <NavLink
                 className="nav-link dropdown-toggle"
-                href="#"
+                to="http://localhost:3000/communities"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -37,7 +37,10 @@ const Navbar = () => {
               </NavLink>
               <ul className="dropdown-menu">
                 <li>
-                  <NavLink className="dropdown-item" href="#">
+                  <NavLink
+                    className="dropdown-item"
+                    to="http://localhost:3000/communities/create"
+                  >
                     Create a Community
                   </NavLink>
                 </li>
@@ -47,13 +50,16 @@ const Navbar = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="dropdown-item" href="#">
+                  <NavLink
+                    className="dropdown-item"
+                    to="http://localhost:3000/communities"
+                  >
                     View All Communities
                   </NavLink>
                 </li>
               </ul>
             </li>
-            <li className="nav-item dropdown">
+            <li className="nav-item dropdown px-3">
               <NavLink
                 className="nav-link dropdown-toggle"
                 href="#"
@@ -77,6 +83,48 @@ const Navbar = () => {
                 <li>
                   <NavLink className="dropdown-item" href="#">
                     Upcoming Events
+                  </NavLink>
+                </li>
+              </ul>
+            </li>
+            <li className="nav-item dropdown px-3">
+              <NavLink
+                className="nav-link dropdown-toggle"
+                to="http://localhost:3000/communities"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Account
+              </NavLink>
+              <ul className="dropdown-menu">
+                <li>
+                  <NavLink className="dropdown-item" to="#">
+                    My Profile
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="dropdown-item"
+                    to="http://localhost:3000/signup"
+                  >
+                    Create an account
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="dropdown-item"
+                    to="http://localhost:3000/login"
+                  >
+                    Log in
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="dropdown-item"
+                    to="http://localhost:3000/logout"
+                  >
+                    Log out
                   </NavLink>
                 </li>
               </ul>
