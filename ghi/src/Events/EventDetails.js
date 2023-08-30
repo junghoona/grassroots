@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const EventDetails = () => {
   const [events, setEvents] = useState([]);
+  const { event_id } = useParams();
 
-  const getEventDetailsData = async (id) => {
-    const EventDetails = `${process.env.REACT_APP_API_HOST}/api/events/${id}`;
+  const getEventDetailsData = async () => {
+    const EventDetails = `${process.env.REACT_APP_API_HOST}/api/events/${event_id}`;
     console.log(EventDetails);
     const response = await fetch(EventDetails);
     if (response.ok) {
@@ -13,6 +15,14 @@ const EventDetails = () => {
     } else {
       console.log("OOOPS!");
     }
+  };
+
+  const redirectToAttendeesList = () => {
+    window.location.href = `/events/${event_id}/attendees`;
+  };
+
+  const redirectToEventAttendForm = () => {
+    window.location.href = `/events/${event_id}/attendees/new`;
   };
 
   useEffect(() => {
@@ -24,12 +34,12 @@ const EventDetails = () => {
       <div className="card mb-4" style={{ maxWidth: "800px" }} key={events.id}>
         <div className="row g-0">
           <div className="col-md-4">
-            {/* <img
+            <img
               src={events.image}
               className="img-fluid rounded-start"
               alt="Event"
               style={{ height: "100%", objectFit: "cover" }}
-            /> */}
+            />
           </div>
           <div className="col-md-8">
             <div className="card-body">
@@ -45,6 +55,8 @@ const EventDetails = () => {
               <p className="card-text">
                 <small className="text-muted">Creator: {events.creator}</small>
               </p>
+              <button onClick={redirectToEventAttendForm}>Attend event</button>
+              <button onClick={redirectToAttendeesList}>Attendees List</button>
             </div>
           </div>
         </div>

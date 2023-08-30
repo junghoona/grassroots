@@ -22,7 +22,7 @@ function App() {
             <Route exact path="/logout" element={<LogoutButton />}></Route>
             <Route
               exact
-              path="/events/{event_id}"
+              path="/events/:event_id"
               element={<EventDetails />}
             ></Route>
           </Routes>
