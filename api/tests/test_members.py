@@ -1,9 +1,9 @@
 from queries.members import MemberRepository
-from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from main import app
 
 client = TestClient(app)
+
 
 class fake_MemberRepository:
     def create_member(self, member):
@@ -29,6 +29,7 @@ class fake_MemberRepository:
             ]
         )
 
+
 # test for not logged in user and prevents user from creating a member
 def test_unauthorized_create_member():
     # Arrange
@@ -43,6 +44,7 @@ def test_unauthorized_create_member():
     app.dependency_overrides = {}
     # Assert
     assert response.status_code == 401
+
 
 # test to get all members
 def test_get_all_members():
