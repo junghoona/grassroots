@@ -5,7 +5,7 @@ import LoginForm from "./LoginForm";
 import Main from "./Main";
 import LogoutButton from "./Logout";
 import "./App.css";
-// import CommunitiesList from "./CommunitiesList";
+import CommunitiesList from "./CommunitiesList";
 import CommunitiesForm from "./CommunitiesForm";
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
             <Route exact path="/logout" element={<LogoutButton />}></Route>
             <Route path="communities/">
               <Route path="create" element={<CommunitiesForm />} />
-              {/* <Route index element={<CommunitiesList />} /> */}
+              <Route index element={<CommunitiesList />} />
             </Route>
           </Routes>
         </BrowserRouter>
