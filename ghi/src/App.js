@@ -5,6 +5,7 @@ import LoginForm from "./LoginForm";
 import Main from "./Main";
 import LogoutButton from "./Logout";
 import "./App.css";
+import UserProfilePage from "./UserProfilePage/UserProfilePage";
 
 function App() {
   const domain = /https:\/\/[^/]+/;
@@ -19,6 +20,11 @@ function App() {
             <Route exact path="/signup" element={<SignupForm />}></Route>
             <Route exact path="/login" element={<LoginForm />}></Route>
             <Route exact path="/logout" element={<LogoutButton />}></Route>
+            <Route
+              exact
+              path="/userprofile"
+              element={<UserProfilePage />}
+            ></Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>
