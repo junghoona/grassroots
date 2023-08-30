@@ -25,6 +25,9 @@ lint-test-job:
 #     - pip install -r requirements.txt
 #     - python -m pytest
 
+services:
+  - docker:dind
+
 # Build API Image:
 build-api-image:
   stage: build
