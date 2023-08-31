@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 function CommunitiesForm() {
   // useState hooks to define input fields
   const [name, setName] = useState("");
-  const [city, setCity] = useState([]);
+  const [city, setCity] = useState("");
   const [states, setStates] = useState([]);
+  const [state, setState] = useState("");
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
   const [creatorID, setCreatorID] = useState("");
@@ -28,7 +29,6 @@ function CommunitiesForm() {
 
       if (response.ok) {
         const data = await response.json(); // Here you have the data that you need
-        console.log("DATA: ", JSON.stringify(data, null, 2));
         setStates(data["results"]);
       }
     }
@@ -37,37 +37,42 @@ function CommunitiesForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // create an empty data obj
-    const data = {};
 
-    // assign values to the key names that backend server is expecting
-    data.name = name;
-    data.city = city;
-    data.state = states;
-    data.type = type;
-    data.description = description;
-    data.creator_id = creatorID;
-
-    const url = `${process.env.REACT_APP_API_HOST}/api/communities`;
-    const fetchConfig = {
-      method: "post",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const data = {
+      name: name,
+      city: city,
+      state: state,
+      type: type,
+      description: description,
+      creator_id: creatorID,
     };
 
-    const response = await fetch(url, fetchConfig);
+    console.log("DATA: ", data);
+
+    const response = await fetch(
+      `${process.env.REACT_APP_API_HOST}/api/communities`,
+      {
+        method: "post",
+        credentials: "include",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
     if (response.ok) {
       const newCommunity = await response.json();
-      console.log(newCommunity);
+      console.log("COMMUNITY: ", newCommunity);
 
       setName("");
       setCity("");
-      setStates("");
+      setState("");
       setType("");
       setDescription("");
       setCreatorID("");
+    } else {
+      console.error(response);
     }
   };
 
@@ -108,17 +113,23 @@ function CommunitiesForm() {
                 Choose your state
               </label>
               <select
+                onChange={(e) => setState(e.target.value)}
                 required
                 className="form-select"
-                id="states"
+                id="state"
                 aria-label="Choose your state"
               >
                 <option value="">Open this select menu</option>
-                {states.map((state) => (
-                  <option key={state.objectId} value={state.objectId}>
-                    {state.name}
-                  </option>
-                ))}
+                {states.map((state) => {
+                  return (
+                    <option
+                      key={state.objectId}
+                      value={state.postalAbbreviation}
+                    >
+                      {state.name}
+                    </option>
+                  );
+                })}
               </select>
             </div>
             <div className="form-floating mb-3">
