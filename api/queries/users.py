@@ -19,11 +19,13 @@ class UserIn(BaseModel):
     email: str
     password: str
 
+
 class UpdatedUserIn(BaseModel):
     avatar: Optional[str]
     bio: Optional[str]
     city: str
     state: str
+
 
 class UserOut(BaseModel):
     id: int

@@ -8,6 +8,7 @@ import "./App.css";
 // import CommunitiesList from "./CommunitiesList";
 import CommunitiesForm from "./CommunitiesForm";
 import Navbar from "./Navbar";
+import UserProfilePage from "./UserProfilePage/UserProfilePage";
 
 function App() {
   const domain = /https:\/\/[^/]+/;
@@ -27,6 +28,11 @@ function App() {
               <Route path="create" element={<CommunitiesForm />} />
               {/* <Route index element={<CommunitiesList />} /> */}
             </Route>
+            <Route
+              exact
+              path="/userprofile"
+              element={<UserProfilePage />}
+            ></Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>
