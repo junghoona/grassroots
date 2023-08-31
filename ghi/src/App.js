@@ -5,6 +5,7 @@ import LoginForm from "./LoginForm";
 import Main from "./Main";
 import LogoutButton from "./Logout";
 import "./App.css";
+import UserProfilePage from "./UserProfilePage/UserProfilePage";
 // import CommunitiesList from "./CommunitiesList";
 import CommunitiesForm from "./CommunitiesForm";
 
@@ -25,6 +26,11 @@ function App() {
               <Route path="create" element={<CommunitiesForm />} />
               {/* <Route index element={<CommunitiesList />} /> */}
             </Route>
+            <Route
+              exact
+              path="/userprofile"
+              element={<UserProfilePage />}
+            ></Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>
