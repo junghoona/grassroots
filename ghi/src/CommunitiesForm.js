@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function CommunitiesForm() {
+const CommunitiesForm = () => {
   // useState hooks to define input fields
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
@@ -22,13 +22,13 @@ function CommunitiesForm() {
       const url = `https://parseapi.back4app.com/classes/Usabystate_States?limit=50&order=name&keys=name,objectId,population,postalAbreviation&where=${where}`;
       const response = await fetch(url, {
         headers: {
-          "X-Parse-Application-Id": "YeFK5eZAEn05owCNmcWhucKigaBpM00alBP4QdCX", // This is your app's application id
-          "X-Parse-REST-API-Key": "YkBFQLNkHV3fojvuhqCsfTBCjTAjU4xfFYaUaPQd", // This is your app's REST API key
+          "X-Parse-Application-Id": "YeFK5eZAEn05owCNmcWhucKigaBpM00alBP4QdCX",
+          "X-Parse-REST-API-Key": "YkBFQLNkHV3fojvuhqCsfTBCjTAjU4xfFYaUaPQd",
         },
       });
 
       if (response.ok) {
-        const data = await response.json(); // Here you have the data that you need
+        const data = await response.json();
         setStates(data["results"]);
       }
     }
@@ -47,8 +47,6 @@ function CommunitiesForm() {
       creator_id: creatorID,
     };
 
-    console.log("DATA: ", data);
-
     const response = await fetch(
       `${process.env.REACT_APP_API_HOST}/api/communities`,
       {
@@ -63,7 +61,6 @@ function CommunitiesForm() {
 
     if (response.ok) {
       const newCommunity = await response.json();
-      console.log("COMMUNITY: ", newCommunity);
 
       setName("");
       setCity("");
@@ -177,6 +174,6 @@ function CommunitiesForm() {
       </div>
     </div>
   );
-}
+};
 
 export default CommunitiesForm;
