@@ -108,10 +108,10 @@ function CommunitiesForm() {
               />
               <label htmlFor="last_name">City</label>
             </div>
+            <label htmlFor="state" className="form-label">
+              Choose your state
+            </label>
             <div className="form-floating mb-3">
-              <label htmlFor="state" className="form-label">
-                Choose your state
-              </label>
               <select
                 onChange={(e) => setState(e.target.value)}
                 required
