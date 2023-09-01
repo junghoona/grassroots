@@ -9,8 +9,6 @@ import "./App.css";
 import CommunitiesForm from "./CommunitiesForm";
 import Navbar from "./Navbar";
 import UserProfilePage from "./UserProfilePage/UserProfilePage";
-// import CommunitiesList from "./CommunitiesList";
-import CommunitiesForm from "./CommunitiesForm";
 
 function App() {
   const domain = /https:\/\/[^/]+/;
