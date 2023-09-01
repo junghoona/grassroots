@@ -5,6 +5,9 @@ import LoginForm from "./LoginForm";
 import Main from "./Main";
 import LogoutButton from "./Logout";
 import "./App.css";
+// import CommunitiesList from "./CommunitiesList";
+import CommunitiesForm from "./CommunitiesForm";
+import Navbar from "./Navbar";
 import UserProfilePage from "./UserProfilePage/UserProfilePage";
 // import CommunitiesList from "./CommunitiesList";
 import CommunitiesForm from "./CommunitiesForm";
@@ -17,6 +20,7 @@ function App() {
     <div className="container">
       <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
         <BrowserRouter basename={basename}>
+          <Navbar />
           <Routes>
             <Route exact path="/" element={<Main />}></Route>
             <Route exact path="/signup" element={<SignupForm />}></Route>
