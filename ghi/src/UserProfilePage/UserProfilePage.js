@@ -40,8 +40,8 @@ function UserProfilePage() {
             className="row d-flex justify-content-end"
             style={{ gap: "50px", marginRight: "0px" }}
           >
-            <CommunitiesList />
-            <EventsList />
+            <CommunitiesList user={userData} />
+            <EventsList user={userData} />
           </div>
         </div>
       ) : (
