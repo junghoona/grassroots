@@ -60,7 +60,7 @@ const CommunitiesForm = () => {
     );
 
     if (response.ok) {
-      const newCommunity = await response.json();
+      // const newCommunity = await response.json();
 
       setName("");
       setCity("");
