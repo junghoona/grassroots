@@ -17,9 +17,10 @@ function EventsList(props) {
   }
 
   useEffect(() => {
-    if (props.user.id != undefined) {
+    if (props.user.id !== undefined) {
       getAllCommunities();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.user]);
 
   return (
