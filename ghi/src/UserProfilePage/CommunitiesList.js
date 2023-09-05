@@ -17,9 +17,10 @@ function CommunitiesList(props) {
   }
 
   useEffect(() => {
-    if (props.user.id != undefined) {
+    if (props.user.id !== undefined) {
       getCommunitiesUserIn();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.user]);
 
   return (
