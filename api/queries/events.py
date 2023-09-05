@@ -270,3 +270,26 @@ class EventRepository:
             return {"message": str(e), "code": 404}
         except Exception as e:
             return {"message": str(e), "code": 400}
+
+    def get_events_user_in(self, user_id: int) -> EventOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT events.id, events.name, events.location, events.city,
+                    events.state, events.type, events.description, events.creator,
+                    events.community, events.day, events.start_time, events.end_time
+                    FROM events
+                    JOIN attendees on (attendees.event = events.id)
+                    JOIN users on (users.id = attendees.person)
+                    WHERE users.id = %s
+                    """,
+                    [user_id]
+                )
+                results = []
+                for row in db.fetchall():
+                    record = {}
+                    for i, column in enumerate(db.description):
+                        record[column.name] = row[i]
+                    results.append(EventOut(**record))
+                return results

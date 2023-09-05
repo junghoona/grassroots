@@ -78,3 +78,18 @@ async def update_event(
     if isinstance(updated_event, dict) and updated_event.get("code") is not None:
         response.status_code = updated_event["code"]
     return updated_event
+
+
+@router.get("/api/events/user/{user_id}", response_model=Union[List[EventOut], Error])
+async def get_events_user_in(
+    user_id: int,
+    response: Response,
+    repo: EventRepository = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+):
+    try:
+        results = repo.get_events_user_in(user_id)
+        return results
+    except Exception:
+        response.status_code = 503
+        return {"message": "Data server is down", "code": "503"}

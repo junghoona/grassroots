@@ -4,8 +4,10 @@ function EventsList(props) {
   const [events, setEvents] = useState([]);
 
   async function getAllCommunities() {
-    const url = `${process.env.REACT_APP_API_HOST}/api/events`;
-    const response = await fetch(url);
+    const url = `${process.env.REACT_APP_API_HOST}/api/events/user/${props.user.id}`;
+    const response = await fetch(url, {
+      credentials: "include",
+    });
     if (response.ok) {
       const data = await response.json();
       setEvents(data);
@@ -15,8 +17,10 @@ function EventsList(props) {
   }
 
   useEffect(() => {
-    getAllCommunities();
-  }, []);
+    if (props.user.id != undefined) {
+      getAllCommunities();
+    }
+  }, [props.user]);
 
   return (
     <div
@@ -24,11 +28,12 @@ function EventsList(props) {
       style={{ maxWidth: "400px", backgroundColor: "#f8f9fa" }}
     >
       <h4 className="mt-3">My Events:</h4>
-      {events.map((event) => {
-        return (
-          <div className="d-flex" key={event.id}>
-            <div className="overflow-auto" style={{ height: "200px" }}>
-              <div className="card m-2">
+
+      <div className="d-flex">
+        <div className="overflow-auto" style={{ height: "300px" }}>
+          {events.map((event) => {
+            return (
+              <div className="card m-2" key={event.id}>
                 <div className="row g-0">
                   <div className="col-md-4">
                     <img
@@ -55,10 +60,10 @@ function EventsList(props) {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        );
-      })}
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
