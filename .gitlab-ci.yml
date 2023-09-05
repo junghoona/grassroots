@@ -1,5 +1,5 @@
 services:
-  - docker:dind
+  - docker: dind
 
 stages:
   - test
