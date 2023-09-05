@@ -5,26 +5,27 @@ import CommunitiesList from "./CommunitiesList";
 import EventsList from "./EventsList";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 
+
+export async function getCurrentUser() {
+  const url = `${process.env.REACT_APP_API_HOST}/token`;
+  const response = await fetch(url, {
+    credentials: "include",
+  });
+  if (response.ok) {
+    const data = await response.json();
+    return data.user;
+  }
+  throw Error(`Failed to fetch user data! ${response}`);
+}
+
 function UserProfilePage() {
   const [userData, setUserData] = useState({});
   const { token } = useToken();
 
-  async function getCurrentUser() {
-    const url = `${process.env.REACT_APP_API_HOST}/token`;
-    const response = await fetch(url, {
-      credentials: "include",
-    });
-    if (response.ok) {
-      const data = await response.json();
-      setUserData(data.user);
-    } else {
-      console.log("Failed to fetch user data!");
-    }
-  }
 
   useEffect(() => {
     if (token) {
-      getCurrentUser();
+      getCurrentUser().then((user) => setUserData(user));
     }
   }, [token]);
 
