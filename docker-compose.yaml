@@ -20,6 +20,7 @@ services:
       SIGNING_KEY: 32f24976d6e27652a26a81f69b578fbbadd77732dd1b945a9eeecedc6770a31a
       CORS_HOST: http://localhost:3000
       DATABASE_URL: postgresql://green_user:greenbean@postgres/green_db
+
     build:
       context: api
       dockerfile: Dockerfile.dev
@@ -42,6 +43,9 @@ services:
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
       REACT_APP_API_HOST: http://localhost:8000
+      REACT_APP_STATE_APPLICATION_ID: YeFK5eZAEn05owCNmcWhucKigaBpM00alBP4QdCX
+      REACT_APP_STATE_REST_API_KEY: ${STATE_REST_API_KEY}
+      REACT_APP_STATE_API_URL: https://parseapi.back4app.com/classes/Usabystate_States?limit=50&order=name&keys=name,objectId,population,postalAbreviation&where=
 
   pg-admin:
     image: dpage/pgadmin4
