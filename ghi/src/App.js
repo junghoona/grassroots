@@ -9,6 +9,8 @@ import CommunitiesList from "./CommunitiesList";
 import CommunitiesForm from "./CommunitiesForm";
 import Navbar from "./Navbar";
 import UserProfilePage from "./UserProfilePage/UserProfilePage";
+import EventForm from "./EventsForm";
+
 
 function App() {
   const domain = /https:\/\/[^/]+/;
@@ -28,11 +30,10 @@ function App() {
               <Route path="create" element={<CommunitiesForm />} />
               <Route index element={<CommunitiesList />} />
             </Route>
-            <Route
-              exact
-              path="/userprofile"
-              element={<UserProfilePage />}
-            ></Route>
+            <Route path="events/">
+              <Route path="create" element={< EventForm />} />
+            </Route>
+            <Route exact path="/userprofile" element={<UserProfilePage />}></Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>

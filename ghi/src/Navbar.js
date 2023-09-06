@@ -71,7 +71,7 @@ const Navbar = () => {
               </NavLink>
               <ul className="dropdown-menu">
                 <li>
-                  <NavLink className="dropdown-item" href="#">
+                  <NavLink className="dropdown-item" to="http://localhost:3000/events/create">
                     Create an Event
                   </NavLink>
                 </li>
@@ -99,7 +99,10 @@ const Navbar = () => {
               </NavLink>
               <ul className="dropdown-menu">
                 <li>
-                  <NavLink className="dropdown-item" to="#">
+                  <NavLink
+                    className="dropdown-item"
+                    to={`${process.env.PUBLIC_URL}/userprofile`}
+                  >
                     My Profile
                   </NavLink>
                 </li>

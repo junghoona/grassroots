@@ -3,20 +3,25 @@ import React, { useState, useEffect } from "react";
 function CommunitiesList(props) {
   const [communities, setCommunities] = useState([]);
 
-  async function getAllCommunities() {
-    const url = `${process.env.REACT_APP_API_HOST}/api/communities`;
-    const response = await fetch(url);
+  async function getCommunitiesUserIn() {
+    const url = `${process.env.REACT_APP_API_HOST}/api/communities/user/${props.user.id}`;
+    const response = await fetch(url, {
+      credentials: "include",
+    });
     if (response.ok) {
       const data = await response.json();
-      setCommunities(data);
+      setCommunities(data.communities);
     } else {
       console.log("Failed to fetch data!");
     }
   }
 
   useEffect(() => {
-    getAllCommunities();
-  }, []);
+    if (props.user.id !== undefined) {
+      getCommunitiesUserIn();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.user]);
 
   return (
     <div
@@ -24,11 +29,11 @@ function CommunitiesList(props) {
       style={{ maxWidth: "400px", backgroundColor: "#f8f9fa" }}
     >
       <h4 className="mt-3">My Communities:</h4>
-      {communities.map((community) => {
-        return (
-          <div className="d-flex" key={community.id}>
-            <div className="overflow-auto" style={{ height: "200px" }}>
-              <div className="card m-2">
+      <div className="d-flex">
+        <div className="overflow-auto" style={{ height: "300px" }}>
+          {communities.map((community) => {
+            return (
+              <div className="card m-2" key={community.id}>
                 <div className="row g-0">
                   <div className="col-md-4">
                     <img
@@ -50,10 +55,10 @@ function CommunitiesList(props) {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        );
-      })}
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
