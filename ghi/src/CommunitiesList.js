@@ -89,7 +89,6 @@ const CommunitiesList = () => {
                   key={community.id}
                   className="col-md-4 col-sm-6 card my-3 py-3 shadow"
                 >
-                  <img src="" className="card-img-top" />
                   <div className="card-body">
                     <h5 className="card-title fw-bold fs-4">
                       {community.name}
