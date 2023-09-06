@@ -21,7 +21,11 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarScroll">
           <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
             <li className="nav-item px-3">
-              <NavLink className="nav-link active" aria-current="page" href="#">
+              <NavLink
+                className="nav-link active"
+                aria-current="page"
+                to={`${process.env.PUBLIC_URL}/about`}
+              >
                 About
               </NavLink>
             </li>
@@ -45,7 +49,10 @@ const Navbar = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="dropdown-item" href="#">
+                  <NavLink
+                    className="dropdown-item"
+                    to={`${process.env.PUBLIC_URL}/usercommunities`}
+                  >
                     My Communities
                   </NavLink>
                 </li>
@@ -76,7 +83,10 @@ const Navbar = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="dropdown-item" href="#">
+                  <NavLink
+                    className="dropdown-item"
+                    to={`${process.env.PUBLIC_URL}/userevents`}
+                  >
                     My Events
                   </NavLink>
                 </li>
