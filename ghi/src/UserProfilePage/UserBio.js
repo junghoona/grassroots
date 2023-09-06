@@ -1,3 +1,8 @@
+import Button from "react-bootstrap-buttons";
+import Modal from "react-modal";
+import { useState } from "react";
+import ModalTest from "./ModalTest";
+
 function UserBio(props) {
   return (
     <div className="col">
@@ -11,6 +16,7 @@ function UserBio(props) {
       >
         <p className="font-italic mb-1">{props.user.bio}</p>
       </div>
+      <ModalTest />
     </div>
   );
 }
