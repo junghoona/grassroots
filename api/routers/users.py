@@ -54,13 +54,13 @@ async def create_account(
         user = repo.create_user(info, hashed_password)
     except UniqueViolation:
         raise HTTPException(
-            status_code = 400,
+            status_code=400,
             detail="Error: Duplicate Account"
         )
     except Exception as e:
         print("ERROR", str(e))
         raise HTTPException(
-            status_code = 400,
+            status_code=400,
             detail="Error: Cannot create this account"
         )
 

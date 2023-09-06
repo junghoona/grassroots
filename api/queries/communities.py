@@ -6,6 +6,7 @@ from queries.pool import pool
 class Error(BaseModel):
     message: str
 
+
 class CommunityIn(BaseModel):
     name: str
     city: str
@@ -23,6 +24,10 @@ class CommunityOut(BaseModel):
     type: Optional[str]
     description: Optional[str]
     creator_id: int
+
+
+class CommunityListOut(BaseModel):
+    communities: list[CommunityOut]
 
 
 class CommunityRepository:
@@ -142,3 +147,25 @@ class CommunityRepository:
         except Exception as e:
             print(e)
             return {"message": "Invalid Community ID - Could not delete the Community"}
+
+    def get_communities_user_in(self, user_id: int) -> CommunityOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT communities.id, communities.name, communities.city,
+                    communities.state, communities.type, communities.description, communities.creator_id
+                    FROM communities
+                    JOIN members on (communities.id = members.community)
+                    JOIN users on (members.person = users.id)
+                    WHERE users.id = %s
+                    """,
+                    [user_id]
+                )
+                results = []
+                for row in db.fetchall():
+                    record = {}
+                    for i, column in enumerate(db.description):
+                        record[column.name] = row[i]
+                    results.append(CommunityOut(**record))
+                return results

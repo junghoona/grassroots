@@ -6,6 +6,11 @@ import Main from "./Main";
 import LogoutButton from "./Logout";
 import EventDetails from "./Events/EventDetails";
 import "./App.css";
+// import CommunitiesList from "./CommunitiesList";
+import CommunitiesForm from "./CommunitiesForm";
+import Navbar from "./Navbar";
+import UserProfilePage from "./UserProfilePage/UserProfilePage";
+import EventForm from "./EventsForm";
 
 function App() {
   const domain = /https:\/\/[^/]+/;
@@ -15,11 +20,24 @@ function App() {
     <div className="container">
       <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
         <BrowserRouter basename={basename}>
+          <Navbar />
           <Routes>
             <Route exact path="/" element={<Main />}></Route>
             <Route exact path="/signup" element={<SignupForm />}></Route>
             <Route exact path="/login" element={<LoginForm />}></Route>
             <Route exact path="/logout" element={<LogoutButton />}></Route>
+            <Route path="communities/">
+              <Route path="create" element={<CommunitiesForm />} />
+              {/* <Route index element={<CommunitiesList />} /> */}
+            </Route>
+            <Route path="events/">
+              <Route path="create" element={<EventForm />} />
+            </Route>
+            <Route
+              exact
+              path="/userprofile"
+              element={<UserProfilePage />}
+            ></Route>
             <Route
               exact
               path="/events/:event_id"

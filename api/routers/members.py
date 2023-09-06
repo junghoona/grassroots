@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, Response
-from queries.members import MemberIn, MemberOut, MemberRepository, Error, MemberListOut
+from queries.members import MemberIn, MemberOut, MemberRepository, Error, MemberListOut, MemberListOutDetailed
 from typing import Union
 from authenticator import authenticator
 
 router = APIRouter()
+
 
 @router.post("/api/members/", response_model=Union[MemberOut, Error])
 def create_member(
@@ -18,7 +19,8 @@ def create_member(
     - person: existing user.id
     """
     result = repo.create_member(member)
-    try: # return error message
+    # return error message
+    try:
         if result.get("message") == "member is already in community":
             response.status_code = 400
             return result
@@ -26,8 +28,10 @@ def create_member(
             # for "user not found" , "community not found", or "user and communit not found"
             response.status_code = 404
             return result
-    except: # return created member
+    # return created member
+    except Exception:
         return result
+
 
 @router.get("/api/members/", response_model=MemberListOut)
 def get_all_members(
@@ -41,7 +45,8 @@ def get_all_members(
     """
     return {"members": repo.get_all_members()}
 
-@router.get("/api/members/{community_id}", response_model=Union[MemberListOut, Error])
+
+@router.get("/api/members/{community_id}", response_model=Union[MemberListOutDetailed, Error])
 def get_members(
     community_id: int,
     response: Response,
@@ -52,14 +57,16 @@ def get_members(
     - id: members.id
     - community: communities.id
     - person: users.id
+    - user_info: {}
     """
     result = repo.get_members(community_id)
     try:
         if result.get("message") == "community does not exist":
             response.status_code = 404
             return result
-    except:
+    except Exception:
         return {"members": result}
+
 
 @router.delete("/api/members/{member_id}", response_model=bool)
 def delete_member(
