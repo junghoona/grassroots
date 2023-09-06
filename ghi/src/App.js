@@ -32,7 +32,7 @@ function App() {
               <Route exact path="/logout" element={<LogoutButton />}></Route>
               <Route path="communities/">
                 <Route path="create" element={<CommunitiesForm />} />
-                {/* <Route index element={<CommunitiesList />} /> */}
+                <Route index element={<CommunitiesList />} />
               </Route>
               <Route
                 exact
@@ -50,22 +50,9 @@ function App() {
                 path="/usercommunities"
                 element={<UserCommunitiesPage />}
               ></Route>
-              <Route exact path="/" element={<Main />}></Route>
-              <Route exact path="/signup" element={<SignupForm />}></Route>
-              <Route exact path="/login" element={<LoginForm />}></Route>
-              <Route exact path="/logout" element={<LogoutButton />}></Route>
-              <Route path="communities/">
-                <Route path="create" element={<CommunitiesForm />} />
-                <Route index element={<CommunitiesList />} />
-              </Route>
               <Route path="events/">
                 <Route path="create" element={<EventForm />} />
               </Route>
-              <Route
-                exact
-                path="/userprofile"
-                element={<UserProfilePage />}
-              ></Route>
             </Routes>
           </div>
         </AuthProvider>
