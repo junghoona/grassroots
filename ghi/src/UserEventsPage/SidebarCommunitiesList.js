@@ -25,12 +25,12 @@ function CommunitiesList(props) {
 
   return (
     <div
-      className="card"
+      className="card col-sm"
       style={{ maxWidth: "400px", backgroundColor: "#f8f9fa" }}
     >
       <h4 className="mt-3">My Communities:</h4>
       <div className="d-flex">
-        <div className="overflow-auto" style={{ height: "300px" }}>
+        <div className="overflow-auto" style={{ height: "100%" }}>
           {communities.map((community) => {
             return (
               <div className="card m-2" key={community.id}>

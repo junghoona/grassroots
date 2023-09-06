@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function EventsList(props) {
+function DetailedEventsList(props) {
   const [events, setEvents] = useState([]);
 
   async function getAllCommunities() {
@@ -24,14 +24,10 @@ function EventsList(props) {
   }, [props.user]);
 
   return (
-    <div
-      className="card"
-      style={{ maxWidth: "400px", backgroundColor: "#f8f9fa" }}
-    >
+    <div className="col" style={{ width: "100%" }}>
       <h4 className="mt-3">My Events:</h4>
-
       <div className="d-flex">
-        <div className="overflow-auto" style={{ height: "300px" }}>
+        <div>
           {events.map((event) => {
             return (
               <div className="card m-2" key={event.id}>
@@ -44,19 +40,36 @@ function EventsList(props) {
                     />
                   </div>
                   <div className="col-md-8">
-                    <div className="card-body">
+                    <div className="card-body d-flex flex-column">
                       <h5 className="card-title">{event.name}</h5>
-                      <p className="card-text">{event.location}</p>
-                      <p className="card-text">
-                        <small className="text-muted">
-                          {event.city}, {event.state}
-                        </small>
-                      </p>
-                      <p className="card-text">
-                        <small className="text-muted">
-                          {event.start_time} to {event.end_time}
-                        </small>
-                      </p>
+                      <p className="card-text">{event.description}</p>
+                      <div className="card-text">
+                        <div>
+                          <small className="text-muted">
+                            Date: {event.day}
+                          </small>
+                        </div>
+                        <div>
+                          <small className="text-muted">
+                            Time: {event.start_time} to {event.end_time}
+                          </small>
+                        </div>
+                        <div>
+                          <small className="text-muted">
+                            Location: {event.location}
+                          </small>
+                        </div>
+                        <div>
+                          <small className="text-muted">
+                            {event.city}, {event.state}
+                          </small>
+                        </div>
+                      </div>
+                      <div>
+                        <button type="button" className="btn btn-primary">
+                          Leave
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -69,4 +82,4 @@ function EventsList(props) {
   );
 }
 
-export default EventsList;
+export default DetailedEventsList;
