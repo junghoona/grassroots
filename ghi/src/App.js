@@ -32,70 +32,27 @@ function App() {
               <Route exact path="/logout" element={<LogoutButton />}></Route>
               <Route path="communities/">
                 <Route path="create" element={<CommunitiesForm />} />
-                {/* <Route index element={<CommunitiesList />} /> */}
-              </Route>
-              <Route
-                exact
-                path="/userprofile"
-                element={<UserProfilePage />}
-              ></Route>
-              <Route
-                exact
-                path="/userevents"
-                element={<UserEventsPage />}
-              ></Route>
-              <Route exact path="/about" element={<AboutPage />}></Route>
-              <Route
-                exact
-                path="/usercommunities"
-                element={<UserCommunitiesPage />}
-              ></Route>
-            </Routes>
-          </div>
-        </AuthProvider>
-      </BrowserRouter>
-          <div className="container">
-            <Routes>
-              <Route exact path="/" element={<Main />}></Route>
-              <Route exact path="/signup" element={<SignupForm />}></Route>
-              <Route exact path="/login" element={<LoginForm />}></Route>
-              <Route exact path="/logout" element={<LogoutButton />}></Route>
-              <Route path="communities/">
-                <Route path="create" element={<CommunitiesForm />} />
-                {/* <Route index element={<CommunitiesList />} /> */}
-              </Route>
-              <Route
-                exact
-                path="/userprofile"
-                element={<UserProfilePage />}
-              ></Route>
-              <Route
-                exact
-                path="/userevents"
-                element={<UserEventsPage />}
-              ></Route>
-              <Route exact path="/about" element={<AboutPage />}></Route>
-              <Route
-                exact
-                path="/usercommunities"
-                element={<UserCommunitiesPage />}
-              ></Route>
-              <Route exact path="/" element={<Main />}></Route>
-              <Route exact path="/signup" element={<SignupForm />}></Route>
-              <Route exact path="/login" element={<LoginForm />}></Route>
-              <Route exact path="/logout" element={<LogoutButton />}></Route>
-              <Route path="communities/">
-                <Route path="create" element={<CommunitiesForm />} />
                 <Route index element={<CommunitiesList />} />
               </Route>
+              <Route
+                exact
+                path="/userprofile"
+                element={<UserProfilePage />}
+              ></Route>
+              <Route
+                exact
+                path="/userevents"
+                element={<UserEventsPage />}
+              ></Route>
+              <Route exact path="/about" element={<AboutPage />}></Route>
+              <Route
+                exact
+                path="/usercommunities"
+                element={<UserCommunitiesPage />}
+              ></Route>
               <Route path="events/">
                 <Route path="create" element={<EventForm />} />
               </Route>
-              <Route
-                exact
-                path="/userprofile"
-                element={<UserProfilePage />}
-              ></Route>
             </Routes>
           </div>
         </AuthProvider>
