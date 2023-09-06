@@ -40,6 +40,7 @@ const SignupForm = () => {
           <div className="mb-3">
             <label className="form-label">First Name: </label>
             <input
+              required
               name="firstName"
               type="text"
               className="form-control"
@@ -51,6 +52,7 @@ const SignupForm = () => {
           <div className="mb-3">
             <label className="form-label">Last Name: </label>
             <input
+              required
               name="lastName"
               type="text"
               className="form-control"
@@ -84,6 +86,7 @@ const SignupForm = () => {
           <div className="mb-3">
             <label className="form-label">City: </label>
             <input
+              required
               name="city"
               type="text"
               className="form-control"
@@ -95,6 +98,7 @@ const SignupForm = () => {
           <div className="mb-3">
             <label className="form-label">State: </label>
             <input
+              required
               name="state"
               type="text"
               className="form-control"
@@ -106,6 +110,7 @@ const SignupForm = () => {
           <div className="mb-3">
             <label className="form-label">E-mail: </label>
             <input
+              required
               name="username"
               type="text"
               className="form-control"
@@ -117,6 +122,7 @@ const SignupForm = () => {
           <div className="mb-3">
             <label className="form-label">password</label>
             <input
+              required
               name="password"
               type="password"
               className="form-control"
