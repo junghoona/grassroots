@@ -16,6 +16,10 @@ origins = [
     "http://localhost:3000",
     os.environ.get("CORS_HOST", None),
     "https://good-coders.gitlab.io",
+<<<<<<< HEAD
+    "https://good-coders.gitlab.io/module3-project-gamma/",
+=======
+>>>>>>> main
 ]
 
 app.add_middleware(
