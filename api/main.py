@@ -15,7 +15,7 @@ app.include_router(authenticator.router)
 origins = [
     "http://localhost:3000",
     os.environ.get("CORS_HOST", None),
-    "https://good-coders.gitlab.io/",
+    "https://good-coders.gitlab.io",
 ]
 
 app.add_middleware(
