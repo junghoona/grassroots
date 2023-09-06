@@ -28,11 +28,11 @@ const CommunitiesList = () => {
           },
         })
       );
-      const url = `https://parseapi.back4app.com/classes/Usabystate_States?limit=50&order=name&keys=name,objectId,population,postalAbreviation&where=${where}`;
+      const url = `${process.env.STATE_API_URL}${where}`;
       const response = await fetch(url, {
         headers: {
-          "X-Parse-Application-Id": "YeFK5eZAEn05owCNmcWhucKigaBpM00alBP4QdCX",
-          "X-Parse-REST-API-Key": "YkBFQLNkHV3fojvuhqCsfTBCjTAjU4xfFYaUaPQd",
+          "X-Parse-Application-Id": `${process.env.STATE_APPLICATION_ID}`,
+          "X-Parse-REST-API-Key": `${process.env.STATE_REST_API_KEY}`,
         },
       });
 

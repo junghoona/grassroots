@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { getCurrentUser } from "./UserProfilePage/UserProfilePage";
 
-
 export async function fetchStates() {
   const where = encodeURIComponent(
     JSON.stringify({
@@ -9,101 +8,101 @@ export async function fetchStates() {
         $exists: true,
       },
     })
-    );
-    const url = `https://parseapi.back4app.com/classes/Usabystate_States?limit=50&order=name&keys=name,objectId,population,postalAbreviation&where=${where}`;
+  );
+  const url = `${process.env.STATE_API_URL}${where}`;
+  console.log(process.env.STATE_API_URL);
+  const response = await fetch(url, {
+    headers: {
+      "X-Parse-Application-Id": `${process.env.STATE_APPLICATION_ID}`,
+      "X-Parse-REST-API-Key": `${process.env.STATE_REST_API_KEY}`,
+    },
+  });
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  }
+  throw Error(`Could not fetch states ${response}`);
+}
+
+function EventForm() {
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+  const [city, setCity] = useState("");
+  const [states, setStates] = useState([]);
+  const [state, setState] = useState("");
+  const [type, setType] = useState("");
+  const [description, setDescription] = useState("");
+  const [creator, setCreator] = useState("");
+  const [communities, setCommunities] = useState([]);
+  const [community, setCommunity] = useState("");
+  const [day, setDay] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+
+  async function fetchUserCommunities() {
+    const url = `${process.env.REACT_APP_API_HOST}/api/communities/user/${creator}`;
     const response = await fetch(url, {
-      headers: {
-        "X-Parse-Application-Id": "YeFK5eZAEn05owCNmcWhucKigaBpM00alBP4QdCX",
-        "X-Parse-REST-API-Key": "YkBFQLNkHV3fojvuhqCsfTBCjTAjU4xfFYaUaPQd",
-      },
+      credentials: "include",
     });
     if (response.ok) {
       const data = await response.json();
       return data;
     }
-    throw Error(`Could not fetch states ${response}`);
+    throw Error(`Could not fetch communities ${response}`);
   }
 
-
-function EventForm() {
-    const [name, setName] = useState('');
-    const [location, setLocation] = useState('');
-    const [city, setCity] = useState('');
-    const [states, setStates] = useState([]);
-    const [state, setState] = useState('');
-    const [type, setType] = useState('');
-    const [description, setDescription] = useState('');
-    const [creator, setCreator] = useState('');
-    const [communities, setCommunities] = useState([]);
-    const [community, setCommunity] = useState('');
-    const [day, setDay] = useState('');
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
-
-    async function fetchUserCommunities() {
-      const url = `${process.env.REACT_APP_API_HOST}/api/communities/user/${creator}`;
-      const response = await fetch(url, {
-      credentials: "include",
-    });
-      if (response.ok) {
-          const data = await response.json();
-          return data;
-      };
-      throw Error(`Could not fetch communities ${response}`);
-  }
-
-    useEffect(() => {
-        fetchStates().then((data) => setStates(data["results"]));
-        getCurrentUser().then((user) => setCreator(user.id));
-        if (creator !== '') {
-          fetchUserCommunities().then((data) => setCommunities(data.communities))
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [creator]);
-
-    async function handleSubmit(event) {
-        event.preventDefault();
-        const eventData = {
-            name: name,
-            location: location,
-            city: city,
-            state: state,
-            type: type,
-            description: description,
-            creator: creator,
-            community: community,
-            day: day,
-            start_time: startTime,
-            end_time: endTime,
-        };
-        const eventsUrl = `${process.env.REACT_APP_API_HOST}/api/events`;
-        const eventConfig = {
-            method: "post",
-            credentials: "include",
-            body: JSON.stringify(eventData),
-            headers: {
-            'Content-Type': 'application/json',
-            },
-        };
-        const response = await fetch(eventsUrl, eventConfig);
-        if (response.ok) {
-            setName('');
-            setLocation('');
-            setCity('');
-            setState('');
-            setType('');
-            setDescription('');
-            setCommunity('');
-            setDay('');
-            setStartTime('');
-            setEndTime('');
-        }
-        if (!response.ok) {
-            console.log("Could not create Event:", response)
-        }
+  useEffect(() => {
+    fetchStates().then((data) => setStates(data["results"]));
+    getCurrentUser().then((user) => setCreator(user.id));
+    if (creator !== "") {
+      fetchUserCommunities().then((data) => setCommunities(data.communities));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [creator]);
 
-    return (
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const eventData = {
+      name: name,
+      location: location,
+      city: city,
+      state: state,
+      type: type,
+      description: description,
+      creator: creator,
+      community: community,
+      day: day,
+      start_time: startTime,
+      end_time: endTime,
+    };
+    const eventsUrl = `${process.env.REACT_APP_API_HOST}/api/events`;
+    const eventConfig = {
+      method: "post",
+      credentials: "include",
+      body: JSON.stringify(eventData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(eventsUrl, eventConfig);
+    if (response.ok) {
+      setName("");
+      setLocation("");
+      setCity("");
+      setState("");
+      setType("");
+      setDescription("");
+      setCommunity("");
+      setDay("");
+      setStartTime("");
+      setEndTime("");
+    }
+    if (!response.ok) {
+      console.log("Could not create Event:", response);
+    }
+  }
+
+  return (
     <div className="row">
       <div className="offset-3 col-6">
         <div className="shadow p-4 mt-4">
@@ -152,13 +151,13 @@ function EventForm() {
               State
             </label>
             <div className="form-floating mb-3">
-                <select
-                    onChange={(e) => setState(e.target.value)}
-                    required
-                    className="form-select"
-                    id="state"
-                    aria-label="Select a State"
-                >
+              <select
+                onChange={(e) => setState(e.target.value)}
+                required
+                className="form-select"
+                id="state"
+                aria-label="Select a State"
+              >
                 <option value="">Select a State</option>
                 {states.map((state) => {
                   return (
@@ -209,20 +208,17 @@ function EventForm() {
               Community Hosting the Event
             </label>
             <div className="form-floating mb-3">
-                <select
-                    onChange={(e) => setCommunity(e.target.value)}
-                    required
-                    className="form-select"
-                    id="community"
-                    aria-label="Select a Community"
-                >
+              <select
+                onChange={(e) => setCommunity(e.target.value)}
+                required
+                className="form-select"
+                id="community"
+                aria-label="Select a Community"
+              >
                 <option value="">Select a Community</option>
                 {communities.map((community) => {
                   return (
-                    <option
-                      key={community.id}
-                      value={community.id}
-                    >
+                    <option key={community.id} value={community.id}>
                       {community.name}
                     </option>
                   );
@@ -275,7 +271,7 @@ function EventForm() {
         </div>
       </div>
     </div>
-    );
+  );
 }
 
 export default EventForm;
