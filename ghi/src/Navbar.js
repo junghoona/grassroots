@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom";
+import useToken from "@galvanize-inc/jwtdown-for-react";
 
 const Navbar = () => {
+  const { token } = useToken();
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -40,22 +43,26 @@ const Navbar = () => {
                 Communities
               </NavLink>
               <ul className="dropdown-menu">
-                <li>
-                  <NavLink
-                    className="dropdown-item"
-                    to="http://localhost:3000/communities/create"
-                  >
-                    Create a Community
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className="dropdown-item"
-                    to={`${process.env.PUBLIC_URL}/usercommunities`}
-                  >
-                    My Communities
-                  </NavLink>
-                </li>
+                {token && (
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to="http://localhost:3000/communities/create"
+                    >
+                      Create a Community
+                    </NavLink>
+                  </li>
+                )}
+                {token && (
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to={`${process.env.PUBLIC_URL}/usercommunities`}
+                    >
+                      My Communities
+                    </NavLink>
+                  </li>
+                )}
                 <li>
                   <NavLink
                     className="dropdown-item"
@@ -77,19 +84,26 @@ const Navbar = () => {
                 Events
               </NavLink>
               <ul className="dropdown-menu">
-                <li>
-                  <NavLink className="dropdown-item" to="http://localhost:3000/events/create">
-                    Create an Event
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className="dropdown-item"
-                    to={`${process.env.PUBLIC_URL}/userevents`}
-                  >
-                    My Events
-                  </NavLink>
-                </li>
+                {token && (
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to="http://localhost:3000/events/create"
+                    >
+                      Create an Event
+                    </NavLink>
+                  </li>
+                )}
+                {token && (
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to={`${process.env.PUBLIC_URL}/userevents`}
+                    >
+                      My Events
+                    </NavLink>
+                  </li>
+                )}
                 <li>
                   <NavLink className="dropdown-item" href="#">
                     Upcoming Events
@@ -108,38 +122,46 @@ const Navbar = () => {
                 Account
               </NavLink>
               <ul className="dropdown-menu">
-                <li>
-                  <NavLink
-                    className="dropdown-item"
-                    to={`${process.env.PUBLIC_URL}/userprofile`}
-                  >
-                    My Profile
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className="dropdown-item"
-                    to="http://localhost:3000/signup"
-                  >
-                    Create an account
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className="dropdown-item"
-                    to="http://localhost:3000/login"
-                  >
-                    Log in
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className="dropdown-item"
-                    to="http://localhost:3000/logout"
-                  >
-                    Log out
-                  </NavLink>
-                </li>
+                {token && (
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to={`${process.env.PUBLIC_URL}/userprofile`}
+                    >
+                      My Profile
+                    </NavLink>
+                  </li>
+                )}
+                {!token && (
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to="http://localhost:3000/signup"
+                    >
+                      Create an account
+                    </NavLink>
+                  </li>
+                )}
+                {!token && (
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to="http://localhost:3000/login"
+                    >
+                      Log in
+                    </NavLink>
+                  </li>
+                )}
+                {token && (
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to="http://localhost:3000/logout"
+                    >
+                      Log out
+                    </NavLink>
+                  </li>
+                )}
               </ul>
             </li>
           </ul>
