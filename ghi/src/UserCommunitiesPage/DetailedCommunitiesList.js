@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import LeaveCommunitiesButton from "./LeaveCommunititesModal";
 
 function DetailedCommunitiesList(props) {
   const [communities, setCommunities] = useState([]);
 
-  async function getAllCommunities() {
+  async function getUserCommunities() {
     const url = `${process.env.REACT_APP_API_HOST}/api/communities/user/${props.user.id}`;
     const response = await fetch(url, {
       credentials: "include",
@@ -16,22 +17,9 @@ function DetailedCommunitiesList(props) {
     }
   }
 
-  async function leaveCommunity(communityId) {
-    const url = `${process.env.REACT_APP_API_HOST}/api/members/${communityId}/${props.user.id}`;
-    const response = await fetch(url, {
-      credentials: "include",
-      method: "DELETE",
-    });
-    if (response.ok) {
-      getAllCommunities();
-    } else {
-      console.log("Failed to leave community!");
-    }
-  }
-
   useEffect(() => {
     if (props.user.id !== undefined) {
-      getAllCommunities();
+      getUserCommunities();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.user]);
@@ -64,15 +52,12 @@ function DetailedCommunitiesList(props) {
                         </div>
                       </div>
                       <div>
-                        <button
-                          type="button"
-                          className="btn btn-primary"
-                          onClick={() => {
-                            leaveCommunity(com.id);
-                          }}
-                        >
-                          Leave
-                        </button>
+                        <LeaveCommunitiesButton
+                          userId={props.user.id}
+                          communityId={com.id}
+                          fetchComm={getUserCommunities}
+                          commName={com.name}
+                        />
                       </div>
                     </div>
                   </div>

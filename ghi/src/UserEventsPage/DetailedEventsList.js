@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import LeaveEventsButton from "./LeaveEventsModal";
 
 function DetailedEventsList(props) {
   const [events, setEvents] = useState([]);
 
-  async function getAllCommunities() {
+  async function getUserEvents() {
     const url = `${process.env.REACT_APP_API_HOST}/api/events/user/${props.user.id}`;
     const response = await fetch(url, {
       credentials: "include",
@@ -18,7 +19,7 @@ function DetailedEventsList(props) {
 
   useEffect(() => {
     if (props.user.id !== undefined) {
-      getAllCommunities();
+      getUserEvents();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.user]);
@@ -66,9 +67,12 @@ function DetailedEventsList(props) {
                         </div>
                       </div>
                       <div>
-                        <button type="button" className="btn btn-primary">
-                          Leave
-                        </button>
+                        <LeaveEventsButton
+                          eventName={event.name}
+                          userId={props.user.id}
+                          fetchEvents={getUserEvents}
+                          eventId={event.id}
+                        />
                       </div>
                     </div>
                   </div>

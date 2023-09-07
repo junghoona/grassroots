@@ -70,7 +70,7 @@ function UserProfilePage() {
           </div>
         </div>
       ) : (
-        <div>Please log in to see your profile</div>
+        <div className="mt-4">Please log in to see your profile</div>
       )}
     </div>
   );

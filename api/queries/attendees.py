@@ -80,18 +80,18 @@ class attendeeRepository:
                 return AttendeeOut(id=id, **old_data)
 
     ''' Delete an attendee of a particular event by attendee id '''
-    def delete_attendee(self, attendee_id: int) -> dict:
+    def delete_attendee(self, user_id: int, event_id: int) -> dict:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("SELECT EXISTS(SELECT * FROM attendees WHERE id = %s);", [attendee_id])
+                db.execute("SELECT EXISTS(SELECT * FROM attendees WHERE person = %s AND event = %s);", [user_id, event_id])
                 if not db.fetchone()[0]:
                     raise Error(message="Attendee does not exist", code=404)
 
                 db.execute(
                     """
                     DELETE FROM attendees
-                    WHERE id = %s
+                    WHERE person = %s AND event = %s
                     """,
-                    [attendee_id],
+                    [user_id, event_id],
                 )
                 return {"message": "Attendee deleted successfully", "code": 200}
