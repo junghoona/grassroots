@@ -2,7 +2,6 @@ import { getCurrentUser } from "./UserProfilePage/UserProfilePage";
 import { useState, useEffect } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 import videoBg from "./Assets/videoBg.mp4";
 
 function Main() {
