@@ -1,14 +1,16 @@
-import Button from "react-bootstrap-buttons";
-import Modal from "react-modal";
-import { useState } from "react";
-import ModalTest from "./ModalTest";
+import EditBioButton from "./EditBioButton";
 
 function UserBio(props) {
   return (
     <div className="col">
       <p className="lead fw-normal mb-1">
-        <span>About Me</span>
-        <button className="btn btn-light">Edit</button>
+        <span>
+          About Me{" "}
+          <EditBioButton
+            user={props.user}
+            fetchUpdatedUserData={props.fetchUpdatedUserData}
+          />
+        </span>
       </p>
       <div
         className="p-4 card"
@@ -16,7 +18,6 @@ function UserBio(props) {
       >
         <p className="font-italic mb-1">{props.user.bio}</p>
       </div>
-      <ModalTest />
     </div>
   );
 }
