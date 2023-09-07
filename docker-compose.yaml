@@ -44,7 +44,7 @@ services:
       PUBLIC_URL: http://localhost:3000
       REACT_APP_API_HOST: http://localhost:8000
       REACT_APP_STATE_APPLICATION_ID: YeFK5eZAEn05owCNmcWhucKigaBpM00alBP4QdCX
-      REACT_APP_STATE_REST_API_KEY: ${STATE_REST_API_KEY}
+      REACT_APP_STATE_REST_API_KEY: YkBFQLNkHV3fojvuhqCsfTBCjTAjU4xfFYaUaPQd
       REACT_APP_STATE_API_URL: https://parseapi.back4app.com/classes/Usabystate_States?limit=50&order=name&keys=name,objectId,population,postalAbreviation&where=
 
   pg-admin:

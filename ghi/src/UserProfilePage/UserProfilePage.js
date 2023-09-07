@@ -5,7 +5,6 @@ import CommunitiesList from "./CommunitiesList";
 import EventsList from "./EventsList";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 
-
 export async function getCurrentUser() {
   const url = `${process.env.REACT_APP_API_HOST}/token`;
   const response = await fetch(url, {
@@ -21,7 +20,6 @@ export async function getCurrentUser() {
 function UserProfilePage() {
   const [userData, setUserData] = useState({});
   const { token } = useToken();
-
 
   useEffect(() => {
     if (token) {
