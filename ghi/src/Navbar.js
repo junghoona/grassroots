@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <NavLink className="navbar-brand" to="http://localhost:3000/">
+        <NavLink className="navbar-brand" to={`${process.env.PUBLIC_URL}`}>
           Green Bean
         </NavLink>
         <button
@@ -35,7 +35,7 @@ const Navbar = () => {
             <li className="nav-item dropdown px-3">
               <NavLink
                 className="nav-link dropdown-toggle"
-                to="http://localhost:3000/communities"
+                to={`${process.env.PUBLIC_URL}/communities`}
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -47,7 +47,7 @@ const Navbar = () => {
                   <li>
                     <NavLink
                       className="dropdown-item"
-                      to="http://localhost:3000/communities/create"
+                      to={`${process.env.PUBLIC_URL}/communities/create`}
                     >
                       Create a Community
                     </NavLink>
@@ -66,7 +66,7 @@ const Navbar = () => {
                 <li>
                   <NavLink
                     className="dropdown-item"
-                    to="http://localhost:3000/communities"
+                    to={`${process.env.PUBLIC_URL}/communities`}
                   >
                     View All Communities
                   </NavLink>
@@ -88,7 +88,7 @@ const Navbar = () => {
                   <li>
                     <NavLink
                       className="dropdown-item"
-                      to="http://localhost:3000/events/create"
+                      to={`${process.env.PUBLIC_URL}/events/create`}
                     >
                       Create an Event
                     </NavLink>
@@ -114,7 +114,7 @@ const Navbar = () => {
             <li className="nav-item dropdown px-3">
               <NavLink
                 className="nav-link dropdown-toggle"
-                to="http://localhost:3000/communities"
+                to={`${process.env.PUBLIC_URL}/communities`}
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -136,7 +136,7 @@ const Navbar = () => {
                   <li>
                     <NavLink
                       className="dropdown-item"
-                      to="http://localhost:3000/signup"
+                      to={`${process.env.PUBLIC_URL}/signup`}
                     >
                       Create an account
                     </NavLink>
@@ -146,7 +146,7 @@ const Navbar = () => {
                   <li>
                     <NavLink
                       className="dropdown-item"
-                      to="http://localhost:3000/login"
+                      to={`${process.env.PUBLIC_URL}/login`}
                     >
                       Log in
                     </NavLink>
@@ -156,7 +156,7 @@ const Navbar = () => {
                   <li>
                     <NavLink
                       className="dropdown-item"
-                      to="http://localhost:3000/logout"
+                      to={`${process.env.PUBLIC_URL}/logout`}
                     >
                       Log out
                     </NavLink>
