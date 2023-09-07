@@ -1,11 +1,9 @@
 import { getCurrentUser } from "./UserProfilePage/UserProfilePage";
 import { useState, useEffect } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
-import { Navigate, useNavigate } from "react-router-dom";
-import { Redirect } from "react-router";
+import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import videoBg from "./Assets/videoBg.mp4";
-import Spinner from "react-bootstrap/Spinner";
 
 function Main() {
   const [userData, setUserData] = useState({});
@@ -146,14 +144,6 @@ function Main() {
                 }}
               />
             </div>
-            <Button onClick={() => navigate(`${process.env.PUBLIC_URL}/login`)}>
-              Log In
-            </Button>
-            <Button
-              onClick={() => navigate(`${process.env.PUBLIC_URL}/signup`)}
-            >
-              Create an account
-            </Button>
           </div>
         </div>
       )}

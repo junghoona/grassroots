@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 import Main from "./Main";
-import LogoutButton from "./Logout";
 import "./App.css";
 import CommunitiesList from "./CommunitiesList";
 import CommunitiesForm from "./CommunitiesForm";
@@ -29,7 +28,6 @@ function App() {
               <Route exact path="/" element={<Main />}></Route>
               <Route exact path="/signup" element={<SignupForm />}></Route>
               <Route exact path="/login" element={<LoginForm />}></Route>
-              <Route exact path="/logout" element={<LogoutButton />}></Route>
               <Route path="communities/">
                 <Route path="create" element={<CommunitiesForm />} />
                 <Route index element={<CommunitiesList />} />
