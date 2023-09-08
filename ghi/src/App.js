@@ -3,13 +3,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 import Main from "./Main";
+import EventDetails from "./Events/EventDetails";
 import "./App.css";
 import CommunitiesList from "./CommunitiesList";
 import CommunitiesForm from "./CommunitiesForm";
 import Navbar from "./Navbar";
 import UserProfilePage from "./UserProfilePage/UserProfilePage";
 import EventForm from "./EventsForm";
-
+import AllEventAttendeesList from "./Events/EventAttendeesList";
 import UserEventsPage from "./UserEventsPage/UserEventsPage";
 import AboutPage from "./AboutPage/AboutPage";
 import UserCommunitiesPage from "./UserCommunitiesPage/UserCommunitiesPage";
@@ -50,7 +51,13 @@ function App() {
               ></Route>
               <Route path="events/">
                 <Route path="create" element={<EventForm />} />
+                <Route path=":event_id" element={<EventDetails />}></Route>
               </Route>
+              <Route
+                exact
+                path="/attendees/:event_id/details"
+                element={<AllEventAttendeesList />}
+              ></Route>
             </Routes>
           </div>
         </AuthProvider>
