@@ -27,7 +27,11 @@ function UserCommunitiesPage() {
 
   return (
     <div className="mt-4">
-      <DetailedCommunitiesList user={userData} />
+      {token ? (
+        <DetailedCommunitiesList user={userData} />
+      ) : (
+        <div>Please log in to see your communities</div>
+      )}
     </div>
   );
 }

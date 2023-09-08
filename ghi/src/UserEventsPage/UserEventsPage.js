@@ -27,9 +27,15 @@ function UserEventsPage() {
   }, [token]);
 
   return (
-    <div className="mt-4 row">
-      <SidebarCommunitiesList user={userData} />
-      <DetailedEventsList user={userData} />
+    <div>
+      {token ? (
+        <div className="mt-4 row">
+          <SidebarCommunitiesList user={userData} />
+          <DetailedEventsList user={userData} />
+        </div>
+      ) : (
+        <div>Please log in to see your events</div>
+      )}
     </div>
   );
 }

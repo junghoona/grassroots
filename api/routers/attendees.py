@@ -42,17 +42,17 @@ def get_attendees_for_event(
             return {"message": e.message, "code": e.code}
 
 
-@router.delete("/api/attendees/{event}/{attendee_id}")
+@router.delete("/api/attendees/{event_id}/{user_id}")
 def delete_attendee(
-    event: int,
-    attendee_id: int,
+    event_id: int,
+    user_id: int,
     response: Response,
     repo: attendeeRepository = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data)
 ):
     ''' Delete an attendee '''
     try:
-        results = repo.delete_attendee(attendee_id)
+        results = repo.delete_attendee(user_id, event_id)
         return results
     except Error as e:
         if e.message == "Attendee does not exist":
