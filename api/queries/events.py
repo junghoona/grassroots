@@ -23,6 +23,7 @@ class EventIn(BaseModel):
     end_time: str
     image: str
 
+
 class UpdatedEventIn(BaseModel):
     location: str
     description: str

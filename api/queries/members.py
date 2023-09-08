@@ -119,16 +119,16 @@ class MemberRepository:
                     results.append(MemberOutDetailed(**record))
                 return results
 
-    def delete_member(self, member_id) -> None:
+    def delete_member(self, community_id: int, user_id: int) -> None:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     db.execute(
                         """
                         DELETE FROM members
-                        WHERE id=%s
+                        WHERE community=%s AND person=%s
                         """,
-                        [member_id]
+                        [community_id, user_id]
                     )
                     return True
         except Exception:

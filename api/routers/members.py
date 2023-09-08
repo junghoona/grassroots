@@ -68,10 +68,11 @@ def get_members(
         return {"members": result}
 
 
-@router.delete("/api/members/{member_id}", response_model=bool)
+@router.delete("/api/members/{community_id}/{user_id}", response_model=bool)
 def delete_member(
-    member_id: int,
+    user_id: int,
+    community_id: int,
     repo: MemberRepository = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
-    return repo.delete_member(member_id)
+    return repo.delete_member(community_id, user_id)

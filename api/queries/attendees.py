@@ -29,8 +29,6 @@ class AttendeeListOut(BaseModel):
     attendees: list[AttendeeOut]
 
 
-
-
 class Error(Exception):
     def __init__(self, message, code):
         self.message = message
@@ -63,7 +61,6 @@ class attendeeRepository:
                     results.append(AttendeeOut(id=id, event=event, person=person))
                 return results
 
-
     ''' Get all attendees user information for a particular event by event id '''
     def get_attendees_for_event_detailed(self, event: int) -> list[AttendeeOutDetailed]:
         with pool.connection() as conn:
@@ -92,9 +89,9 @@ class attendeeRepository:
 
                 results = []
                 for (id, event, person, first_name, last_name, avatar, bio, city, state) in db.fetchall():
-                    results.append(AttendeeOutDetailed(id=id, event=event, person=person, first_name=first_name, last_name=last_name, avatar=avatar, bio=bio, city=city, state=state))
+                    results.append(AttendeeOutDetailed(id=id, event=event, person=person, first_name=first_name, last_name=last_name,
+                                                       avatar=avatar, bio=bio, city=city, state=state))
                 return results
-
 
     ''' Create an attendee of a particular event with user id '''
     def create_attendee(self, attendee: AttendeeIn) -> AttendeeOut:
@@ -129,7 +126,6 @@ class attendeeRepository:
                 id = result.fetchone()[0]
                 old_data = attendee.dict()
                 return AttendeeOut(id=id, **old_data)
-
 
     ''' Delete an attendee of a particular event by attendee id '''
     def delete_attendee(self, attendee_id: int) -> dict:
