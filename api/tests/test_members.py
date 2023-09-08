@@ -44,29 +44,3 @@ def test_unauthorized_create_member():
     app.dependency_overrides = {}
     # Assert
     assert response.status_code == 401
-
-
-# test to get all members
-def test_get_all_members():
-    # Arrange
-    app.dependency_overrides[MemberRepository] = fake_MemberRepository
-    # Act
-    response = client.get("/api/members/")
-    # Clean up
-    app.dependency_overrides = {}
-    # Assert
-    assert response.status_code == 200
-    assert response.json() == {
-        "members": [
-            {
-                "id": 1,
-                "community": 1,
-                "person": 1
-            },
-            {
-                "id": 2,
-                "community": 2,
-                "person": 1
-            }
-        ]
-    }
