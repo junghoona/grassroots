@@ -4,6 +4,7 @@ import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 import Main from "./Main";
 import EventDetails from "./Events/EventDetails";
+import AllEventList from "./Events/AllEventsList";
 import "./App.css";
 import CommunitiesList from "./Communities/CommunitiesList";
 import CommunitiesForm from "./Communities/CommunitiesForm";
@@ -54,6 +55,7 @@ function App() {
                 element={<UserCommunitiesPage />}
               ></Route>
               <Route path="events/">
+                <Route path="all" element={<AllEventList />} />
                 <Route path="create" element={<EventForm />} />
                 <Route path=":event_id" element={<EventDetails />}></Route>
               </Route>
@@ -61,6 +63,11 @@ function App() {
                 exact
                 path="/attendees/:event_id/details"
                 element={<AllEventAttendeesList />}
+              ></Route>
+              <Route
+                exact
+                path="/userprofile"
+                element={<UserProfilePage />}
               ></Route>
               <Route
                 exact

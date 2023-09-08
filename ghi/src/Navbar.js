@@ -107,7 +107,10 @@ const Navbar = () => {
                   </li>
                 )}
                 <li>
-                  <NavLink className="dropdown-item" href="#">
+                  <NavLink
+                    className="dropdown-item"
+                    to={`${process.env.PUBLIC_URL}/events/all`}
+                  >
                     Upcoming Events
                   </NavLink>
                 </li>
