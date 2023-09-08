@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LeaveCommunitiesButton from "./LeaveCommunititesModal";
 
-
 function DetailedCommunitiesList(props) {
   const [communities, setCommunities] = useState([]);
 
@@ -17,7 +16,6 @@ function DetailedCommunitiesList(props) {
       console.log("Failed to fetch data!");
     }
   }
-
 
   useEffect(() => {
     if (props.user.id !== undefined) {
