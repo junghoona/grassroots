@@ -134,18 +134,18 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 )}
+                {!token && (
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to={`${process.env.PUBLIC_URL}/signup`}
+                    >
+                      Create an account
+                    </NavLink>
+                  </li>
+                )}
               </ul>
             </li>
-            {!token && (
-              <button
-                className="btn btn-outline-success"
-                onClick={() => {
-                  return navigate(`${process.env.PUBLIC_URL}/signup`);
-                }}
-              >
-                Create an account
-              </button>
-            )}
             {!token && (
               <button
                 className="btn btn-outline-danger"
