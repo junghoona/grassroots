@@ -10,6 +10,7 @@ import CommunitiesForm from "./CommunitiesForm";
 import Navbar from "./Navbar";
 import UserProfilePage from "./UserProfilePage/UserProfilePage";
 import EventForm from "./EventsForm";
+import CommunityProfile from "./CommunityProfile";
 import AllEventAttendeesList from "./Events/EventAttendeesList";
 import UserEventsPage from "./UserEventsPage/UserEventsPage";
 import AboutPage from "./AboutPage/AboutPage";
@@ -37,6 +38,7 @@ function App() {
               <Route path="communities/">
                 <Route path="create" element={<CommunitiesForm />} />
                 <Route index element={<CommunitiesList />} />
+                <Route path=":community_id" element={<CommunityProfile />} />
               </Route>
               <Route
                 exact

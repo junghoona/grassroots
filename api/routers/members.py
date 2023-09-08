@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Response
-from queries.members import MemberIn, MemberOut, MemberRepository, Error, MemberListOut, MemberListOutDetailed
-from typing import Union
+from queries.members import MemberIn, MemberOut, MemberRepository, Error, MemberOutDetailed
+from typing import Union, List
 from authenticator import authenticator
 
 router = APIRouter()
@@ -33,20 +33,7 @@ def create_member(
         return result
 
 
-@router.get("/api/members/", response_model=MemberListOut)
-def get_all_members(
-    repo: MemberRepository = Depends(),
-):
-    """
-    Get all members and returns a list with the following:
-    - id: members.id
-    - community: communities.id
-    - person: users.id
-    """
-    return {"members": repo.get_all_members()}
-
-
-@router.get("/api/members/{community_id}", response_model=Union[MemberListOutDetailed, Error])
+@router.get("/api/members/{community_id}", response_model=Union[List[MemberOutDetailed], Error])
 def get_members(
     community_id: int,
     response: Response,
@@ -59,13 +46,10 @@ def get_members(
     - person: users.id
     - user_info: {}
     """
-    result = repo.get_members(community_id)
     try:
-        if result.get("message") == "community does not exist":
-            response.status_code = 404
-            return result
-    except Exception:
-        return {"members": result}
+        return repo.get_members(community_id)
+    except Exception as e:
+        return {"message": str(e)}
 
 
 @router.delete("/api/members/{community_id}/{user_id}", response_model=bool)
