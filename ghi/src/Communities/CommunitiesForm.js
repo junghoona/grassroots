@@ -1,6 +1,24 @@
 import { useState, useEffect } from "react";
 import { getCurrentUser } from "../UserProfilePage/UserProfilePage";
 
+async function makeCreatorMember(creatorId, communityId) {
+  const url = `${process.env.REACT_APP_API_HOST}/api/members/`;
+  let data = {};
+  data.person = creatorId;
+  data.community = communityId;
+  const response = await fetch(url, {
+    credentials: "include",
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw Error(`Could not make creator a member of the community ${response}`);
+  }
+}
+
 const CommunitiesForm = () => {
   // useState hooks to define input fields
   const [name, setName] = useState("");
@@ -65,6 +83,8 @@ const CommunitiesForm = () => {
     );
 
     if (response.ok) {
+      let createdCommunity = await response.json();
+      makeCreatorMember(creatorID, createdCommunity.id);
       setName("");
       setCity("");
       setState("");
