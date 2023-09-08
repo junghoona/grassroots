@@ -29,6 +29,12 @@ function App() {
               <Route exact path="/" element={<Main />}></Route>
               <Route exact path="/signup" element={<SignupForm />}></Route>
               <Route exact path="/login" element={<LoginForm />}></Route>
+              <Route exact path="/logout" element={<LogoutButton />}></Route>
+              <Route
+                exact
+                path="/userprofile"
+                element={<UserProfilePage />}
+              ></Route>
               <Route path="communities/">
                 <Route path="create" element={<CommunitiesForm />} />
                 <Route index element={<CommunitiesList />} />

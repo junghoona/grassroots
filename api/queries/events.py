@@ -50,9 +50,10 @@ class EventOut(BaseModel):
 
 
 class EventRepository:
-    '''Event Repository Pattern for Database'''
+    """Event Repository Pattern for Database"""
+
     def get_event(self, event_id: int) -> Union[EventOut, Error]:
-        '''GET method for a specific event view'''
+        """GET method for a specific event view"""
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -75,7 +76,7 @@ class EventRepository:
                         FROM events
                         WHERE id = %s
                         """,
-                        [event_id]
+                        [event_id],
                     )
                     record = result.fetchone()
                     if record is None:
@@ -101,7 +102,7 @@ class EventRepository:
             return {"message": str(e), "code": 500}
 
     def get_all(self) -> Union[List[EventOut], Error]:
-        '''GET method for list of events'''
+        """GET method for list of events"""
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -148,7 +149,7 @@ class EventRepository:
             return {"message": str(e), "code": 500}
 
     def create(self, event: EventIn) -> Union[EventOut, Error]:
-        '''Create method for event object'''
+        """Create method for event object"""
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -183,8 +184,8 @@ class EventRepository:
                             event.day,
                             event.start_time,
                             event.end_time,
-                            event.image
-                        ]
+                            event.image,
+                        ],
                     )
                     event_id = result.fetchone()[0]
                     old_data = event.dict()
@@ -195,7 +196,7 @@ class EventRepository:
             return {"message": str(e), "code": 500}
 
     def delete(self, event_id: int) -> Union[dict, Error]:
-        '''Delete a specific event'''
+        """Delete a specific event"""
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -203,7 +204,7 @@ class EventRepository:
                         """
                         SELECT EXISTS(SELECT * FROM events WHERE id = %s);
                         """,
-                        [event_id]
+                        [event_id],
                     )
                     record = result.fetchone()
                     if not record[0]:
@@ -213,14 +214,14 @@ class EventRepository:
                         DELETE FROM attendees
                         WHERE event = %s;
                         """,
-                        [event_id]
+                        [event_id],
                     )
                     db.execute(
                         """
                         DELETE FROM events
                         WHERE id = %s
                         """,
-                        [event_id]
+                        [event_id],
                     )
                     return {"message": "Event deleted", "code": 200}
         except ValueError as e:
@@ -228,7 +229,9 @@ class EventRepository:
         except Exception as e:
             return {"message": str(e), "code": 500}
 
-    def update(self, event_id: int, event: UpdatedEventIn) -> Union[EventOut, Error]:
+    def update(
+        self, event_id: int, event: UpdatedEventIn
+    ) -> Union[EventOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -250,15 +253,15 @@ class EventRepository:
                             event.start_time,
                             event.end_time,
                             event.image,
-                            event_id
-                        ]
+                            event_id,
+                        ],
                     )
                     result = db.execute(
                         """
                         SELECT * FROM events
                         WHERE id = %s
                         """,
-                        [event_id]
+                        [event_id],
                     )
                     record = result.fetchone()
                     if record is None:
@@ -276,7 +279,7 @@ class EventRepository:
                         day=record[9],
                         start_time=record[10],
                         end_time=record[11],
-                        image=record[12]
+                        image=record[12],
                     )
         except ValueError as e:
             return {"message": str(e), "code": 404}
@@ -296,7 +299,7 @@ class EventRepository:
                     JOIN users on (users.id = attendees.person)
                     WHERE users.id = %s
                     """,
-                    [user_id]
+                    [user_id],
                 )
                 results = []
                 for row in db.fetchall():

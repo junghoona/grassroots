@@ -16,6 +16,19 @@ function DetailedCommunitiesList(props) {
     }
   }
 
+  async function leaveCommunity(communityId) {
+    const url = `${process.env.REACT_APP_API_HOST}/api/members/${communityId}/${props.user.id}`;
+    const response = await fetch(url, {
+      credentials: "include",
+      method: "DELETE",
+    });
+    if (response.ok) {
+      getAllCommunities();
+    } else {
+      console.log("Failed to leave community!");
+    }
+  }
+
   useEffect(() => {
     if (props.user.id !== undefined) {
       getAllCommunities();
@@ -51,7 +64,13 @@ function DetailedCommunitiesList(props) {
                         </div>
                       </div>
                       <div>
-                        <button type="button" className="btn btn-primary">
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={() => {
+                            leaveCommunity(com.id);
+                          }}
+                        >
                           Leave
                         </button>
                       </div>

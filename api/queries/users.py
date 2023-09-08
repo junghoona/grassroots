@@ -164,7 +164,7 @@ class UserRepository:
                 )
                 record = result.fetchone()
                 if record is None:
-                    return {"message": "Invalid ID"}
+                    return {"message": "Invalid Email"}
                 return UserOutWithPassword(
                         id=record[0],
                         first_name=record[1],
@@ -175,4 +175,38 @@ class UserRepository:
                         state=record[6],
                         email=record[7],
                         hashed_password=record[8]
+                )
+
+    def get_user_with_id(self, user_id: int) -> UserOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT
+                        id,
+                        first_name,
+                        last_name,
+                        avatar,
+                        bio,
+                        city,
+                        state,
+                        email
+                    FROM users
+                    WHERE id = %s
+                    """,
+                    [user_id]
+
+                )
+                record = result.fetchone()
+                if record is None:
+                    return {"message": "Invalid ID"}
+                return UserOut(
+                        id=record[0],
+                        first_name=record[1],
+                        last_name=record[2],
+                        avatar=record[3],
+                        bio=record[4],
+                        city=record[5],
+                        state=record[6],
+                        email=record[7],
                 )

@@ -1,3 +1,5 @@
+import EditProfileCardButton from "./EditProfileCardButton";
+
 function UserProfileCard(props) {
   return (
     <div
@@ -18,9 +20,10 @@ function UserProfileCard(props) {
           {props.user.city}, {props.user.state}
         </p>
         <div className="d-flex justify-content-center mb-2">
-          <button type="button" className="btn btn-outline-primary ms-1">
-            Edit
-          </button>
+          <EditProfileCardButton
+            user={props.user}
+            fetchUpdatedUserData={props.fetchUpdatedUserData}
+          />
         </div>
       </div>
     </div>
