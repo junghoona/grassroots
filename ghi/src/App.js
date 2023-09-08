@@ -12,6 +12,7 @@ import UserProfilePage from "./UserProfilePage/UserProfilePage";
 import EventForm from "./EventsForm";
 import CommunityProfile from "./Communities/CommunityProfile";
 import AllEventAttendeesList from "./Events/EventAttendeesList";
+import MembersList from "./MembersList";
 import UserEventsPage from "./UserEventsPage/UserEventsPage";
 import AboutPage from "./AboutPage/AboutPage";
 import UserCommunitiesPage from "./UserCommunitiesPage/UserCommunitiesPage";
@@ -64,6 +65,11 @@ function App() {
                 exact
                 path="/attendees/:event_id/details"
                 element={<AllEventAttendeesList />}
+              ></Route>
+              <Route
+                exact
+                path="/members/:community_id/"
+                element={<MembersList />}
               ></Route>
             </Routes>
           </div>

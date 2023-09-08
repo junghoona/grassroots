@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 
+
+export async function getAllCommunities(user_id) {
+  const url = `${process.env.REACT_APP_API_HOST}/api/events/user/${user_id}`;
+  const response = await fetch(url, {
+    credentials: "include",
+  });
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  };
+  throw Error(`Could not get all communities ${response}`);
+}
+
+
 function EventsList(props) {
   const [events, setEvents] = useState([]);
 
-  async function getAllCommunities() {
-    const url = `${process.env.REACT_APP_API_HOST}/api/events/user/${props.user.id}`;
-    const response = await fetch(url, {
-      credentials: "include",
-    });
-    if (response.ok) {
-      const data = await response.json();
-      setEvents(data);
-    } else {
-      console.log("Failed to fetch data!");
-    }
-  }
 
   useEffect(() => {
     if (props.user.id !== undefined) {
-      getAllCommunities();
+      getAllCommunities(props.user.id).then((data) => setEvents(data));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.user]);
