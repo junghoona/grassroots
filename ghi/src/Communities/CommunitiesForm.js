@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getCurrentUser } from "../UserProfilePage/UserProfilePage";
 
 const CommunitiesForm = () => {
   // useState hooks to define input fields
@@ -34,6 +35,11 @@ const CommunitiesForm = () => {
     getStates();
   }, [setStates]);
 
+  useEffect(() => {
+    getCurrentUser().then((user) => setCreatorID(user.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [creatorID]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -59,8 +65,6 @@ const CommunitiesForm = () => {
     );
 
     if (response.ok) {
-      // const newCommunity = await response.json();
-
       setName("");
       setCity("");
       setState("");
@@ -155,15 +159,10 @@ const CommunitiesForm = () => {
             <div className="form-floating mb-3">
               <input
                 value={creatorID}
-                onChange={(e) => setCreatorID(e.target.value)}
-                placeholder="Enter Creator ID here..."
-                required
-                type="text"
+                type="hidden"
                 name="creator_id"
                 id="creator_id"
-                className="form-control"
               />
-              <label htmlFor="creator_id">Creator ID</label>
             </div>
             <button disabled={states.length === 0} className="btn btn-primary">
               Create
