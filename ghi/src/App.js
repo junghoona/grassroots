@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 import Main from "./Main";
-import LogoutButton from "./Logout";
 import EventDetails from "./Events/EventDetails";
 import "./App.css";
 import CommunitiesList from "./CommunitiesList";
