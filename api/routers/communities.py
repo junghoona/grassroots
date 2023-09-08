@@ -8,6 +8,7 @@ from queries.communities import (
     CommunityListOut,
 )
 from authenticator import authenticator
+from queries.members import MemberRepository, MemberIn
 
 router = APIRouter()
 
@@ -17,12 +18,19 @@ async def create_community(
     community: CommunityIn,
     response: Response,
     account_data: dict = Depends(authenticator.get_current_account_data),
-    repo: CommunityRepository = Depends()
+    repo: CommunityRepository = Depends(),
+    members_repo: MemberRepository = Depends(),
 ):
     '''Create an instance of community'''
     community = repo.create_community(community)
     if isinstance(community, dict) and community.get('message') is not None:
         response.status_code = 404
+    # automatically add the creator of the community as an member of the community
+    else:
+        members_repo.create_member(MemberIn(
+            community=community.id,
+            person=community.creator_id
+        ))
     return community
 
 

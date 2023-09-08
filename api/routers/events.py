@@ -8,6 +8,7 @@ from queries.events import (
     EventRepository,
     UpdatedEventIn
 )
+from queries.attendees import AttendeeIn, attendeeRepository
 
 router = APIRouter()
 
@@ -17,12 +18,18 @@ async def create_event(
     event: EventIn,
     response: Response,
     repo: EventRepository = Depends(),
+    attendee_repo: attendeeRepository = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     '''Create AN instance of an event'''
     new_event = repo.create(event)
     if isinstance(new_event, dict) and new_event.get("code") is not None:
         response.status_code = new_event["code"]
+    else:
+        attendee_repo.create_attendee(AttendeeIn(
+            event=new_event.id,
+            person=event.creator
+        ))
     return new_event
 
 
