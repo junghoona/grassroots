@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
 import useToken from "@galvanize-inc/jwtdown-for-react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const { token } = useToken();
+  const { token, logout } = useToken();
+  const navigate = useNavigate();
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -114,7 +116,7 @@ const Navbar = () => {
             <li className="nav-item dropdown px-3">
               <NavLink
                 className="nav-link dropdown-toggle"
-                to={`${process.env.PUBLIC_URL}/communities`}
+                to={`${process.env.PUBLIC_URL}/userprofile`}
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -142,30 +144,32 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 )}
-                {!token && (
-                  <li>
-                    <NavLink
-                      className="dropdown-item"
-                      to={`${process.env.PUBLIC_URL}/login`}
-                    >
-                      Log in
-                    </NavLink>
-                  </li>
-                )}
-                {token && (
-                  <li>
-                    <NavLink
-                      className="dropdown-item"
-                      to={`${process.env.PUBLIC_URL}/logout`}
-                    >
-                      Log out
-                    </NavLink>
-                  </li>
-                )}
               </ul>
             </li>
+            {!token && (
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => {
+                  return navigate(`${process.env.PUBLIC_URL}/login`);
+                }}
+              >
+                Log In
+              </button>
+            )}
+            {token && (
+              <button
+                className="btn btn-outline-danger"
+                onClick={() =>
+                  logout().then(() => {
+                    return navigate(`${process.env.PUBLIC_URL}/`);
+                  })
+                }
+              >
+                Log Out
+              </button>
+            )}
           </ul>
-          <form className="d-flex" role="search">
+          {/* <form className="d-flex" role="search">
             <input
               className="form-control me-2"
               type="search"
@@ -175,7 +179,7 @@ const Navbar = () => {
             <button className="btn btn-outline-success" type="submit">
               Search
             </button>
-          </form>
+          </form> */}
         </div>
       </div>
     </nav>

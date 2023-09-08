@@ -29,6 +29,7 @@ const CommunitiesList = () => {
         })
       );
       const url = `${process.env.REACT_APP_STATE_API_URL}${where}`;
+      console.log("URL: ", url);
       const response = await fetch(url, {
         headers: {
           "X-Parse-Application-Id": `${process.env.REACT_APP_STATE_APPLICATION_ID}`,

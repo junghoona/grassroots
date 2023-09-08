@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Response
 from typing import Union
-from queries.attendees import AttendeeIn, attendeeRepository, AttendeeOut, Error
+from queries.attendees import AttendeeIn, attendeeRepository, AttendeeOutDetailed, AttendeeOut, Error
 from authenticator import authenticator
 
 router = APIRouter()
@@ -56,5 +56,21 @@ def delete_attendee(
         return results
     except Error as e:
         if e.message == "Attendee does not exist":
+            response.status_code = 404
+            return {"message": e.message, "code": e.code}
+
+
+@router.get("/api/attendees/{event}/details", response_model=list[AttendeeOutDetailed])
+def get_attendees_for_event_detailed(
+    event: int,
+    response: Response,
+    repo: attendeeRepository = Depends()
+):
+    ''' Get all attendees for an event with user info '''
+    try:
+        results = repo.get_attendees_for_event_detailed(event)
+        return results
+    except Error as e:
+        if e.message == "Event does not exist":
             response.status_code = 404
             return {"message": e.message, "code": e.code}

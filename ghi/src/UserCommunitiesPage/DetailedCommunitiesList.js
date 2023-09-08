@@ -17,6 +17,19 @@ function DetailedCommunitiesList(props) {
     }
   }
 
+  async function leaveCommunity(communityId) {
+    const url = `${process.env.REACT_APP_API_HOST}/api/members/${communityId}/${props.user.id}`;
+    const response = await fetch(url, {
+      credentials: "include",
+      method: "DELETE",
+    });
+    if (response.ok) {
+      getAllCommunities();
+    } else {
+      console.log("Failed to leave community!");
+    }
+  }
+
   useEffect(() => {
     if (props.user.id !== undefined) {
       getUserCommunities();

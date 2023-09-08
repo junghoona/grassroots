@@ -1,6 +1,14 @@
+### Thursday Sept 7, 2023
+
+Today I worked on finishing the members list page and the community profile page. I need to render the components I fetched for the page: members of a community list, events of a community list, community title and description. I am feeling overwhelmed by bootstrap of all things. I rendered these elements but did zero styling. At this point in the project I am aiming for functional MVP and will spend time after submission during stretch goal week to add nicer styling to the page. I feel like I may even enjoy it more without the pressure of a deadline looming.
+
 ### Wednesday Sept 6, 2023
 
+Today we worked on backend and frontend deployment as a team. This was a doozy. I think my brain is fried bc it was challenging to follow along to the deployment steps. This is definitely due to a lack of sleep because after the mess of deployment today I was able to articulate some helpful direction for another teammate also feeling confused by this process. We were able to get our backend and frontend deployed however our 3rd party apis are no longer working on our public url. In order to prepare for deployment we refactored all of our urls to be dynamic and not hard-coded. In doing so our 3rd party api for states is no longer working deployment-side. They are still working locally. This may be a blocker tomorrow.
+
 ### Tuesday Sept 5, 2023
+
+Today was the module 3 practice test. This afternoon I attempted to complete my community profile details...I forgot to journal and within the last 24 hours cannot recall what was accomplished. Lots of troubleshooting, some merge request reviews, some pipeline fixes.
 
 ### Thursday Aug 31, 2023
 
@@ -41,7 +49,7 @@ function UserProfilePage() {
 
 I returned to my community profile page and members list today. In order to do this in 2 different files I did the following:
 
-Since I already wrote my community react hooks and setCommunity state on a fetch a specific community function in the community profile file, I imported the fetchCommunity function as a component and passed community_id into my aysnc fetch members function as a parameter, then added fetchCommunity to my useEffect and utilized .then method to set community to data response. I also made sure to write the fetch members function globally so that I could export it and use it in my community profile page much the same way. I then wrote a simple list rending on the members list page and then finished working on community profile page by importing the fetchMembers function as a component and setting members and community within the useEffect call on fetchCommunity and fetchMembers by using the .then method and writing an arrow function to handle setting the data to the react hook states for each. Each page shares the same compnents almost but will be rendering a different interface. For now the pages are functional but very bare bones visually. I will  need to explore more bootstrap to add more elements to render on the profile page and maybe add a bit more elegance to the simple members list page.
+Since I already wrote my community react hooks and setCommunity state on a fetch a specific community function in the community profile file, I imported the fetchCommunity function as a component and passed community_id into my aysnc fetch members function as a parameter, then added fetchCommunity to my useEffect and utilized .then method to set community to data response. I also made sure to write the fetch members function globally so that I could export it and use it in my community profile page much the same way. I then wrote a simple list rendering on the members list page and then finished working on community profile page by importing the fetchMembers function as a component and setting members and community within the useEffect call on fetchCommunity and fetchMembers by using the .then method and writing an arrow function to handle setting the data to the react hook states for each. Each page shares the same compnents almost but will be rendering a different interface. For now the pages are functional but very bare bones visually. I will  need to explore more bootstrap to add more elements to render on the profile page and maybe add a bit more elegance to the simple members list page.
 
 ### Tuesday Aug 29, 2023
 

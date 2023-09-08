@@ -37,6 +37,7 @@ function EventForm() {
   const [day, setDay] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [image, setImage] = useState("");
 
   async function fetchUserCommunities() {
     const url = `${process.env.REACT_APP_API_HOST}/api/communities/user/${creator}`;
@@ -73,6 +74,7 @@ function EventForm() {
       day: day,
       start_time: startTime,
       end_time: endTime,
+      image: image,
     };
     const eventsUrl = `${process.env.REACT_APP_API_HOST}/api/events`;
     const eventConfig = {
@@ -95,6 +97,7 @@ function EventForm() {
       setDay("");
       setStartTime("");
       setEndTime("");
+      setImage("");
     }
     if (!response.ok) {
       console.log("Could not create Event:", response);
@@ -193,6 +196,18 @@ function EventForm() {
                 className="form-control"
               />
               <label htmlFor="description">Event Description</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                placeholder="ie a link to a related picture..."
+                type="text"
+                name="image"
+                id="image"
+                className="form-control"
+              />
+              <label htmlFor="image">Event Image</label>
             </div>
             <div className="form-floating mb-3">
               <input

@@ -13,6 +13,22 @@ class AttendeeOut(BaseModel):
     person: int
 
 
+class AttendeeOutDetailed(BaseModel):
+    id: int
+    event: int
+    person: int
+    first_name: str
+    last_name: str
+    avatar: str
+    bio: str
+    city: str
+    state: str
+
+
+class AttendeeListOut(BaseModel):
+    attendees: list[AttendeeOut]
+
+
 class Error(Exception):
     def __init__(self, message, code):
         self.message = message
@@ -23,11 +39,15 @@ class Error(Exception):
 
 
 class attendeeRepository:
-    ''' Get all attendees for a particular event by event id '''
+    """Get all attendees for a particular event by event id"""
+
     def get_attendees_for_event(self, event: int) -> list[AttendeeOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("SELECT EXISTS(SELECT * FROM events WHERE id = %s);", [event])
+                db.execute(
+                    "SELECT EXISTS(SELECT * FROM events WHERE id = %s);",
+                    [event],
+                )
                 if not db.fetchone()[0]:
                     raise Error(message="Event does not exist", code=404)
 
@@ -41,23 +61,94 @@ class attendeeRepository:
                 )
 
                 results = []
-                for (id, event, person) in db.fetchall():
-                    results.append(AttendeeOut(id=id, event=event, person=person))
+                for id, event, person in db.fetchall():
+                    results.append(
+                        AttendeeOut(id=id, event=event, person=person)
+                    )
                 return results
 
-    ''' Create an attendee of a particular event with user id '''
-    def create_attendee(self, attendee: AttendeeIn) -> AttendeeOut:
+    """ Get all attendees user information for a particular event by event id """
+
+    def get_attendees_for_event_detailed(
+        self, event: int
+    ) -> list[AttendeeOutDetailed]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("SELECT EXISTS(SELECT * FROM events WHERE id = %s);", [attendee.event])
+                db.execute(
+                    "SELECT EXISTS(SELECT * FROM events WHERE id = %s);",
+                    [event],
+                )
                 if not db.fetchone()[0]:
                     raise Error(message="Event does not exist", code=404)
 
-                db.execute("SELECT EXISTS(SELECT * FROM users WHERE id = %s);", [attendee.person])
+                db.execute(
+                    """
+                    SELECT attendees.id
+                    , attendees.event
+                    , attendees.person
+                    , users.first_name
+                    , users.last_name
+                    , users.avatar
+                    , users.bio
+                    , users.city
+                    , users.state
+                    FROM attendees
+                    INNER JOIN users ON attendees.person = users.id
+                    WHERE event = %s
+                    """,
+                    [event],
+                )
+
+                results = []
+                for (
+                    id,
+                    event,
+                    person,
+                    first_name,
+                    last_name,
+                    avatar,
+                    bio,
+                    city,
+                    state,
+                ) in db.fetchall():
+                    results.append(
+                        AttendeeOutDetailed(
+                            id=id,
+                            event=event,
+                            person=person,
+                            first_name=first_name,
+                            last_name=last_name,
+                            avatar=avatar,
+                            bio=bio,
+                            city=city,
+                            state=state,
+                        )
+                    )
+                return results
+
+    """ Create an attendee of a particular event with user id """
+
+    def create_attendee(self, attendee: AttendeeIn) -> AttendeeOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    "SELECT EXISTS(SELECT * FROM events WHERE id = %s);",
+                    [attendee.event],
+                )
+                if not db.fetchone()[0]:
+                    raise Error(message="Event does not exist", code=404)
+
+                db.execute(
+                    "SELECT EXISTS(SELECT * FROM users WHERE id = %s);",
+                    [attendee.person],
+                )
                 if not db.fetchone()[0]:
                     raise Error(message="User does not exist", code=404)
 
-                db.execute("SELECT EXISTS(SELECT * FROM attendees WHERE event = %s AND person = %s);", [attendee.event, attendee.person])
+                db.execute(
+                    "SELECT EXISTS(SELECT * FROM attendees WHERE event = %s AND person = %s);",
+                    [attendee.event, attendee.person],
+                )
                 if db.fetchone()[0]:
                     raise Error(message="Attendee already exists", code=409)
 
@@ -73,7 +164,7 @@ class attendeeRepository:
                     [
                         attendee.event,
                         attendee.person,
-                    ]
+                    ],
                 )
                 id = result.fetchone()[0]
                 old_data = attendee.dict()
@@ -94,4 +185,7 @@ class attendeeRepository:
                     """,
                     [user_id, event_id],
                 )
-                return {"message": "Attendee deleted successfully", "code": 200}
+                return {
+                    "message": "Attendee deleted successfully",
+                    "code": 200,
+                }
