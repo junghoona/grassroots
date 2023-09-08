@@ -12,15 +12,24 @@ app.include_router(events.router)
 app.include_router(communities.router)
 app.include_router(authenticator.router)
 
+origins = [
+    "http://localhost:3000",
+    os.environ.get("CORS_HOST", None),
+    "https://good-coders.gitlab.io",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        os.environ.get("CORS_HOST", "http://localhost:3000")
-    ],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/")
+def root():
+    return {"message": "You hit the root path!"}
 
 
 @app.get("/api/launch-details")

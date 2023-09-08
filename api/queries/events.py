@@ -21,7 +21,7 @@ class EventIn(BaseModel):
     day: str
     start_time: str
     end_time: str
-
+    image: str
 
 class UpdatedEventIn(BaseModel):
     location: str
@@ -29,6 +29,7 @@ class UpdatedEventIn(BaseModel):
     day: str
     start_time: str
     end_time: str
+    image: str
 
 
 class EventOut(BaseModel):
@@ -44,6 +45,7 @@ class EventOut(BaseModel):
     day: str
     start_time: str
     end_time: str
+    image: str
 
 
 class EventRepository:
@@ -67,7 +69,8 @@ class EventRepository:
                             community,
                             day,
                             start_time,
-                            end_time
+                            end_time,
+                            image
                         FROM events
                         WHERE id = %s
                         """,
@@ -88,7 +91,8 @@ class EventRepository:
                         community=record[8],
                         day=record[9],
                         start_time=record[10],
-                        end_time=record[11]
+                        end_time=record[11],
+                        image=record[12],
                     )
         except ValueError as e:
             return {"message": str(e), "code": 404}
@@ -114,7 +118,8 @@ class EventRepository:
                             community,
                             day,
                             start_time,
-                            end_time
+                            end_time,
+                            image
                         FROM events
                         ORDER BY day
                         """,
@@ -133,7 +138,8 @@ class EventRepository:
                             community=record[8],
                             day=record[9],
                             start_time=record[10],
-                            end_time=record[11]
+                            end_time=record[11],
+                            image=record[12],
                         )
                         result.append(event)
                 return result
@@ -158,9 +164,10 @@ class EventRepository:
                             community,
                             day,
                             start_time,
-                            end_time)
+                            end_time,
+                            image)
                         VALUES
-                            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             RETURNING id;
                         """,
                         [
@@ -174,7 +181,8 @@ class EventRepository:
                             event.community,
                             event.day,
                             event.start_time,
-                            event.end_time
+                            event.end_time,
+                            event.image
                         ]
                     )
                     event_id = result.fetchone()[0]
@@ -231,6 +239,7 @@ class EventRepository:
                             , day = %s
                             , start_time = %s
                             , end_time = %s
+                            , image = %s
                         WHERE id = %s;
                         """,
                         [
@@ -239,6 +248,7 @@ class EventRepository:
                             event.day,
                             event.start_time,
                             event.end_time,
+                            event.image,
                             event_id
                         ]
                     )
@@ -265,8 +275,32 @@ class EventRepository:
                         day=record[9],
                         start_time=record[10],
                         end_time=record[11],
+                        image=record[12]
                     )
         except ValueError as e:
             return {"message": str(e), "code": 404}
         except Exception as e:
             return {"message": str(e), "code": 400}
+
+    def get_events_user_in(self, user_id: int) -> EventOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT events.id, events.name, events.location, events.city,
+                    events.state, events.type, events.description, events.creator,
+                    events.community, events.day, events.start_time, events.end_time
+                    FROM events
+                    JOIN attendees on (attendees.event = events.id)
+                    JOIN users on (users.id = attendees.person)
+                    WHERE users.id = %s
+                    """,
+                    [user_id]
+                )
+                results = []
+                for row in db.fetchall():
+                    record = {}
+                    for i, column in enumerate(db.description):
+                        record[column.name] = row[i]
+                    results.append(EventOut(**record))
+                return results

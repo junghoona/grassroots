@@ -52,7 +52,8 @@ steps = [
             community INTEGER NOT NULL REFERENCES communities(id) ON DELETE CASCADE,
             day VARCHAR(50) NOT NULL,
             start_time VARCHAR(50) NOT NULL,
-            end_time VARCHAR(50) NULL
+            end_time VARCHAR(50) NULL,
+            image TEXT
         );
         """,
         # "Down" SQL statement

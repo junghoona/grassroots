@@ -33,4 +33,4 @@ class MyAuthenticator(Authenticator):
         return user.email, UserOut(**user.dict())
 
 
-authenticator = MyAuthenticator(os.environ["SIGNING_KEY"])
+authenticator = MyAuthenticator(os.environ.get("SIGNING_KEY", default=os.system('openssl rand -hex 32')))

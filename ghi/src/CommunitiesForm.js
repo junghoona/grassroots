@@ -19,14 +19,18 @@ const CommunitiesForm = () => {
           },
         })
       );
-      const url = `https://parseapi.back4app.com/classes/Usabystate_States?limit=50&order=name&keys=name,objectId,population,postalAbreviation&where=${where}`;
+      const url = `${process.env.REACT_APP_STATE_API_URL}${where}`;
       const response = await fetch(url, {
         headers: {
+<<<<<<< HEAD
           "X-Parse-Application-Id": "YeFK5eZAEn05owCNmcWhucKigaBpM00alBP4QdCX",
           "X-Parse-REST-API-Key": "YkBFQLNkHV3fojvuhqCsfTBCjTAjU4xfFYaUaPQd",
+=======
+          "X-Parse-Application-Id": `${process.env.REACT_APP_STATE_APPLICATION_ID}`,
+          "X-Parse-REST-API-Key": `${process.env.REACT_APP_STATE_REST_API_KEY}`,
+>>>>>>> main
         },
       });
-
       if (response.ok) {
         const data = await response.json();
         setStates(data["results"]);
@@ -60,7 +64,11 @@ const CommunitiesForm = () => {
     );
 
     if (response.ok) {
+<<<<<<< HEAD
       const newCommunity = await response.json();
+=======
+      // const newCommunity = await response.json();
+>>>>>>> main
 
       setName("");
       setCity("");
