@@ -21,11 +21,11 @@ function Founders() {
         </figure>
         <figure className="figure">
           <img
-            src="https://ca.slack-edge.com/T03AAE15UA0-U053T82PQ3Y-6b52b27a65d3-512"
+            src="https://ca.slack-edge.com/T03AAE15UA0-U053T82PQ3Y-9efeb1885d7e-512"
             className="figure-img img-fluid rounded"
             alt="megan"
           />
-          <figcaption className="figure-caption">Megan Steward</figcaption>
+          <figcaption className="figure-caption">Megan Stewart</figcaption>
         </figure>
         <figure className="figure">
           <img

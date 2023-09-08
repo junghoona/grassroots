@@ -35,14 +35,22 @@ function DetailedEventsList(props) {
                 <div className="row g-0">
                   <div className="col-md-4">
                     <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain1.webp"
+                      src={event.image}
                       className="img-fluid rounded-start"
                       alt="event"
                     />
                   </div>
                   <div className="col-md-8">
                     <div className="card-body d-flex flex-column">
-                      <h5 className="card-title">{event.name}</h5>
+                      <h5 className="card-title">
+                        {" "}
+                        <a
+                          href={`/events/${event.id}`}
+                          className="link-primary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover"
+                        >
+                          {event.name}
+                        </a>
+                      </h5>
                       <p className="card-text">{event.description}</p>
                       <div className="card-text">
                         <div>

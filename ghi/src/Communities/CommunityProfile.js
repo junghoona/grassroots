@@ -36,6 +36,7 @@ function CommunityProfile() {
     fetchCommunity(community_id).then((data) => setCommunity(data));
     fetchMembers(community_id).then((data) => setMembers(data));
     fetchEvents(community_id).then((data) => setEvents(data));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -63,7 +64,7 @@ function CommunityProfile() {
                           <img
                             className="card-img-top"
                             src={event.image}
-                            alt="Card image cap"
+                            alt="Card cap"
                           />
                         </div>
                         <div className="card-body" key={event.id}>

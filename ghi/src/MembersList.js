@@ -20,6 +20,7 @@ function MembersList() {
   useEffect(() => {
     fetchCommunity(community_id).then((data) => setCommunity(data));
     fetchMembers(community_id).then((data) => setMembers(data));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

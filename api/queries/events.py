@@ -293,7 +293,7 @@ class EventRepository:
                     """
                     SELECT events.id, events.name, events.location, events.city,
                     events.state, events.type, events.description, events.creator,
-                    events.community, events.day, events.start_time, events.end_time
+                    events.community, events.day, events.start_time, events.end_time, events.image
                     FROM events
                     JOIN attendees on (attendees.event = events.id)
                     JOIN users on (users.id = attendees.person)

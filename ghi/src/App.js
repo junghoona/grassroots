@@ -16,6 +16,7 @@ import MembersList from "./MembersList";
 import UserEventsPage from "./UserEventsPage/UserEventsPage";
 import AboutPage from "./AboutPage/AboutPage";
 import UserCommunitiesPage from "./UserCommunitiesPage/UserCommunitiesPage";
+import IndividualProfilePage from "./IndividualUserPage/IndividualProfilePage";
 
 function App() {
   const domain = /https:\/\/[^/]+/;
@@ -43,11 +44,6 @@ function App() {
               </Route>
               <Route
                 exact
-                path="/userprofile"
-                element={<UserProfilePage />}
-              ></Route>
-              <Route
-                exact
                 path="/userevents"
                 element={<UserEventsPage />}
               ></Route>
@@ -70,6 +66,10 @@ function App() {
                 exact
                 path="/members/:community_id/"
                 element={<MembersList />}
+              ></Route>
+              <Route
+                path="/userprofile/:userId"
+                element={<IndividualProfilePage />}
               ></Route>
             </Routes>
           </div>
