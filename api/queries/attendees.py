@@ -39,11 +39,15 @@ class Error(Exception):
 
 
 class attendeeRepository:
-    ''' Get all attendees for a particular event by event id '''
+    """Get all attendees for a particular event by event id"""
+
     def get_attendees_for_event(self, event: int) -> list[AttendeeOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("SELECT EXISTS(SELECT * FROM events WHERE id = %s);", [event])
+                db.execute(
+                    "SELECT EXISTS(SELECT * FROM events WHERE id = %s);",
+                    [event],
+                )
                 if not db.fetchone()[0]:
                     raise Error(message="Event does not exist", code=404)
 
@@ -57,15 +61,23 @@ class attendeeRepository:
                 )
 
                 results = []
-                for (id, event, person) in db.fetchall():
-                    results.append(AttendeeOut(id=id, event=event, person=person))
+                for id, event, person in db.fetchall():
+                    results.append(
+                        AttendeeOut(id=id, event=event, person=person)
+                    )
                 return results
 
-    ''' Get all attendees user information for a particular event by event id '''
-    def get_attendees_for_event_detailed(self, event: int) -> list[AttendeeOutDetailed]:
+    """ Get all attendees user information for a particular event by event id """
+
+    def get_attendees_for_event_detailed(
+        self, event: int
+    ) -> list[AttendeeOutDetailed]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("SELECT EXISTS(SELECT * FROM events WHERE id = %s);", [event])
+                db.execute(
+                    "SELECT EXISTS(SELECT * FROM events WHERE id = %s);",
+                    [event],
+                )
                 if not db.fetchone()[0]:
                     raise Error(message="Event does not exist", code=404)
 
@@ -88,24 +100,55 @@ class attendeeRepository:
                 )
 
                 results = []
-                for (id, event, person, first_name, last_name, avatar, bio, city, state) in db.fetchall():
-                    results.append(AttendeeOutDetailed(id=id, event=event, person=person, first_name=first_name, last_name=last_name,
-                                                       avatar=avatar, bio=bio, city=city, state=state))
+                for (
+                    id,
+                    event,
+                    person,
+                    first_name,
+                    last_name,
+                    avatar,
+                    bio,
+                    city,
+                    state,
+                ) in db.fetchall():
+                    results.append(
+                        AttendeeOutDetailed(
+                            id=id,
+                            event=event,
+                            person=person,
+                            first_name=first_name,
+                            last_name=last_name,
+                            avatar=avatar,
+                            bio=bio,
+                            city=city,
+                            state=state,
+                        )
+                    )
                 return results
 
-    ''' Create an attendee of a particular event with user id '''
+    """ Create an attendee of a particular event with user id """
+
     def create_attendee(self, attendee: AttendeeIn) -> AttendeeOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("SELECT EXISTS(SELECT * FROM events WHERE id = %s);", [attendee.event])
+                db.execute(
+                    "SELECT EXISTS(SELECT * FROM events WHERE id = %s);",
+                    [attendee.event],
+                )
                 if not db.fetchone()[0]:
                     raise Error(message="Event does not exist", code=404)
 
-                db.execute("SELECT EXISTS(SELECT * FROM users WHERE id = %s);", [attendee.person])
+                db.execute(
+                    "SELECT EXISTS(SELECT * FROM users WHERE id = %s);",
+                    [attendee.person],
+                )
                 if not db.fetchone()[0]:
                     raise Error(message="User does not exist", code=404)
 
-                db.execute("SELECT EXISTS(SELECT * FROM attendees WHERE event = %s AND person = %s);", [attendee.event, attendee.person])
+                db.execute(
+                    "SELECT EXISTS(SELECT * FROM attendees WHERE event = %s AND person = %s);",
+                    [attendee.event, attendee.person],
+                )
                 if db.fetchone()[0]:
                     raise Error(message="Attendee already exists", code=409)
 
@@ -121,17 +164,21 @@ class attendeeRepository:
                     [
                         attendee.event,
                         attendee.person,
-                    ]
+                    ],
                 )
                 id = result.fetchone()[0]
                 old_data = attendee.dict()
                 return AttendeeOut(id=id, **old_data)
 
-    ''' Delete an attendee of a particular event by attendee id '''
+    """ Delete an attendee of a particular event by attendee id """
+
     def delete_attendee(self, attendee_id: int) -> dict:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                db.execute("SELECT EXISTS(SELECT * FROM attendees WHERE id = %s);", [attendee_id])
+                db.execute(
+                    "SELECT EXISTS(SELECT * FROM attendees WHERE id = %s);",
+                    [attendee_id],
+                )
                 if not db.fetchone()[0]:
                     raise Error(message="Attendee does not exist", code=404)
 
@@ -142,4 +189,7 @@ class attendeeRepository:
                     """,
                     [attendee_id],
                 )
-                return {"message": "Attendee deleted successfully", "code": 200}
+                return {
+                    "message": "Attendee deleted successfully",
+                    "code": 200,
+                }

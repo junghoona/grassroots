@@ -31,12 +31,12 @@ def fake_get_current_account_data():
         city="PLACEHOLDER",
         state="PLACEHOLDER",
         email="PLACEHOLDER",
-        hashed_password="PLACEHOLDER"
+        hashed_password="PLACEHOLDER",
     )
 
 
 class EmptyEventRepo:
-    '''Test for empty list of events'''
+    """Test for empty list of events"""
 
     def get_all(self):
         return []
@@ -57,7 +57,7 @@ def test_get_empty_events():
 
 
 class MockEventListRepo:
-    '''Test for list of mock event objects'''
+    """Test for list of mock event objects"""
 
     def get_all(self):
         return [
@@ -73,13 +73,13 @@ class MockEventListRepo:
                 "community": 0,
                 "day": "string",
                 "start_time": "string",
-                "end_time": "string"
+                "end_time": "string",
+                "image": "string",
             }
         ]
 
 
 def test_get_all_events():
-
     # Arrange
     app.dependency_overrides[EventRepository] = MockEventListRepo
 
@@ -90,25 +90,28 @@ def test_get_all_events():
 
     # Assert
     assert response.status_code == 200
-    assert response.json() == [{
-                "id": 1,
-                "name": "string",
-                "location": "string",
-                "city": "string",
-                "state": "string",
-                "type": "string",
-                "description": "string",
-                "creator": 0,
-                "community": 0,
-                "day": "string",
-                "start_time": "string",
-                "end_time": "string"
-            }]
+    assert response.json() == [
+        {
+            "id": 1,
+            "name": "string",
+            "location": "string",
+            "city": "string",
+            "state": "string",
+            "type": "string",
+            "description": "string",
+            "creator": 0,
+            "community": 0,
+            "day": "string",
+            "start_time": "string",
+            "end_time": "string",
+            "image": "string",
+        }
+    ]
 
 
 class MockCreateEventRepo:
 
-    '''Test for creating one mock event object'''
+    """Test for creating one mock event object"""
 
     def create(self, event):
         result = {
@@ -123,7 +126,8 @@ class MockCreateEventRepo:
             "community": 1,
             "day": "string",
             "start_time": "string",
-            "end_time": "string"
+            "end_time": "string",
+            "image": "string",
         }
         result.update(event)
         return result
@@ -131,7 +135,9 @@ class MockCreateEventRepo:
 
 def test_create_event_valid():
     # Arrange
-    app.dependency_overrides[authenticator.get_current_account_data] = fake_get_current_account_data
+    app.dependency_overrides[
+        authenticator.get_current_account_data
+    ] = fake_get_current_account_data
     app.dependency_overrides[EventRepository] = MockCreateEventRepo
 
     # Act
@@ -146,7 +152,8 @@ def test_create_event_valid():
         "community": 1,
         "day": "string",
         "start_time": "string",
-        "end_time": "string"
+        "end_time": "string",
+        "image": "string",
     }
 
     expected = {
@@ -161,7 +168,8 @@ def test_create_event_valid():
         "community": 1,
         "day": "string",
         "start_time": "string",
-        "end_time": "string"
+        "end_time": "string",
+        "image": "string",
     }
 
     response = client.post("/api/events", json=json)
@@ -189,7 +197,8 @@ def test_create_event_invalid():
         "community": 1,
         "day": "string",
         "start_time": "string",
-        "end_time": "string"
+        "end_time": "string",
+        "image": "string",
     }
 
     response = client.post("/api/events", json=json)
@@ -198,4 +207,4 @@ def test_create_event_invalid():
 
     # Assert
     assert response.status_code == 401
-    assert response.json() == {'detail': 'Invalid token'}
+    assert response.json() == {"detail": "Invalid token"}

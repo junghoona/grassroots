@@ -53,6 +53,7 @@ const EventDetails = () => {
     if (token) {
       getCurrentUser().then((user) => setUserId(user.id));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (
