@@ -1,5 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { fetchMembers } from './MembersList';
+
+
+export async function fetchCommunity(community_id) {
+    const url = `${process.env.REACT_APP_API_HOST}/api/communities/${community_id}`;
+    const response = await fetch(url);
+    if (response.ok) {
+        const data = await response.json();
+        return data;
+    };
+    throw Error(`Could not fetch community ${JSON.stringify(response)}`);
+}
+
+export async function fetchEvents(community_id) {
+    const url = `${process.env.REACT_APP_API_HOST}/api/events`;
+    const response = await fetch(url);
+    if (response.ok) {
+        const data = await response.json();
+        const filteredEvents = data.filter((e) => e.community === parseInt(community_id));
+        return filteredEvents;
+    }
+    throw Error(`Could not fetch events ${JSON.stringify(response)}`);
+};
 
 function CommunityProfile() {
 
@@ -9,40 +32,12 @@ function CommunityProfile() {
     const navigate = useNavigate();
     const { community_id } = useParams();
 
-    async function fetchCommunity() {
-        const url = `${process.env.REACT_APP_API_HOST}/api/communities/${community_id}`;
-        const response = await fetch(url);
-        if (response.ok) {
-            const data = await response.json();
-            setCommunity(data);
-        };
-    }
-
-    async function fetchMembers() {
-        const url = `${process.env.REACT_APP_API_HOST}/api/members/${community_id}`;
-        const response = await fetch(url);
-        if (response.ok) {
-            const data = await response.json();
-            setMembers(data);
-        };
-    }
-
-
-    async function fetchEvents() {
-        const url = `${process.env.REACT_APP_API_HOST}/api/events`;
-        const response = await fetch(url);
-        if (response.ok) {
-            const data = await response.json();
-            const filteredEvents = data.filter((e) => e.community === parseInt(community_id));
-            setEvents(filteredEvents);
-        }
-    };
 
 
     useEffect(() => {
-        fetchCommunity();
-        fetchMembers();
-        fetchEvents();
+        fetchCommunity(community_id).then((data) => setCommunity(data));
+        fetchMembers(community_id).then((data) => setMembers(data));
+        fetchEvents(community_id).then((data) => setEvents(data));
     }, []);
 
 
@@ -68,9 +63,9 @@ function CommunityProfile() {
                                     <div className="card-deck" key={event.id}>
                                         <div className="card mb-4"  style={{width: "70%"}}>
                                             <div className="view overlay">
-                                                {/* <img className="card-img-top"
+                                                <img className="card-img-top"
                                                 src={event.image}
-                                                alt="Card image cap"/> */}
+                                                alt="Card image cap"/>
                                             </div>
                                             <div className="card-body" key={event.id}>
                                                 <h4 className="card-title">{event.name}</h4>
@@ -79,7 +74,7 @@ function CommunityProfile() {
                                                 type="button"
                                                 className="btn btn-primary btn-md"
                                                 onClick={() => {
-                                                    navigate(`/api/events/${event.id}`)
+                                                    navigate(`/events/${event.id}`)
                                                 }}>
                                                     Event Details
                                                 </button>
@@ -96,7 +91,7 @@ function CommunityProfile() {
                             <thead>
                                 <tr
                                 onClick={() => {
-                                    navigate(`/api/members/${community_id}`)
+                                    navigate(`/members/${community_id}`)
                                 }}>
                                     <th>Members</th>
                                 </tr>

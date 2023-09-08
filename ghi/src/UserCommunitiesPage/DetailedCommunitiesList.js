@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LeaveCommunitiesButton from "./LeaveCommunititesModal";
 
+
 function DetailedCommunitiesList(props) {
   const [communities, setCommunities] = useState([]);
 
@@ -17,18 +18,6 @@ function DetailedCommunitiesList(props) {
     }
   }
 
-  async function leaveCommunity(communityId) {
-    const url = `${process.env.REACT_APP_API_HOST}/api/members/${communityId}/${props.user.id}`;
-    const response = await fetch(url, {
-      credentials: "include",
-      method: "DELETE",
-    });
-    if (response.ok) {
-      getAllCommunities();
-    } else {
-      console.log("Failed to leave community!");
-    }
-  }
 
   useEffect(() => {
     if (props.user.id !== undefined) {
