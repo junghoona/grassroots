@@ -63,7 +63,7 @@ function Main() {
               loop
               muted
               style={{
-                width: 100 + "%",
+                width: "max-content",
                 height: 100 + "vh",
                 objectFit: "cover",
               }}
