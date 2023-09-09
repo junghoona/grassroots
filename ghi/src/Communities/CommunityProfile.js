@@ -102,8 +102,12 @@ function CommunityProfile() {
                 {members.map((member) => {
                   return (
                     <tr key={member.id}>
-                      <td>{member.first_name}</td>
-                    </tr>
+                  <td>
+                    <a href={process.env.PUBLIC_URL + "/userprofile/" + member.person}>
+                    {member.first_name}
+                    </a>
+                  </td>
+                </tr>
                   );
                 })}
               </tbody>
