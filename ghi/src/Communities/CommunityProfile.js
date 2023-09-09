@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchMembers } from "../MembersList";
+import CommunityJoin from "./CommunityJoin";
 
 export async function fetchCommunity(community_id) {
   const url = `${process.env.REACT_APP_API_HOST}/api/communities/${community_id}`;
@@ -25,7 +26,7 @@ export async function fetchEvents(community_id) {
   throw Error(`Could not fetch events ${JSON.stringify(response)}`);
 }
 
-function CommunityProfile() {
+function CommunityProfile(props) {
   const [members, setMembers] = useState([]);
   const [events, setEvents] = useState([]);
   const [community, setCommunity] = useState({});
@@ -45,6 +46,7 @@ function CommunityProfile() {
         <div className="row">
           <div className="col-md-8">
             <h1>{community.name}</h1>
+            {CommunityJoin(props)}
             <div className="row">
               <div className="col-md-6" style={{ width: "100%" }}>
                 <h3>About This Community</h3>

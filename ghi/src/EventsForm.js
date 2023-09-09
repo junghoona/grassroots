@@ -118,6 +118,7 @@ function EventForm() {
       setStartTime("");
       setEndTime("");
       setImage("");
+      alert("Success!");
     }
     if (!response.ok) {
       console.log("Could not create Event:", response);
