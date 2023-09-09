@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export async function getAllCommunities(user_id) {
   const url = `${process.env.REACT_APP_API_HOST}/api/events/user/${user_id}`;
@@ -28,7 +29,6 @@ function EventsList(props) {
       style={{ maxWidth: "400px", backgroundColor: "#f8f9fa" }}
     >
       <h4 className="mt-3">My Events:</h4>
-
       <div className="d-flex">
         <div className="overflow-auto" style={{ height: "300px" }}>
           {events.map((event) => {
@@ -37,6 +37,11 @@ function EventsList(props) {
                 <div className="row g-0">
                   <div className="col-md-4">
                     <img
+                      style={{
+                        objectFit: "fill",
+                        height: "100%",
+                        width: "100%",
+                      }}
                       src={event.image}
                       className="img-fluid rounded-start"
                       alt="event"
@@ -45,13 +50,12 @@ function EventsList(props) {
                   <div className="col-md-8">
                     <div className="card-body">
                       <h5 className="card-title">
-                        {" "}
-                        <a
-                          href={`/events/${event.id}`}
-                          className="link-primary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover"
+                        <Link
+                          style={{ textDecoration: "none" }}
+                          to={`/events/${event.id}`}
                         >
                           {event.name}
-                        </a>
+                        </Link>
                       </h5>
                       <p className="card-text">{event.location}</p>
                       <p className="card-text">
@@ -70,6 +74,9 @@ function EventsList(props) {
               </div>
             );
           })}
+          {events.length === 0 && (
+            <div>This user is currently not attending any events</div>
+          )}
         </div>
       </div>
     </div>

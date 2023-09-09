@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function CommunitiesList(props) {
   const [communities, setCommunities] = useState([]);
@@ -50,12 +51,12 @@ function CommunitiesList(props) {
                   <div className="col-md-8">
                     <div className="card-body">
                       <h5 className="card-title">
-                        <a
-                          href={`/communities/${community.id}`}
-                          className="link-primary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover"
+                        <Link
+                          style={{ textDecoration: "none" }}
+                          to={`/communities/${community.id}`}
                         >
                           {community.name}
-                        </a>
+                        </Link>
                       </h5>
                       <p className="card-text">{community.description}</p>
                       <p className="card-text">
@@ -69,6 +70,9 @@ function CommunitiesList(props) {
               </div>
             );
           })}
+          {communities.length === 0 && (
+            <div>This user is currently not in any communities</div>
+          )}
         </div>
       </div>
     </div>

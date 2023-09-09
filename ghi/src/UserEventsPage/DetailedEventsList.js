@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LeaveEventsButton from "./LeaveEventsModal";
+import { Link } from "react-router-dom";
 
 function DetailedEventsList(props) {
   const [events, setEvents] = useState([]);
@@ -35,6 +36,11 @@ function DetailedEventsList(props) {
                 <div className="row g-0">
                   <div className="col-md-4">
                     <img
+                      style={{
+                        objectFit: "fill",
+                        height: "100%",
+                        width: "100%",
+                      }}
                       src={event.image}
                       className="img-fluid rounded-start"
                       alt="event"
@@ -43,13 +49,12 @@ function DetailedEventsList(props) {
                   <div className="col-md-8">
                     <div className="card-body d-flex flex-column">
                       <h5 className="card-title">
-                        {" "}
-                        <a
-                          href={`/events/${event.id}`}
-                          className="link-primary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover"
+                        <Link
+                          style={{ textDecoration: "none" }}
+                          to={`/events/${event.id}`}
                         >
                           {event.name}
-                        </a>
+                        </Link>
                       </h5>
                       <p className="card-text">{event.description}</p>
                       <div className="card-text">
@@ -88,6 +93,9 @@ function DetailedEventsList(props) {
               </div>
             );
           })}
+          {events.length === 0 && (
+            <div>This user is currently not attending any events</div>
+          )}
         </div>
       </div>
     </div>
