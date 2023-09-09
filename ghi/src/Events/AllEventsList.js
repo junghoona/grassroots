@@ -6,6 +6,7 @@ const AllEventList = () => {
   const [events, setEvents] = useState([]);
   const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
+  const [selectedEventType, setSelectedEventType] = useState("");
   const { token } = useToken();
 
   async function getAllEventsData() {
@@ -73,6 +74,18 @@ const AllEventList = () => {
                   </option>
                 ))}
               </select>
+              <select
+                className="form-select"
+                onChange={(e) => setSelectedEventType(e.target.value)}
+                value={selectedEventType}
+              >
+                <option value="">All Event Types</option>
+                {events.map((event) => (
+                  <option key={event.id} value={event.type}>
+                    {event.type}
+                  </option>
+                ))}
+              </select>
             </div>
             <Link
               to={`/events/create`}
@@ -87,7 +100,10 @@ const AllEventList = () => {
               {events
                 .filter((event) => {
                   return (
-                    selectedState === "" || event.state.includes(selectedState)
+                    (selectedState === "" ||
+                      event.state.includes(selectedState)) &&
+                    (selectedEventType === "" ||
+                      event.type === selectedEventType)
                   );
                 })
                 .map((event) => (
@@ -117,6 +133,7 @@ const AllEventList = () => {
                           <p className="card-text">
                             <small className="text-muted">
                               Creator: {event.creator}
+                              Type: {event.type}
                             </small>
                           </p>
                           <Link
@@ -150,6 +167,18 @@ const AllEventList = () => {
                   </option>
                 ))}
               </select>
+              <select
+                className="form-select"
+                onChange={(e) => setSelectedEventType(e.target.value)}
+                value={selectedEventType}
+              >
+                <option value="">All Event Types</option>
+                {events.map((event) => (
+                  <option key={event.id} value={event.type}>
+                    {event.type}
+                  </option>
+                ))}
+              </select>
             </div>
           </header>
           <main>
@@ -157,7 +186,10 @@ const AllEventList = () => {
               {events
                 .filter((event) => {
                   return (
-                    selectedState === "" || event.state.includes(selectedState)
+                    (selectedState === "" ||
+                      event.state.includes(selectedState)) &&
+                    (selectedEventType === "" ||
+                      event.type === selectedEventType)
                   );
                 })
                 .map((event) => (
@@ -173,6 +205,11 @@ const AllEventList = () => {
                           className="img-fluid rounded-start"
                           alt="Event"
                           style={{ height: "100%", objectFit: "cover" }}
+                          onError={({ currentTarget }) => {
+                            currentTarget.onerror = null;
+                            currentTarget.src =
+                              "https://images.pexels.com/photos/5408818/pexels-photo-5408818.jpeg?auto=compress&cs=tinysrgb&w=600";
+                          }}
                         />
                       </div>
                       <div className="col-md-8">
