@@ -26,9 +26,12 @@ function DetailedCommunitiesList(props) {
   }, [props.user]);
 
   return (
-    <div style={{ width: "100%" }}>
-      <h4 className="mt-3">My Communities:</h4>
-      <div className="d-flex">
+    <div
+      className="d-flex flex-column align-items-center"
+      style={{ width: "100%" }}
+    >
+      <div className="d-flex flex-column">
+        <h4 className="mt-3">My Communities:</h4>
         <div>
           {communities.map((com) => {
             return (

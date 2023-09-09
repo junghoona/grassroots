@@ -27,7 +27,7 @@ function UserEventsPage() {
   }, [token]);
 
   return (
-    <div>
+    <div className="d-flex justify-content-center">
       {token ? (
         <div className="mt-4 row">
           <SidebarCommunitiesList user={userData} />
