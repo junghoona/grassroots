@@ -4,17 +4,20 @@ import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 import Main from "./Main";
 import EventDetails from "./Events/EventDetails";
+import AllEventList from "./Events/AllEventsList";
 import "./App.css";
-import CommunitiesList from "./CommunitiesList";
-import CommunitiesForm from "./CommunitiesForm";
+import CommunitiesList from "./Communities/CommunitiesList";
+import CommunitiesForm from "./Communities/CommunitiesForm";
 import Navbar from "./Navbar";
 import UserProfilePage from "./UserProfilePage/UserProfilePage";
 import EventForm from "./EventsForm";
-import CommunityProfile from "./CommunityProfile";
+import CommunityProfile from "./Communities/CommunityProfile";
 import AllEventAttendeesList from "./Events/EventAttendeesList";
+import MembersList from "./MembersList";
 import UserEventsPage from "./UserEventsPage/UserEventsPage";
 import AboutPage from "./AboutPage/AboutPage";
 import UserCommunitiesPage from "./UserCommunitiesPage/UserCommunitiesPage";
+import IndividualProfilePage from "./IndividualUserPage/IndividualProfilePage";
 
 function App() {
   const domain = /https:\/\/[^/]+/;
@@ -42,11 +45,6 @@ function App() {
               </Route>
               <Route
                 exact
-                path="/userprofile"
-                element={<UserProfilePage />}
-              ></Route>
-              <Route
-                exact
                 path="/userevents"
                 element={<UserEventsPage />}
               ></Route>
@@ -57,6 +55,7 @@ function App() {
                 element={<UserCommunitiesPage />}
               ></Route>
               <Route path="events/">
+                <Route path="all" element={<AllEventList />} />
                 <Route path="create" element={<EventForm />} />
                 <Route path=":event_id" element={<EventDetails />}></Route>
               </Route>
@@ -64,6 +63,20 @@ function App() {
                 exact
                 path="/attendees/:event_id/details"
                 element={<AllEventAttendeesList />}
+              ></Route>
+              <Route
+                exact
+                path="/userprofile"
+                element={<UserProfilePage />}
+              ></Route>
+              <Route
+                exact
+                path="/members/:community_id/"
+                element={<MembersList />}
+              ></Route>
+              <Route
+                path="/userprofile/:userId"
+                element={<IndividualProfilePage />}
               ></Route>
             </Routes>
           </div>

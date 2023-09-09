@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
+export async function getAllCommunities(user_id) {
+  const url = `${process.env.REACT_APP_API_HOST}/api/events/user/${user_id}`;
+  const response = await fetch(url, {
+    credentials: "include",
+  });
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  }
+  throw Error(`Could not get all communities ${response}`);
+}
 
 function EventsList(props) {
   const [events, setEvents] = useState([]);
 
-  async function getAllCommunities() {
-    const url = `${process.env.REACT_APP_API_HOST}/api/events/user/${props.user.id}`;
-    const response = await fetch(url, {
-      credentials: "include",
-    });
-    if (response.ok) {
-      const data = await response.json();
-      setEvents(data);
-    } else {
-      console.log("Failed to fetch data!");
-    }
-  }
-
   useEffect(() => {
     if (props.user.id !== undefined) {
-      getAllCommunities();
+      getAllCommunities(props.user.id).then((data) => setEvents(data));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.user]);
@@ -29,7 +29,6 @@ function EventsList(props) {
       style={{ maxWidth: "400px", backgroundColor: "#f8f9fa" }}
     >
       <h4 className="mt-3">My Events:</h4>
-
       <div className="d-flex">
         <div className="overflow-auto" style={{ height: "300px" }}>
           {events.map((event) => {
@@ -38,14 +37,26 @@ function EventsList(props) {
                 <div className="row g-0">
                   <div className="col-md-4">
                     <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain1.webp"
+                      style={{
+                        objectFit: "fill",
+                        height: "100%",
+                        width: "100%",
+                      }}
+                      src={event.image}
                       className="img-fluid rounded-start"
                       alt="event"
                     />
                   </div>
                   <div className="col-md-8">
                     <div className="card-body">
-                      <h5 className="card-title">{event.name}</h5>
+                      <h5 className="card-title">
+                        <Link
+                          style={{ textDecoration: "none" }}
+                          to={`/events/${event.id}`}
+                        >
+                          {event.name}
+                        </Link>
+                      </h5>
                       <p className="card-text">{event.location}</p>
                       <p className="card-text">
                         <small className="text-muted">
@@ -63,6 +74,9 @@ function EventsList(props) {
               </div>
             );
           })}
+          {events.length === 0 && (
+            <div>This user is currently not attending any events</div>
+          )}
         </div>
       </div>
     </div>

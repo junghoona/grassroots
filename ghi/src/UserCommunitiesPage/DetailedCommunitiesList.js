@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LeaveCommunitiesButton from "./LeaveCommunititesModal";
+import { Link } from "react-router-dom";
 
 function DetailedCommunitiesList(props) {
   const [communities, setCommunities] = useState([]);
@@ -14,19 +15,6 @@ function DetailedCommunitiesList(props) {
       setCommunities(data.communities);
     } else {
       console.log("Failed to fetch data!");
-    }
-  }
-
-  async function leaveCommunity(communityId) {
-    const url = `${process.env.REACT_APP_API_HOST}/api/members/${communityId}/${props.user.id}`;
-    const response = await fetch(url, {
-      credentials: "include",
-      method: "DELETE",
-    });
-    if (response.ok) {
-      getAllCommunities();
-    } else {
-      console.log("Failed to leave community!");
     }
   }
 
@@ -48,14 +36,26 @@ function DetailedCommunitiesList(props) {
                 <div className="row g-0">
                   <div className="col-md-4">
                     <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain1.webp"
+                      style={{
+                        objectFit: "fill",
+                        height: "100%",
+                        width: "100%",
+                      }}
+                      src="https://images.pexels.com/photos/3280130/pexels-photo-3280130.jpeg?auto=compress&cs=tinysrgb&w=600"
                       className="img-fluid rounded-start"
                       alt="event"
                     />
                   </div>
                   <div className="col-md-8">
                     <div className="card-body d-flex flex-column">
-                      <h5 className="card-title">{com.name}</h5>
+                      <h5 className="card-title">
+                        <Link
+                          style={{ textDecoration: "none" }}
+                          to={`/communities/${com.id}`}
+                        >
+                          {com.name}
+                        </Link>
+                      </h5>
                       <p className="card-text">{com.description}</p>
                       <div className="card-text">
                         <div>
@@ -78,6 +78,9 @@ function DetailedCommunitiesList(props) {
               </div>
             );
           })}
+          {communities.length === 0 && (
+            <div>This user is currently not in any communities</div>
+          )}
         </div>
       </div>
     </div>

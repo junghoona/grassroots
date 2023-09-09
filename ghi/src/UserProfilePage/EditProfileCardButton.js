@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
+import { fetchStates } from "../EventsForm";
 
 const customStyles = {
   content: {
@@ -16,7 +17,12 @@ function EditProfileCardButton(props) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [avatar, setAvatar] = useState("");
   const [city, setCity] = useState("");
+  const [states, setStates] = useState([]);
   const [state, setState] = useState("");
+
+  useEffect(() => {
+    fetchStates().then((data) => setStates(data["results"]));
+  }, []);
 
   function openModal() {
     setIsOpen(true);
@@ -91,7 +97,7 @@ function EditProfileCardButton(props) {
                 placeholder={props.user.avatar}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group mb-3">
               <label htmlFor="exampleFormControlInput1">City</label>
               <input
                 onChange={(e) => setCity(e.target.value)}
@@ -101,15 +107,26 @@ function EditProfileCardButton(props) {
                 placeholder={props.user.city}
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="exampleFormControlInput1">State</label>
-              <input
+            <div className="form-group mb-3">
+              <select
                 onChange={(e) => setState(e.target.value)}
-                type="text"
-                className="form-control"
+                required
+                className="form-select"
                 id="state"
-                placeholder={props.user.state}
-              />
+                aria-label="Select a State"
+              >
+                <option value="">Select a State</option>
+                {states.map((state) => {
+                  return (
+                    <option
+                      key={state.objectId}
+                      value={state.postalAbbreviation}
+                    >
+                      {state.name}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
             <div>
               <button type="submit" className="btn btn-primary">

@@ -29,7 +29,6 @@ const CommunitiesList = () => {
         })
       );
       const url = `${process.env.REACT_APP_STATE_API_URL}${where}`;
-      console.log("URL: ", url);
       const response = await fetch(url, {
         headers: {
           "X-Parse-Application-Id": `${process.env.REACT_APP_STATE_APPLICATION_ID}`,
@@ -70,7 +69,9 @@ const CommunitiesList = () => {
           <div className="input-group-append">
             <button
               className="btn btn-outline-secondary"
-              onClick={() => navigate(`create`)}
+              onClick={() =>
+                navigate(`${process.env.PUBLIC_URL}/communities/create`)
+              }
               type="button"
             >
               Create a New Community
@@ -78,38 +79,75 @@ const CommunitiesList = () => {
           </div>
         </div>
         <div className="container-fluid">
-          {communities
-            .filter((community) => {
-              return community.state === state;
-            })
-            .map((community) => {
-              return (
-                <div
-                  key={community.id}
-                  className="col-md-4 col-sm-6 card my-3 py-3 shadow"
-                >
-                  <div className="card-body">
-                    <h5 className="card-title fw-bold fs-4">
-                      {community.name}
-                    </h5>
-                    <h6 className="card-subtitle mb-2 text-muted">
-                      {community.city}, {community.state}
-                    </h6>
-                    <p className="card-text">{community.type}</p>
-                    <p className="card-text">{community.description}</p>
+          {state.length === 0
+            ? communities.map((community) => {
+                return (
+                  <div
+                    key={community.id}
+                    className="col-md-4 col-sm-6 card my-3 py-3 shadow"
+                  >
+                    <div className="card-body">
+                      <h5 className="card-title fw-bold fs-4">
+                        {community.name}
+                      </h5>
+                      <h6 className="card-subtitle mb-2 text-muted">
+                        {community.city}, {community.state}
+                      </h6>
+                      <p className="card-text">{community.type}</p>
+                      <p className="card-text">{community.description}</p>
+                    </div>
+                    <div className="card-footer">
+                      <button
+                        onClick={() =>
+                          navigate(
+                            `${process.env.PUBLIC_URL}/communities/${community.id}`
+                          )
+                        }
+                        type="button"
+                        className="btn btn-sm"
+                      >
+                        Read More
+                      </button>
+                    </div>
                   </div>
-                  <div className="card-footer">
-                    <button
-                      onClick={() => navigate(`${community.id}`)}
-                      type="button"
-                      className="btn btn-sm"
+                );
+              })
+            : communities
+                .filter((community) => {
+                  return community.state === state;
+                })
+                .map((community) => {
+                  return (
+                    <div
+                      key={community.id}
+                      className="col-md-4 col-sm-6 card my-3 py-3 shadow"
                     >
-                      Read More
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
+                      <div className="card-body">
+                        <h5 className="card-title fw-bold fs-4">
+                          {community.name}
+                        </h5>
+                        <h6 className="card-subtitle mb-2 text-muted">
+                          {community.city}, {community.state}
+                        </h6>
+                        <p className="card-text">{community.type}</p>
+                        <p className="card-text">{community.description}</p>
+                      </div>
+                      <div className="card-footer">
+                        <button
+                          onClick={() =>
+                            navigate(
+                              `${process.env.PUBLIC_URL}/communities/${community.id}`
+                            )
+                          }
+                          type="button"
+                          className="btn btn-sm"
+                        >
+                          Read More
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
         </div>
       </div>
     </>

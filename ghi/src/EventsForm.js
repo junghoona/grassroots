@@ -23,6 +23,24 @@ export async function fetchStates() {
   throw Error(`Could not fetch states ${response}`);
 }
 
+async function makeCreatorAttendee(creatorId, eventId) {
+  const url = `${process.env.REACT_APP_API_HOST}/api/attendees`;
+  let data = {};
+  data.person = creatorId;
+  data.event = eventId;
+  const response = await fetch(url, {
+    credentials: "include",
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw Error(`Could not make creator an attendee of the event ${response}`);
+  }
+}
+
 function EventForm() {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
@@ -87,6 +105,8 @@ function EventForm() {
     };
     const response = await fetch(eventsUrl, eventConfig);
     if (response.ok) {
+      let createdEvent = await response.json();
+      makeCreatorAttendee(creator, createdEvent.id);
       setName("");
       setLocation("");
       setCity("");
@@ -98,6 +118,7 @@ function EventForm() {
       setStartTime("");
       setEndTime("");
       setImage("");
+      alert("Success!");
     }
     if (!response.ok) {
       console.log("Could not create Event:", response);

@@ -90,6 +90,7 @@ async def get_events_user_in(
     try:
         results = repo.get_events_user_in(user_id)
         return results
-    except Exception:
+    except Exception as e:
+        print(e)
         response.status_code = 503
         return {"message": "Data server is down", "code": "503"}
