@@ -1,13 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import useToken from "@galvanize-inc/jwtdown-for-react";
-import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { token, logout } = useToken();
   const navigate = useNavigate();
 
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav
+      className="navbar navbar-expand-lg navbar-light"
+      style={{ backgroundColor: "#98FB98" }}
+    >
       <div className="container-fluid">
         <NavLink className="navbar-brand" to={`${process.env.PUBLIC_URL}`}>
           Green Bean
@@ -17,17 +19,18 @@ const Navbar = () => {
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarScroll"
-          aria-controls="navbarScroll"
           aria-expanded="false"
-          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarScroll">
-          <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+        <div
+          className="collapse navbar-collapse d-flex justify-content-around"
+          id="navbarScroll"
+        >
+          <ul className="navbar-nav">
             <li className="nav-item px-3">
               <NavLink
-                className="nav-link active"
+                className="nav-link"
                 aria-current="page"
                 to={`${process.env.PUBLIC_URL}/about`}
               >
@@ -35,7 +38,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li className="nav-item dropdown px-3">
-              <NavLink
+              <Link
                 className="nav-link dropdown-toggle"
                 to={`${process.env.PUBLIC_URL}/communities`}
                 role="button"
@@ -43,81 +46,75 @@ const Navbar = () => {
                 aria-expanded="false"
               >
                 Communities
-              </NavLink>
+              </Link>
               <ul className="dropdown-menu">
                 {token && (
                   <li>
-                    <NavLink
-                      className="dropdown-item"
-                      to={`${process.env.PUBLIC_URL}/communities/create`}
-                    >
+                    <Link className="dropdown-item" to={`/communities/create`}>
                       Create a Community
-                    </NavLink>
+                    </Link>
                   </li>
                 )}
                 {token && (
                   <li>
-                    <NavLink
-                      className="dropdown-item"
-                      to={`${process.env.PUBLIC_URL}/usercommunities`}
-                    >
+                    <Link className="dropdown-item" to={`/usercommunities`}>
                       My Communities
-                    </NavLink>
+                    </Link>
                   </li>
                 )}
                 <li>
-                  <NavLink
+                  <Link
                     className="dropdown-item"
                     to={`${process.env.PUBLIC_URL}/communities`}
                   >
                     View All Communities
-                  </NavLink>
+                  </Link>
                 </li>
               </ul>
             </li>
             <li className="nav-item dropdown px-3">
-              <NavLink
+              <Link
                 className="nav-link dropdown-toggle"
-                href="#"
+                to={`${process.env.PUBLIC_URL}/events/all`}
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 Events
-              </NavLink>
+              </Link>
               <ul className="dropdown-menu">
                 {token && (
                   <li>
-                    <NavLink
+                    <Link
                       className="dropdown-item"
                       to={`${process.env.PUBLIC_URL}/events/create`}
                     >
                       Create an Event
-                    </NavLink>
+                    </Link>
                   </li>
                 )}
                 {token && (
                   <li>
-                    <NavLink
+                    <Link
                       className="dropdown-item"
                       to={`${process.env.PUBLIC_URL}/userevents`}
                     >
                       My Events
-                    </NavLink>
+                    </Link>
                   </li>
                 )}
                 <li>
-                  <NavLink
+                  <Link
                     className="dropdown-item"
                     to={`${process.env.PUBLIC_URL}/events/all`}
                   >
                     Upcoming Events
-                  </NavLink>
+                  </Link>
                 </li>
               </ul>
             </li>
             <li className="nav-item dropdown px-3">
-              <NavLink
+              <Link
                 className="nav-link dropdown-toggle"
                 to={`${process.env.PUBLIC_URL}/userprofile`}
                 role="button"
@@ -125,26 +122,26 @@ const Navbar = () => {
                 aria-expanded="false"
               >
                 Account
-              </NavLink>
+              </Link>
               <ul className="dropdown-menu">
                 {token && (
                   <li>
-                    <NavLink
+                    <Link
                       className="dropdown-item"
                       to={`${process.env.PUBLIC_URL}/userprofile`}
                     >
                       My Profile
-                    </NavLink>
+                    </Link>
                   </li>
                 )}
                 {!token && (
                   <li>
-                    <NavLink
+                    <Link
                       className="dropdown-item"
                       to={`${process.env.PUBLIC_URL}/signup`}
                     >
                       Create an account
-                    </NavLink>
+                    </Link>
                   </li>
                 )}
               </ul>
@@ -164,7 +161,7 @@ const Navbar = () => {
                 className="btn btn-outline-danger"
                 onClick={() =>
                   logout().then(() => {
-                    return navigate(`${process.env.PUBLIC_URL}/`);
+                    return navigate(`/`);
                   })
                 }
               >

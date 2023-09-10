@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const CommunitiesList = () => {
   const [communities, setCommunities] = useState([]);
   const [states, setStates] = useState([]);
   const [state, setState] = useState("");
-  const navigate = useNavigate();
+
+  const cardStyle = {
+    textAlign: "center",
+    margin: "10px 0",
+  };
 
   const fetchData = async () => {
     const response = await fetch(
@@ -67,15 +71,9 @@ const CommunitiesList = () => {
             })}
           </select>
           <div className="input-group-append">
-            <button
-              className="btn btn-outline-secondary"
-              onClick={() =>
-                navigate(`${process.env.PUBLIC_URL}/communities/create`)
-              }
-              type="button"
-            >
+            <Link to={`/communities/create`} className="btn btn-primary">
               Create a New Community
-            </button>
+            </Link>
           </div>
         </div>
         <div className="container-fluid">
@@ -84,30 +82,27 @@ const CommunitiesList = () => {
                 return (
                   <div
                     key={community.id}
-                    className="col-md-4 col-sm-6 card my-3 py-3 shadow"
+                    className="card mb-4 shadow-lg bg-light"
+                    style={cardStyle}
                   >
+                    <img
+                      className="card-img-top"
+                      src="https://images.pexels.com/photos/3280130/pexels-photo-3280130.jpeg?auto=compress&cs=tinysrgb&w=600"
+                    />
                     <div className="card-body">
                       <h5 className="card-title fw-bold fs-4">
                         {community.name}
                       </h5>
-                      <h6 className="card-subtitle mb-2 text-muted">
+                      <h6 className="card-subtitle">
                         {community.city}, {community.state}
                       </h6>
                       <p className="card-text">{community.type}</p>
                       <p className="card-text">{community.description}</p>
                     </div>
                     <div className="card-footer">
-                      <button
-                        onClick={() =>
-                          navigate(
-                            `${process.env.PUBLIC_URL}/communities/${community.id}`
-                          )
-                        }
-                        type="button"
-                        className="btn btn-sm"
-                      >
-                        Read More
-                      </button>
+                      <Link to={`${community.id}`} className="btn btn-primary">
+                        View Community Profile
+                      </Link>
                     </div>
                   </div>
                 );
@@ -120,8 +115,13 @@ const CommunitiesList = () => {
                   return (
                     <div
                       key={community.id}
-                      className="col-md-4 col-sm-6 card my-3 py-3 shadow"
+                      className="card mb-4 shadow-lg bg-light"
+                      style={cardStyle}
                     >
+                      <img
+                        className="card-img-top"
+                        src="https://images.pexels.com/photos/3280130/pexels-photo-3280130.jpeg?auto=compress&cs=tinysrgb&w=600"
+                      />
                       <div className="card-body">
                         <h5 className="card-title fw-bold fs-4">
                           {community.name}
@@ -133,17 +133,12 @@ const CommunitiesList = () => {
                         <p className="card-text">{community.description}</p>
                       </div>
                       <div className="card-footer">
-                        <button
-                          onClick={() =>
-                            navigate(
-                              `${process.env.PUBLIC_URL}/communities/${community.id}`
-                            )
-                          }
-                          type="button"
-                          className="btn btn-sm"
+                        <Link
+                          to={`${community.id}`}
+                          className="btn btn-primary"
                         >
-                          Read More
-                        </button>
+                          View Community Profile
+                        </Link>
                       </div>
                     </div>
                   );

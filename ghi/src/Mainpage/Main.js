@@ -50,12 +50,14 @@ function Main() {
                         style={{ height: 50 + "rem" }}
                       />
                       <Carousel.Caption>
-                        <h3>{event.name}</h3>
-                        <p>
-                          {event.city}, {event.state} <br />
-                          {event.description} <br />
-                          {event.day} {event.start_time} - {event.end_time}
-                        </p>
+                        <div className="bg-light bg-opacity-50 p-3 text-dark rounded">
+                          <h3>{event.name}</h3>
+                          <p>
+                            {event.city}, {event.state} <br />
+                            {event.description} <br />
+                            {event.day} {event.start_time} - {event.end_time}
+                          </p>
+                        </div>
                       </Carousel.Caption>
                     </Carousel.Item>
                   );

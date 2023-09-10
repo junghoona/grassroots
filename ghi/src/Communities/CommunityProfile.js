@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchMembers } from "../MembersList";
-import CommunityJoin from "./CommunityJoin";
+import { getCurrentUser } from "../UserProfilePage/UserProfilePage";
+
 
 export async function fetchCommunity(community_id) {
   const url = `${process.env.REACT_APP_API_HOST}/api/communities/${community_id}`;
@@ -26,16 +27,55 @@ export async function fetchEvents(community_id) {
   throw Error(`Could not fetch events ${JSON.stringify(response)}`);
 }
 
-function CommunityProfile(props) {
+function CommunityProfile() {
   const [members, setMembers] = useState([]);
   const [events, setEvents] = useState([]);
   const [community, setCommunity] = useState({});
   const navigate = useNavigate();
   const { community_id } = useParams();
+  const [user, setUser] = useState({});
+  const [clicked, setClicked] = useState(false);
+
+  async function JoinCommunity() {
+    const data = {
+      community: community_id,
+      person: parseInt(user.id),
+    };
+
+    const response = await fetch(
+      `${process.env.REACT_APP_API_HOST}/api/members`,
+      {
+        credentials: "include",
+        method: "post",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      console.error(response);
+    }
+  }
+
+  const handleClick = () => {
+    JoinCommunity(community_id, parseInt(user.id))
+      .then(() =>{
+        setClicked(true);
+        fetchMembers(community_id).then((data) => setMembers(data));
+      });
+  };
 
   useEffect(() => {
     fetchCommunity(community_id).then((data) => setCommunity(data));
-    fetchMembers(community_id).then((data) => setMembers(data));
+    Promise.all([getCurrentUser(), fetchMembers(community_id)]).then((resolvedPromises) => {
+      const [userData, memberData] = resolvedPromises;
+      setMembers(memberData);
+      setUser(userData);
+      if (memberData.map((member) => member.person).includes(userData.id)) {
+        setClicked(true);
+      }
+    });
     fetchEvents(community_id).then((data) => setEvents(data));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -46,7 +86,13 @@ function CommunityProfile(props) {
         <div className="row">
           <div className="col-md-8">
             <h1>{community.name}</h1>
-            {CommunityJoin(props)}
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={handleClick}
+              >
+                {clicked ? "Joined" : "Join Community"}
+            </button>
             <div className="row">
               <div className="col-md-6" style={{ width: "100%" }}>
                 <h3>About This Community</h3>
