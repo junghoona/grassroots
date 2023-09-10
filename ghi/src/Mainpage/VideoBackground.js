@@ -38,11 +38,15 @@ const VideoBackground = () => {
         </video>
         <div className="content-overlay">
           <div className="content" style={contentStyle}>
-            <h1>Welcome!</h1>
-            <p> Explore our environmentally friendly content </p>
-            <Link className="btn btn-primary" to={`/signup`}>
-              Join us
-            </Link>
+            <div className="mt-5">
+              <div className="text-center">
+                <h1>Welcome!</h1>
+                <p> Explore our environmentally friendly content </p>
+                <Link className="btn btn-primary" to={`/signup`}>
+                  Join us
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>

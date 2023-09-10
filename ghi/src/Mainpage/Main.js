@@ -34,7 +34,7 @@ function Main() {
       {token ? (
         <div className="main">
           <VideoBackground />
-          <div className="container-fluid">
+          <div className="container-fluid mt-5">
             <h2>Events near {userData.city} </h2>
             <Carousel>
               {events
