@@ -151,9 +151,9 @@ const Navbar = () => {
             </li>
             {!token && (
               <button
-                className="btn btn-outline-danger"
+                className="btn btn-outline-success"
                 onClick={() => {
-                  return navigate(`${process.env.PUBLIC_URL}/login`);
+                  return navigate(`login`);
                 }}
               >
                 Log In
@@ -172,17 +172,6 @@ const Navbar = () => {
               </button>
             )}
           </ul>
-          {/* <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form> */}
         </div>
       </div>
     </nav>
