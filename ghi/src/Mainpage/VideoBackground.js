@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import videoBg from "../Assets/videoBg.mp4";
-import useToken from "@galvanize-inc/jwtdown-for-react";
 
 const VideoBackground = () => {
   const videoContainerStyle = {
