@@ -5,8 +5,6 @@ const CommunitiesList = () => {
   const [communities, setCommunities] = useState([]);
   const [states, setStates] = useState([]);
   const [state, setState] = useState("");
-  const [userData, setUserData] = useState({});
-  const { token } = useToken();
 
   const cardStyle = {
     textAlign: "center",
@@ -50,12 +48,6 @@ const CommunitiesList = () => {
     getStates();
     fetchData();
   }, [setStates]);
-
-  useEffect(() => {
-    if (token) {
-      getCurrentUser().then((user) => setUserData(user));
-    }
-  }, [token]);
 
   return (
     <>
