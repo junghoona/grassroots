@@ -45,6 +45,11 @@ function EventsList(props) {
                       src={event.image}
                       className="img-fluid rounded-start"
                       alt="event"
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src =
+                          "https://images.pexels.com/photos/5408818/pexels-photo-5408818.jpeg?auto=compress&cs=tinysrgb&w=600";
+                      }}
                     />
                   </div>
                   <div className="col-md-8">
