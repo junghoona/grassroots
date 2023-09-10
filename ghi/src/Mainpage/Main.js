@@ -48,6 +48,7 @@ function Main() {
                         className="d-block w-100"
                         src={event.image}
                         style={{ height: 50 + "rem" }}
+                        alt="event"
                       />
                       <Carousel.Caption>
                         <div className="bg-light bg-opacity-50 p-3 text-dark rounded">
