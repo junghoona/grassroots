@@ -2,7 +2,7 @@ import { AuthProvider } from "@galvanize-inc/jwtdown-for-react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
-import Main from "./Main";
+import Main from "./Mainpage/Main";
 import EventDetails from "./Events/EventDetails";
 import AllEventList from "./Events/AllEventsList";
 import "./App.css";
