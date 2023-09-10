@@ -1,19 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import videoBg from "../Assets/videoBg.mp4";
+import useToken from "@galvanize-inc/jwtdown-for-react";
 
-const VideoBackground = (props) => {
+const VideoBackground = () => {
   const videoContainerStyle = {
     position: "relative",
-    width: "100%",
-    heigth: "100px",
     overflow: "hidden",
+    width: "auto",
+    height: "500px",
   };
 
   const videoBgStyle = {
     position: "absolute",
     top: "0",
     left: "0",
-    width: "100%",
+    width: "auto",
     height: "200px",
     zIndex: "-1",
   };
@@ -30,33 +32,20 @@ const VideoBackground = (props) => {
 
   return (
     <div>
-      {props ? (
-        <div className="video-container" style={videoContainerStyle}>
-          <video autoPlay muted loop id="video-bg">
-            <source src={videoBg} style={videoBgStyle} type="video/mp4" />
-          </video>
-          <div className="content-overlay">
-            <div className="content" style={contentStyle}>
-              <h1>Welcome!</h1>
-              <p> Explore our environmentally friendly content </p>
-              <button className="btn btn-primary">Join us</button>
-            </div>
+      <div className="video-container" style={videoContainerStyle}>
+        <video autoPlay muted loop id="video-bg">
+          <source src={videoBg} style={videoBgStyle} type="video/mp4" />
+        </video>
+        <div className="content-overlay">
+          <div className="content" style={contentStyle}>
+            <h1>Welcome!</h1>
+            <p> Explore our environmentally friendly content </p>
+            <Link className="btn btn-primary" to={`/signup`}>
+              Join us
+            </Link>
           </div>
         </div>
-      ) : (
-        <div className="video-container">
-          <video autoPlay muted loop id="video-bg">
-            <source src={videoBg} type="video/mp4" />
-          </video>
-          <div className="content-overlay">
-            <div className="content" style={contentStyle}>
-              <h1>Welcome!</h1>
-              <p> Explore our environmentally friendly content </p>
-              <button className="btn btn-primary">Join us</button>
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };
