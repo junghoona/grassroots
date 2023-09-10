@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "../UserProfilePage/UserProfilePage";
+import useToken from "@galvanize-inc/jwtdown-for-react";
 
 const CommunitiesList = () => {
   const [communities, setCommunities] = useState([]);
   const [states, setStates] = useState([]);
   const [state, setState] = useState("");
+  const [userData, setUserData] = useState({});
+  const { token } = useToken();
+
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -44,6 +49,12 @@ const CommunitiesList = () => {
     getStates();
     fetchData();
   }, [setStates]);
+
+  useEffect(() => {
+    if (token) {
+      getCurrentUser().then((user) => setUserData(user));
+    }
+  }, [token]);
 
   return (
     <>
