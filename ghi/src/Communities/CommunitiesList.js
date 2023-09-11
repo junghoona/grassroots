@@ -88,6 +88,7 @@ const CommunitiesList = () => {
                     <img
                       className="card-img-top"
                       src="https://images.pexels.com/photos/3280130/pexels-photo-3280130.jpeg?auto=compress&cs=tinysrgb&w=600"
+                      alt="community"
                     />
                     <div className="card-body">
                       <h5 className="card-title fw-bold fs-4">
@@ -121,6 +122,7 @@ const CommunitiesList = () => {
                       <img
                         className="card-img-top"
                         src="https://images.pexels.com/photos/3280130/pexels-photo-3280130.jpeg?auto=compress&cs=tinysrgb&w=600"
+                        alt="community"
                       />
                       <div className="card-body">
                         <h5 className="card-title fw-bold fs-4">

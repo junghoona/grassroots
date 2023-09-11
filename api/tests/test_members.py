@@ -64,7 +64,7 @@ def test_unauthorized_create_member():
         "person": 1
     }
     # Act
-    response = client.post("/api/members/", json=json)
+    response = client.post("/api/members", json=json)
     # Clean up
     app.dependency_overrides = {}
     # Assert
@@ -83,7 +83,7 @@ def test_create_member_400_error():
 
     expected = {"message": "community and user not found"}
     # Act
-    response = client.post("/api/members/", json=json)
+    response = client.post("/api/members", json=json)
     # Clean up
     app.dependency_overrides = {}
     # Assert

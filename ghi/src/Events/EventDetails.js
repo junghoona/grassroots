@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { getCurrentUser } from "../UserProfilePage/UserProfilePage";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 
@@ -8,7 +8,7 @@ const EventDetails = () => {
   const [userId, setUserId] = useState("");
   const { event_id } = useParams();
   const { token } = useToken();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const getEventDetailsData = async () => {
     const EventDetails = `${process.env.REACT_APP_API_HOST}/api/events/${event_id}`;
@@ -37,7 +37,7 @@ const EventDetails = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
-        window.location.href = `/attendees/${event_id}/details`;
+        navigate(`/attendees/${event_id}/details`);
       })
       .catch((error) => {
         console.error("Error:", error);
