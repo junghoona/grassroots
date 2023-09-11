@@ -34,6 +34,8 @@ build-api-image:
   before_script:
     # $CI_JOB_TOKEN is variable automatically added by Gitlab: see https://docs.gitlab.com/ee/ci/variables/predefined_variables.html#variables-reference
     - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token registry.gitlab.com --password-stdin
+    - chmod +x ./setup_env.sh
+    - ./setup_env.sh
   script:
     - docker build --tag $GITLAB_IMAGE:latest ./api
     - docker push $GITLAB_IMAGE:latest
@@ -56,9 +58,6 @@ build-front-end-job:
     # GROUP_NAME, PROJECT_NAME, & WEBSERVICE_NAME below.
     PUBLIC_URL: https://good-coders.gitlab.io/module3-project-gamma/
     REACT_APP_API_HOST: https://may-1-pt-greenbeanapi.mod3projects.com
-    REACT_APP_STATE_API_URL: https://parseapi.back4app.com/classes/Usabystate_States?limit=50&order=name&keys=name,objectId,population,postalAbreviation&where=
-    REACT_APP_STATE_APPLICATION_ID: YeFK5eZAEn05owCNmcWhucKigaBpM00alBP4QdCX
-    REACT_APP_STATE_REST_API_KEY: YkBFQLNkHV3fojvuhqCsfTBCjTAjU4xfFYaUaPQd
   script:
     - cd ghi
     - npm install

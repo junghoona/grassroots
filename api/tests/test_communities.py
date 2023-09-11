@@ -24,13 +24,13 @@ class UserOutWithPassword(BaseModel):
 def fake_get_current_account_data():
     return UserOutWithPassword(
         id=1,
-        first_name="PLACEHOLDER",
-        last_name="PLACEHOLDER",
+        first_name="John",
+        last_name="Demo",
         avatar=None,
         bio=None,
-        city="PLACEHOLDER",
-        state="PLACEHOLDER",
-        email="PLACEHOLDER",
+        city="Irvine",
+        state="California",
+        email="john.demo@email.com",
         hashed_password="PLACEHOLDER"
     )
 
@@ -75,21 +75,21 @@ def test_create_community():
 
     # Act
     json = {
-        "name": "PLACEHOLDER",
-        "city": "PLACEHOLDER",
-        "state": "PLACEHOLDER",
-        "type": "PLACEHOLDER",
-        "description": "PLACEHOLDER",
+        "name": "Trash Picker-uppers",
+        "city": "Irvine",
+        "state": "California",
+        "type": "Team Bonding",
+        "description": "We clean up the community",
         "creator_id": 1
     }
 
     expected = {
         "id": 4,
-        "name": "PLACEHOLDER",
-        "city": "PLACEHOLDER",
-        "state": "PLACEHOLDER",
-        "type": "PLACEHOLDER",
-        "description": "PLACEHOLDER",
+        "name": "Trash Picker-uppers",
+        "city": "Irvine",
+        "state": "California",
+        "type": "Team Bonding",
+        "description": "We clean up the community",
         "creator_id": 1
     }
 
