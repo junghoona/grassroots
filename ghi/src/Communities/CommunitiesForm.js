@@ -28,6 +28,7 @@ const CommunitiesForm = () => {
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
   const [creatorID, setCreatorID] = useState("");
+  const [created, setCreated] = useState(false);
 
   useEffect(() => {
     async function getStates() {
@@ -91,10 +92,19 @@ const CommunitiesForm = () => {
       setType("");
       setDescription("");
       setCreatorID("");
+      setCreated(true);
     } else {
       console.error(response);
     }
   };
+
+  let successMsg = "alert alert-success d-none mb-0";
+  let formClass = "form-floating mb-3";
+
+  if (created) {
+    successMsg = "alert alert-success mb-0";
+    formClass.concat("d-none");
+  }
 
   return (
     <div className="row">
@@ -102,7 +112,7 @@ const CommunitiesForm = () => {
         <div className="shadow p-4 mt-4">
           <h1>Create a new community</h1>
           <form onSubmit={handleSubmit} id="create-community-form">
-            <div className="form-floating mb-3">
+            <div className={formClass}>
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -115,7 +125,7 @@ const CommunitiesForm = () => {
               />
               <label htmlFor="name">Name</label>
             </div>
-            <div className="form-floating mb-3">
+            <div className={formClass}>
               <input
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
@@ -131,7 +141,7 @@ const CommunitiesForm = () => {
             <label htmlFor="state" className="form-label">
               Choose your state
             </label>
-            <div className="form-floating mb-3">
+            <div className={formClass}>
               <select
                 onChange={(e) => setState(e.target.value)}
                 required
@@ -152,7 +162,7 @@ const CommunitiesForm = () => {
                 })}
               </select>
             </div>
-            <div className="form-floating mb-3">
+            <div className={formClass}>
               <input
                 value={type}
                 onChange={(e) => setType(e.target.value)}
@@ -164,7 +174,7 @@ const CommunitiesForm = () => {
               />
               <label htmlFor="type">Type</label>
             </div>
-            <div className="form-floating mb-3">
+            <div className={formClass}>
               <input
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -176,7 +186,7 @@ const CommunitiesForm = () => {
               />
               <label htmlFor="description">Description</label>
             </div>
-            <div className="form-floating mb-3">
+            <div className={formClass}>
               <input
                 value={creatorID}
                 type="hidden"
@@ -188,6 +198,9 @@ const CommunitiesForm = () => {
               Create
             </button>
           </form>
+          <div className={successMsg} id="success-message">
+            Success! You created a new community!
+          </div>
         </div>
       </div>
     </div>
