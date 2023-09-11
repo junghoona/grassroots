@@ -6,7 +6,7 @@ from authenticator import authenticator
 router = APIRouter()
 
 
-@router.post("/api/members/", response_model=Union[MemberOut, Error])
+@router.post("/api/members", response_model=Union[MemberOut, Error])
 def create_member(
     member: MemberIn,
     response: Response,

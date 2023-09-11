@@ -38,7 +38,7 @@ email: str
 ```
 ### Members
 - Method: POST, GET, DELETE
-- Path: /api/members/, api/members/{community_id}, /api/members/{community_id}/{user_id}
+- Path: /api/members, api/members/{community_id}, /api/members/{community_id}/{user_id}
 
 **Pydantic BaseModel**
 
