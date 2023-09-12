@@ -35,8 +35,8 @@ const EventDetails = () => {
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
+      .then(() => {
+        console.log("Success!!");
         navigate(`/attendees/${event_id}/details`);
       })
       .catch((error) => {
@@ -78,13 +78,12 @@ const EventDetails = () => {
                     <p className="card-text">{events.location}</p>
                     <p className="card-text">{events.city}</p>
                     <p className="card-text">{events.state}</p>
-                    <p className="card-text">{events.type}</p>
                     <p className="card-text">
                       {events.day} from {events.start_time} to {events.end_time}
                     </p>
                     <p className="card-text">
                       <small className="text-muted">
-                        Creator: {events.creator}
+                        Event Type: {events.type}
                       </small>
                     </p>
                     <button
@@ -125,13 +124,12 @@ const EventDetails = () => {
                     <p className="card-text">{events.location}</p>
                     <p className="card-text">{events.city}</p>
                     <p className="card-text">{events.state}</p>
-                    <p className="card-text">{events.type}</p>
                     <p className="card-text">
                       {events.day} from {events.start_time} to {events.end_time}
                     </p>
                     <p className="card-text">
                       <small className="text-muted">
-                        Creator: {events.creator}
+                        Event Type: {events.type}
                       </small>
                     </p>
                     <Link

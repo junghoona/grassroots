@@ -132,8 +132,7 @@ const AllEventList = () => {
                           </p>
                           <p className="card-text">
                             <small className="text-muted">
-                              Creator: {event.creator}
-                              Type: {event.type}
+                              Event Type: {event.type}
                             </small>
                           </p>
                           <Link
@@ -223,7 +222,7 @@ const AllEventList = () => {
                           </p>
                           <p className="card-text">
                             <small className="text-muted">
-                              Creator: {event.creator}
+                              Event Type: {event.type}
                             </small>
                           </p>
                           <Link
