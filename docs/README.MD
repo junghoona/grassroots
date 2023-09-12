@@ -30,7 +30,7 @@ Project Green Bean is a community connection platform empowering communities wit
 ### Future Functionality
 
 - Main page features a display image and information on endangered species sightings nearby the user (based on US state location)
-- Events are filtered by community
+- Events dates are selected from calendar library and filtered by upcoming vs all 
 - Events can be marked a success and written reviews and ratings can be posted by attendees
 - Community creators can edit and update the community profile page
 - Communities can display celebrations in the form of posts to their profile page
