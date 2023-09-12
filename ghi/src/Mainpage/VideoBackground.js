@@ -6,7 +6,7 @@ const VideoBackground = () => {
   const videoContainerStyle = {
     position: "relative",
     overflow: "hidden",
-    width: "auto",
+    width: "138vh",
     height: "500px",
   };
 
@@ -23,7 +23,7 @@ const VideoBackground = () => {
     position: "absolute",
     top: "0",
     left: "0",
-    width: "100%",
+    width: "138vh",
     height: "100%",
     backgroundColor: `rgba(0, 0, 0, 0.5)`,
     color: "white",
