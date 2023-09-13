@@ -5,9 +5,19 @@ import VideoBackground from "./VideoBackground";
 import Carousel from "react-bootstrap/Carousel";
 
 function Main() {
+  const [user, setUser] = useState({});
   const [userData, setUserData] = useState({});
   const { token } = useToken();
   const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    if (token) {
+      getCurrentUser()
+        .then((data) => setUser(data))
+        .then((user) => getUserData());
+      getEvents();
+    }
+  }, [token, user]);
 
   const getEvents = async () => {
     const response = await fetch(
@@ -15,19 +25,26 @@ function Main() {
     );
     if (response.ok) {
       const data = await response.json();
-
       setEvents(data);
     } else {
       console.error(response);
     }
   };
 
-  useEffect(() => {
-    if (token) {
-      getCurrentUser().then((user) => setUserData(user));
-      getEvents();
+  async function getUserData() {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_HOST}/api/user/${user.id}`,
+      {
+        credentials: "include",
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      setUserData(data);
+    } else {
+      console.error(response);
     }
-  }, [token]);
+  }
 
   return (
     <div>
