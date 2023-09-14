@@ -5,12 +5,13 @@ const Navbar = () => {
   const { token, logout } = useToken();
   const navigate = useNavigate();
 
+  const navbarStyle = {
+    background: "transparent",
+  };
+
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-light"
-      style={{ backgroundColor: "#98FB98" }}
-    >
-      <div className="container-fluid">
+    <nav className="navbar navbar-expand-lg">
+      <div className="container-fluid" style={navbarStyle}>
         <NavLink className="navbar-brand" to={`${process.env.PUBLIC_URL}`}>
           Green Bean
         </NavLink>

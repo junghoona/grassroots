@@ -1,8 +1,8 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-import os
 from routers import users, members, attendees, events, communities
+from fastapi.middleware.cors import CORSMiddleware
 from authenticator import authenticator
+from fastapi import FastAPI
+import os
 
 app = FastAPI()
 app.include_router(users.router)

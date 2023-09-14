@@ -1,32 +1,49 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import videoBg from "../Assets/videoBg.mp4";
+import React, { useState } from "react";
 
 const VideoBackground = () => {
+  const [buttonColor, setButtonColor] = useState("transparent");
+
   const videoContainerStyle = {
     position: "relative",
     overflow: "hidden",
-    width: "138vh",
-    height: "500px",
+    width: "100%",
+    height: "200pv",
   };
 
   const videoBgStyle = {
-    position: "absolute",
+    position: "fixed",
     top: "0",
     left: "0",
-    width: "auto",
+    minWidth: "100%",
     height: "200px",
     zIndex: "-1",
   };
 
   const contentStyle = {
     position: "absolute",
-    top: "0",
-    left: "0",
-    width: "138vh",
-    height: "100%",
-    backgroundColor: `rgba(0, 0, 0, 0.5)`,
+    margin: "0",
+    position: "absolute",
+    top: "25%",
+    left: "50%",
+    transform: `translate(-50%, -50%)`,
+    // backgroundColor: `rgba(0, 0, 0, 0.5)`,
+    fontFamily: "serif",
     color: "white",
+  };
+
+  const headerStyle = {
+    fontSize: "100px",
+  };
+
+  const paragStyle = {
+    fontSize: "25px",
+  };
+
+  const buttonStyle = {
+    background: `${buttonColor}`,
+    border: "solid",
   };
 
   return (
@@ -39,10 +56,18 @@ const VideoBackground = () => {
           <div className="content" style={contentStyle}>
             <div className="mt-5">
               <div className="text-center">
-                <h1>Welcome!</h1>
-                <p> Explore our environmentally friendly content </p>
-                <Link className="btn btn-primary" to={`/signup`}>
-                  Join us
+                <h1 style={headerStyle}>Welcome.</h1>
+                <p style={paragStyle}>
+                  Building Tomorrow's Communities Today <br />
+                </p>
+                <Link
+                  className="btn btn-primary"
+                  style={buttonStyle}
+                  onMouseEnter={() => setButtonColor(`#EFEFEF`)}
+                  onMouseLeave={() => setButtonColor(`transparent`)}
+                  to={`/signup`}
+                >
+                  Get Started
                 </Link>
               </div>
             </div>

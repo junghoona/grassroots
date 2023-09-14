@@ -28,58 +28,56 @@ function App() {
       <BrowserRouter basename={basename}>
         <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
           <Navbar />
-          <div className="container">
-            <Routes>
-              <Route exact path="/" element={<Main />}></Route>
-              <Route exact path="/signup" element={<SignupForm />}></Route>
-              <Route exact path="/login" element={<LoginForm />}></Route>
-              <Route
-                exact
-                path="/userprofile"
-                element={<UserProfilePage />}
-              ></Route>
-              <Route path="communities/">
-                <Route path="create" element={<CommunitiesForm />} />
-                <Route index element={<CommunitiesList />} />
-                <Route path=":community_id" element={<CommunityProfile />} />
-              </Route>
-              <Route
-                exact
-                path="/userevents"
-                element={<UserEventsPage />}
-              ></Route>
-              <Route exact path="/about" element={<AboutPage />}></Route>
-              <Route
-                exact
-                path="/usercommunities"
-                element={<UserCommunitiesPage />}
-              ></Route>
-              <Route path="events/">
-                <Route path="all" element={<AllEventList />} />
-                <Route path="create" element={<EventForm />} />
-                <Route path=":event_id" element={<EventDetails />}></Route>
-              </Route>
-              <Route
-                exact
-                path="/attendees/:event_id/details"
-                element={<AllEventAttendeesList />}
-              ></Route>
-              <Route
-                exact
-                path="/userprofile"
-                element={<UserProfilePage />}
-              ></Route>
-              <Route
-                exact
-                path="/members/:community_id/"
-                element={<MembersList />}
-              ></Route>
-              <Route
-                path="/userprofile/:userId"
-                element={<IndividualProfilePage />}
-              ></Route>
-            </Routes>
-          </div>
+          <Routes>
+            <Route exact path="/" element={<Main />}></Route>
+            <Route exact path="/signup" element={<SignupForm />}></Route>
+            <Route exact path="/login" element={<LoginForm />}></Route>
+            <Route
+              exact
+              path="/userprofile"
+              element={<UserProfilePage />}
+            ></Route>
+            <Route path="communities/">
+              <Route path="create" element={<CommunitiesForm />} />
+              <Route index element={<CommunitiesList />} />
+              <Route path=":community_id" element={<CommunityProfile />} />
+            </Route>
+            <Route
+              exact
+              path="/userevents"
+              element={<UserEventsPage />}
+            ></Route>
+            <Route exact path="/about" element={<AboutPage />}></Route>
+            <Route
+              exact
+              path="/usercommunities"
+              element={<UserCommunitiesPage />}
+            ></Route>
+            <Route path="events/">
+              <Route path="all" element={<AllEventList />} />
+              <Route path="create" element={<EventForm />} />
+              <Route path=":event_id" element={<EventDetails />}></Route>
+            </Route>
+            <Route
+              exact
+              path="/attendees/:event_id/details"
+              element={<AllEventAttendeesList />}
+            ></Route>
+            <Route
+              exact
+              path="/userprofile"
+              element={<UserProfilePage />}
+            ></Route>
+            <Route
+              exact
+              path="/members/:community_id/"
+              element={<MembersList />}
+            ></Route>
+            <Route
+              path="/userprofile/:userId"
+              element={<IndividualProfilePage />}
+            ></Route>
+          </Routes>
         </AuthProvider>
       </BrowserRouter>
     </div>
