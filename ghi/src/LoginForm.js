@@ -1,12 +1,35 @@
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import GreenBean from "./Assets/greenbean.png";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useToken();
   const navigate = useNavigate();
+
+  const containerStyle = {
+    marginTop: "10%",
+  };
+
+  const backgroundColor = {
+    backgroundColor: "#f3f2f2",
+  };
+
+  const headerStyle = {
+    textAlign: "center",
+    fontSize: "30px",
+  };
+
+  const imgStyle = {
+    borderTopLeftRadius: "1rem",
+    borderBottomLeftRadius: "1rem",
+  };
+
+  const buttonColor = {
+    backgroundColor: "#92aad0",
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,63 +39,75 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          className="mx-auto h-10 w-auto"
-          src="https://emoji.slack-edge.com/T03AAE15UA0/cool_beans/a6d470806ddcbd77.png"
-          alt="Green Bean Logo"
-        />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in
-        </h2>
-      </div>
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={(e) => handleSubmit(e)}>
-          <div>
-            <label
-              htmlFor="username"
-              class="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Username:
-            </label>
-            <input
-              required
-              name="username"
-              type="text"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-            />
+    <div className="bg-image h-100" style={backgroundColor}>
+      <div className="mask d-flex align-items-center">
+        <div className="container" style={containerStyle}>
+          <div className="row d-flex justify-content-center align-items-center">
+            <div className="col-12 col-lg-9 col-lg-8">
+              <div className="card">
+                <div className="row g-0">
+                  <div className="col-md-5 d-none d-md-block">
+                    <img
+                      className="img-fluid"
+                      src={GreenBean}
+                      alt="Green Bean"
+                      style={imgStyle}
+                    />
+                  </div>
+                  <div className="col-md-5 d-flex align-items-center">
+                    <div className="card-body py-5 px-4 p-md-4">
+                      <form
+                        className="space-y-6"
+                        onSubmit={(e) => handleSubmit(e)}
+                      >
+                        <h2 className="fw-bold mb-4" style={headerStyle}>
+                          Log in to your account
+                        </h2>
+                        <div className="form-outline mb-4">
+                          <label htmlFor="username" className="form-label">
+                            Email Address
+                          </label>
+                          <input
+                            required
+                            name="username"
+                            type="email"
+                            className="form-control"
+                            onChange={(e) => {
+                              setUsername(e.target.value);
+                            }}
+                          />
+                        </div>
+                        <div className="form-outline mb-4">
+                          <label htmlFor="password" className="form-label">
+                            Password
+                          </label>
+                          <input
+                            required
+                            name="password"
+                            type="password"
+                            className="form-control"
+                            onChange={(e) => {
+                              setPassword(e.target.value);
+                            }}
+                          />
+                        </div>
+                        <div className="d-flex justify-content-end pt-1 mb-4">
+                          <button
+                            className="btn btn-primary btn-rounded"
+                            type="button"
+                            style={buttonColor}
+                          >
+                            Log in
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Password:
-            </label>
-            <input
-              required
-              name="password"
-              type="password"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <button
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              type="submit"
-              value="Login"
-            >
-              Login
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );
