@@ -28,7 +28,6 @@ const VideoBackground = () => {
     top: "25%",
     left: "50%",
     transform: `translate(-50%, -50%)`,
-    // backgroundColor: `rgba(0, 0, 0, 0.5)`,
     fontFamily: "serif",
     color: "white",
   };
@@ -43,6 +42,8 @@ const VideoBackground = () => {
 
   const buttonStyle = {
     background: `${buttonColor}`,
+    width: "150px",
+    fontSize: "20px",
     border: "solid",
   };
 
@@ -58,10 +59,11 @@ const VideoBackground = () => {
               <div className="text-center">
                 <h1 style={headerStyle}>Welcome.</h1>
                 <p style={paragStyle}>
-                  Building Tomorrow's Communities Today <br />
+                  Bringing Communities Together for a More Hope-Inspired <br />
+                  Pursuit of a Sustainable and Harmonious Future <br />
                 </p>
                 <Link
-                  className="btn btn-primary"
+                  className="btn btn-primary mt-5"
                   style={buttonStyle}
                   onMouseEnter={() => setButtonColor(`#EFEFEF`)}
                   onMouseLeave={() => setButtonColor(`transparent`)}

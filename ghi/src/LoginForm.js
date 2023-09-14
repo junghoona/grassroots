@@ -70,7 +70,7 @@ const LoginForm = () => {
                           <input
                             required
                             name="username"
-                            type="email"
+                            type="text"
                             className="form-control"
                             onChange={(e) => {
                               setUsername(e.target.value);
@@ -94,8 +94,9 @@ const LoginForm = () => {
                         <div className="d-flex justify-content-end pt-1 mb-4">
                           <button
                             className="btn btn-primary btn-rounded"
-                            type="button"
+                            type="submit"
                             style={buttonColor}
+                            value="Login"
                           >
                             Log in
                           </button>

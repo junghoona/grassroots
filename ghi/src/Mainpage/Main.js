@@ -3,12 +3,38 @@ import { useState, useEffect } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import VideoBackground from "./VideoBackground";
 import Carousel from "react-bootstrap/Carousel";
+import { BsCalendarCheck, BsGeoAlt, BsTextParagraph } from "react-icons/bs";
 
 function Main() {
   const [user, setUser] = useState({});
   const [userData, setUserData] = useState({});
   const { token } = useToken();
   const [events, setEvents] = useState([]);
+
+  const headerStyle = {
+    marginTop: "25px",
+    fontSize: "40px",
+    fontStyle: "bold",
+  };
+
+  const textStyle = {
+    fontSize: "15px",
+    fontStyle: "bold",
+    marginTop: "25px",
+    marginBottom: "5px",
+  };
+
+  const imgStyle = {
+    height: "50rem",
+  };
+
+  const captionHeader = {
+    fontSize: "35px",
+  };
+
+  const captionStyle = {
+    fontFamily: "Georgia",
+  };
 
   useEffect(() => {
     if (token) {
@@ -52,35 +78,69 @@ function Main() {
         <div className="main">
           <VideoBackground />
           <div className="container-fluid mt-5">
-            <h2>Events near {userData.city} </h2>
-            <Carousel>
-              {events
-                .filter((event) => {
-                  return event.city === userData.city;
-                })
-                .map((event) => {
-                  return (
-                    <Carousel.Item key={event.id}>
-                      <img
-                        className="d-block w-100"
-                        src={event.image}
-                        style={{ height: 50 + "rem" }}
-                        alt="event"
-                      />
-                      <Carousel.Caption>
-                        <div className="bg-light bg-opacity-50 p-3 text-dark rounded">
-                          <h3>{event.name}</h3>
-                          <p>
-                            {event.city}, {event.state} <br />
-                            {event.description} <br />
-                            {event.day} {event.start_time} - {event.end_time}
-                          </p>
-                        </div>
-                      </Carousel.Caption>
-                    </Carousel.Item>
-                  );
-                })}
-            </Carousel>
+            <div className="d-flex justify-content-between">
+              <h2 style={headerStyle}>Events near {userData.city} </h2>
+              <a href={process.env.PUBLIC_URL + "/events/all"}>
+                <h2 className="btn btn-outline-info" style={textStyle}>
+                  View all Events
+                </h2>
+              </a>
+            </div>
+            <div className="d-flex justify-content-center">
+              <Carousel>
+                {events
+                  .filter((event) => {
+                    return event.city === userData.city;
+                  })
+                  .map((event) => {
+                    return (
+                      <Carousel.Item key={event.id}>
+                        <img
+                          className="d-block w-100"
+                          src={event.image}
+                          style={imgStyle}
+                          alt="event"
+                        />
+                        <Carousel.Caption>
+                          <div
+                            className="bg-light bg-opacity-50 p-3 text-dark rounded"
+                            style={captionStyle}
+                          >
+                            <a
+                              href={
+                                process.env.PUBLIC_URL + `/events/${event.id}`
+                              }
+                            >
+                              <h3 style={captionHeader}>{event.name}</h3>
+                            </a>
+                            <div className="d-flex align-items-center flex-column">
+                              <div className="d-flex gap-2 mb-3">
+                                <div>
+                                  <BsGeoAlt />
+                                </div>
+                                {event.city}, {event.state}
+                              </div>
+                              <div className="d-flex gap-2 mb-3">
+                                <div>
+                                  <BsTextParagraph />
+                                </div>
+                                {event.description}
+                              </div>
+                              <div className="d-flex gap-2 mb-3">
+                                <div>
+                                  <BsCalendarCheck />
+                                </div>
+                                {event.day}, {event.start_time} -{" "}
+                                {event.end_time}
+                              </div>
+                            </div>
+                          </div>
+                        </Carousel.Caption>
+                      </Carousel.Item>
+                    );
+                  })}
+              </Carousel>
+            </div>
           </div>
         </div>
       ) : (
