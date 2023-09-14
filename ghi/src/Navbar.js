@@ -1,10 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import useToken from "@galvanize-inc/jwtdown-for-react";
 
 const Navbar = () => {
+  const { token, logout } = useToken();
+  const navigate = useNavigate();
+
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav
+      className="navbar navbar-expand-lg navbar-light"
+      style={{ backgroundColor: "#98FB98" }}
+    >
       <div className="container-fluid">
-        <NavLink className="navbar-brand" to="http://localhost:3000/">
+        <NavLink className="navbar-brand" to={`${process.env.PUBLIC_URL}`}>
           Green Bean
         </NavLink>
         <button
@@ -12,135 +19,156 @@ const Navbar = () => {
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarScroll"
-          aria-controls="navbarScroll"
           aria-expanded="false"
-          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarScroll">
-          <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+        <div
+          className="collapse navbar-collapse d-flex justify-content-around"
+          id="navbarScroll"
+        >
+          <ul className="navbar-nav">
             <li className="nav-item px-3">
-              <NavLink className="nav-link active" aria-current="page" href="#">
+              <NavLink
+                className="nav-link"
+                aria-current="page"
+                to={`${process.env.PUBLIC_URL}/about`}
+              >
                 About
               </NavLink>
             </li>
             <li className="nav-item dropdown px-3">
-              <NavLink
+              <Link
                 className="nav-link dropdown-toggle"
-                to="http://localhost:3000/communities"
+                to={`${process.env.PUBLIC_URL}/communities`}
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 Communities
-              </NavLink>
+              </Link>
               <ul className="dropdown-menu">
+                {token && (
+                  <li>
+                    <Link className="dropdown-item" to={`/communities/create`}>
+                      Create a Community
+                    </Link>
+                  </li>
+                )}
+                {token && (
+                  <li>
+                    <Link className="dropdown-item" to={`/usercommunities`}>
+                      My Communities
+                    </Link>
+                  </li>
+                )}
                 <li>
-                  <NavLink
+                  <Link
                     className="dropdown-item"
-                    to="http://localhost:3000/communities/create"
-                  >
-                    Create a Community
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink className="dropdown-item" href="#">
-                    My Communities
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className="dropdown-item"
-                    to="http://localhost:3000/communities"
+                    to={`${process.env.PUBLIC_URL}/communities`}
                   >
                     View All Communities
-                  </NavLink>
+                  </Link>
                 </li>
               </ul>
             </li>
             <li className="nav-item dropdown px-3">
-              <NavLink
+              <Link
                 className="nav-link dropdown-toggle"
-                href="#"
+                to={`${process.env.PUBLIC_URL}/events/all`}
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 Events
-              </NavLink>
+              </Link>
               <ul className="dropdown-menu">
+                {token && (
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      to={`${process.env.PUBLIC_URL}/events/create`}
+                    >
+                      Create an Event
+                    </Link>
+                  </li>
+                )}
+                {token && (
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      to={`${process.env.PUBLIC_URL}/userevents`}
+                    >
+                      My Events
+                    </Link>
+                  </li>
+                )}
                 <li>
-                  <NavLink className="dropdown-item" href="#">
-                    Create an Event
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink className="dropdown-item" href="#">
-                    My Events
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink className="dropdown-item" href="#">
+                  <Link
+                    className="dropdown-item"
+                    to={`${process.env.PUBLIC_URL}/events/all`}
+                  >
                     Upcoming Events
-                  </NavLink>
+                  </Link>
                 </li>
               </ul>
             </li>
             <li className="nav-item dropdown px-3">
-              <NavLink
+              <Link
                 className="nav-link dropdown-toggle"
-                to="http://localhost:3000/communities"
+                to={`${process.env.PUBLIC_URL}/userprofile`}
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 Account
-              </NavLink>
+              </Link>
               <ul className="dropdown-menu">
-                <li>
-                  <NavLink className="dropdown-item" to="#">
-                    My Profile
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className="dropdown-item"
-                    to="http://localhost:3000/signup"
-                  >
-                    Create an account
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className="dropdown-item"
-                    to="http://localhost:3000/login"
-                  >
-                    Log in
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    className="dropdown-item"
-                    to="http://localhost:3000/logout"
-                  >
-                    Log out
-                  </NavLink>
-                </li>
+                {token && (
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      to={`${process.env.PUBLIC_URL}/userprofile`}
+                    >
+                      My Profile
+                    </Link>
+                  </li>
+                )}
+                {!token && (
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      to={`${process.env.PUBLIC_URL}/signup`}
+                    >
+                      Create an account
+                    </Link>
+                  </li>
+                )}
               </ul>
             </li>
+            {!token && (
+              <button
+                className="btn btn-outline-success"
+                onClick={() => {
+                  return navigate(`login`);
+                }}
+              >
+                Log In
+              </button>
+            )}
+            {token && (
+              <button
+                className="btn btn-outline-danger"
+                onClick={() =>
+                  logout().then(() => {
+                    return navigate(`/`);
+                  })
+                }
+              >
+                Log Out
+              </button>
+            )}
           </ul>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
         </div>
       </div>
     </nav>

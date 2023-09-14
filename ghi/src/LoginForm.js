@@ -10,7 +10,6 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`email: ${username} password: ${password}`);
     login(username, password);
     e.target.reset();
     navigate("/");

@@ -26,6 +26,10 @@ class CommunityOut(BaseModel):
     creator_id: int
 
 
+class CommunityListOut(BaseModel):
+    communities: list[CommunityOut]
+
+
 class CommunityRepository:
     def create_community(self, community: CommunityIn) -> CommunityOut:
         try:
@@ -143,3 +147,25 @@ class CommunityRepository:
         except Exception as e:
             print(e)
             return {"message": "Invalid Community ID - Could not delete the Community"}
+
+    def get_communities_user_in(self, user_id: int) -> CommunityOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT communities.id, communities.name, communities.city,
+                    communities.state, communities.type, communities.description, communities.creator_id
+                    FROM communities
+                    JOIN members on (communities.id = members.community)
+                    JOIN users on (members.person = users.id)
+                    WHERE users.id = %s
+                    """,
+                    [user_id]
+                )
+                results = []
+                for row in db.fetchall():
+                    record = {}
+                    for i, column in enumerate(db.description):
+                        record[column.name] = row[i]
+                    results.append(CommunityOut(**record))
+                return results

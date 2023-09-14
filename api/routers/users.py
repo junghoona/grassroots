@@ -82,3 +82,17 @@ async def update_user(
     if isinstance(updated_user, dict) and updated_user.get("code") is not None:
         response.status_code = updated_user["code"]
     return updated_user
+
+
+@router.get("/api/user/{user_id}", response_model=Union[UserOut, HttpError])
+async def get_user(
+    user_id: int,
+    response: Response,
+    repo: UserRepository = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+) -> Union[UserOut, HttpError]:
+    result = repo.get_user_with_id(user_id)
+    if isinstance(result, dict):
+        response.status_code = 404
+        return {"detail": result["message"]}
+    return result
