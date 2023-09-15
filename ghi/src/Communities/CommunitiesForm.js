@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import GreenBean from "../Assets/greenbean.png";
 import { getCurrentUser } from "../UserProfilePage/UserProfilePage";
 
 async function makeCreatorMember(creatorId, communityId) {
@@ -29,6 +30,29 @@ const CommunitiesForm = () => {
   const [description, setDescription] = useState("");
   const [creatorID, setCreatorID] = useState("");
   const [created, setCreated] = useState(false);
+
+  const backgroundColor = {
+    backgroundColor: "#f3f2f2",
+  };
+
+  const buttonColor = {
+    backgroundColor: "#92aad0",
+  };
+
+  const containerStyle = {
+    marginTop: "10%",
+  };
+
+  const headerStyle = {
+    textAlign: "center",
+    fontSize: "30px",
+  };
+
+  const imgStyle = {
+    borderTopLeftRadius: "1rem",
+    borderBottomLeftRadius: "1rem",
+    height: "100%",
+  };
 
   useEffect(() => {
     async function getStates() {
@@ -99,7 +123,7 @@ const CommunitiesForm = () => {
   };
 
   let successMsg = "alert alert-success d-none mb-0";
-  let formClass = "form-floating mb-3";
+  let formClass = "form-outline mb-4";
 
   if (created) {
     successMsg = "alert alert-success mb-0";
@@ -107,99 +131,130 @@ const CommunitiesForm = () => {
   }
 
   return (
-    <div className="row">
-      <div className="offset-3 col-6">
-        <div className="shadow p-4 mt-4">
-          <h1>Create a new community</h1>
-          <form onSubmit={handleSubmit} id="create-community-form">
-            <div className={formClass}>
-              <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Fill in name..."
-                required
-                type="text"
-                name="name"
-                id="name"
-                className="form-control"
-              />
-              <label htmlFor="name">Name</label>
+    <div className="bg-image h-100" style={backgroundColor}>
+      <div className="mask d-flex align-items-center">
+        <div className="container" style={containerStyle}>
+          <div className="row d-flex justify-content-center align-items-center">
+            <div className="col-12 col-lg-9 col-lg-8">
+              <div className="card">
+                <div className="row g-0">
+                  <div className="col-md-5 d-none d-md-block">
+                    <img
+                      className="img-fluid"
+                      src={GreenBean}
+                      alt="Green Bean"
+                      style={imgStyle}
+                    />
+                  </div>
+                  <div className="col-md-5 d-flex align-items-center">
+                    <div className="card-body py-5 px-4 p-md-4">
+                      <form onSubmit={handleSubmit} id="create-community-form">
+                        <h1 className="fw-bold mb-4" style={headerStyle}>
+                          Create a new community
+                        </h1>
+                        <div className={formClass}>
+                          <label htmlFor="name" className="form-label">
+                            Name
+                          </label>
+                          <input
+                            placeholder="Fill in name..."
+                            required
+                            name="name"
+                            type="text"
+                            className="form-control"
+                            onChange={(e) => setName(e.target.value)}
+                            value={name}
+                          />
+                        </div>
+                        <div className={formClass}>
+                          <label htmlFor="city" className="form-label">
+                            City
+                          </label>
+                          <input
+                            placeholder="Fill in City..."
+                            required
+                            name="city"
+                            type="text"
+                            className="form-control"
+                            onChange={(e) => setCity(e.target.value)}
+                            value={city}
+                          />
+                        </div>
+                        <div className={formClass}>
+                          <label htmlFor="state" className="form-label">
+                            Choose your state
+                          </label>
+                          <select
+                            onChange={(e) => setState(e.target.value)}
+                            required
+                            className="form-select"
+                            id="state"
+                            aria-label="Choose your state"
+                          >
+                            <option value="">Open this select menu</option>
+                            {states.map((state) => {
+                              return (
+                                <option
+                                  key={state.objectId}
+                                  value={state.postalAbbreviation}
+                                >
+                                  {state.name}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                        <div className={formClass}>
+                          <label htmlFor="type">Type</label>
+                          <input
+                            value={type}
+                            onChange={(e) => setType(e.target.value)}
+                            placeholder="Fill in Type..."
+                            type="text"
+                            name="type"
+                            id="type"
+                            className="form-control"
+                          />
+                        </div>
+                        <div className={formClass}>
+                          <label htmlFor="description">Description</label>
+                          <input
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Fill in Description..."
+                            type="text"
+                            name="description"
+                            id="description"
+                            className="form-control"
+                          />
+                        </div>
+                        <div className={formClass}>
+                          <input
+                            value={creatorID}
+                            type="hidden"
+                            name="creator_id"
+                            id="creator_id"
+                          />
+                        </div>
+                        <div className="d-flex justify-content-end pt-1 mb-4">
+                          <button
+                            disabled={states.length === 0}
+                            className="btn btn-primary btn-rounded"
+                            style={buttonColor}
+                            type="submit"
+                          >
+                            Create
+                          </button>
+                        </div>
+                      </form>
+                      <div className={successMsg} id="success-message">
+                        Success! You created a new community!
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className={formClass}>
-              <input
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder="Fill in City..."
-                required
-                type="text"
-                name="city"
-                id="city"
-                className="form-control"
-              />
-              <label htmlFor="last_name">City</label>
-            </div>
-            <label htmlFor="state" className="form-label">
-              Choose your state
-            </label>
-            <div className={formClass}>
-              <select
-                onChange={(e) => setState(e.target.value)}
-                required
-                className="form-select"
-                id="state"
-                aria-label="Choose your state"
-              >
-                <option value="">Open this select menu</option>
-                {states.map((state) => {
-                  return (
-                    <option
-                      key={state.objectId}
-                      value={state.postalAbbreviation}
-                    >
-                      {state.name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            <div className={formClass}>
-              <input
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-                placeholder="Fill in Type..."
-                type="text"
-                name="type"
-                id="type"
-                className="form-control"
-              />
-              <label htmlFor="type">Type</label>
-            </div>
-            <div className={formClass}>
-              <input
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Fill in Description..."
-                type="text"
-                name="description"
-                id="description"
-                className="form-control"
-              />
-              <label htmlFor="description">Description</label>
-            </div>
-            <div className={formClass}>
-              <input
-                value={creatorID}
-                type="hidden"
-                name="creator_id"
-                id="creator_id"
-              />
-            </div>
-            <button disabled={states.length === 0} className="btn btn-primary">
-              Create
-            </button>
-          </form>
-          <div className={successMsg} id="success-message">
-            Success! You created a new community!
           </div>
         </div>
       </div>

@@ -3,3 +3,4 @@ jwtdown-fastapi>=0.2.0
 uvicorn[standard]==0.17.6
 pytest==7.1.2
 psycopg[binary,pool]>=3.1.2
+websockets>=11.0.3

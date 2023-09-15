@@ -53,13 +53,13 @@ const EventDetails = () => {
   }, [token]);
 
   return (
-    <div className="container text-center">
+    <div className="container text-center mt-5">
       <div className="row justify-content-center">
-        <div className="col-md-8">
+        <div className="col-md-8 mt-5">
           {token ? (
             <div
               className="card mb-4"
-              style={{ maxWidth: "800px" }}
+              style={{ maxWidth: "800px", maxHeight: "400px" }}
               key={events.id}
             >
               <div className="row g-0">
@@ -105,7 +105,7 @@ const EventDetails = () => {
           ) : (
             <div
               className="card mb-4"
-              style={{ maxWidth: "800px" }}
+              style={{ maxWidth: "800px", maxHeight: "400px" }}
               key={events.id}
             >
               <div className="row g-0">

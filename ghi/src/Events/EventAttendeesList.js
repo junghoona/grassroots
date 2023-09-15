@@ -38,9 +38,9 @@ const AllEventAttendeesList = () => {
   };
 
   return (
-    <div className="text-center">
+    <div className="text-center mt-5">
       <h1>{eventName}'s Attendees</h1>
-      <div className="row">
+      <div className="row mt-5">
         {attendees.map((attendee) => (
           <div className="col-md-3 mb-4" key={attendee.id}>
             <div
