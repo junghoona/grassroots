@@ -1,3 +1,4 @@
+import { BsTag, BsGeoAlt, BsTextParagraph } from "react-icons/bs";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -9,6 +10,32 @@ const CommunitiesList = () => {
   const cardStyle = {
     textAlign: "center",
     margin: "10px 0",
+  };
+
+  const containerStyle = {
+    marginTop: "5%",
+  };
+
+  const imgStyle = {
+    height: "75vh",
+    width: "auto",
+  };
+
+  const textStyle = {
+    fontSize: "50px",
+    fontStyle: "bold",
+    marginTop: "5%",
+    marginBottom: "5px",
+    textAlign: "center",
+    fontFamily: "Georgia",
+  };
+
+  const selectTextStyle = {
+    fontSize: "35px",
+    fontStyle: "bold",
+    fontFamily: "Georgia",
+    marginLeft: "1%",
+    marginRight: "5%",
   };
 
   const fetchData = async () => {
@@ -51,9 +78,13 @@ const CommunitiesList = () => {
 
   return (
     <>
-      <div className="container-fluid">
-        <h2 style={{ textAlign: "center" }}>Communities</h2>
-        <div className="input-group">
+      <div className="container-fluid" style={containerStyle}>
+        <h2 style={textStyle}>Communities</h2>
+        <div className="input-group mt-2">
+          <h2 className="md-4" style={selectTextStyle}>
+            {" "}
+            Choose a state:{" "}
+          </h2>
           <select
             onChange={(e) => setState(e.target.value)}
             required
@@ -70,11 +101,9 @@ const CommunitiesList = () => {
               );
             })}
           </select>
-          <div className="input-group-append">
-            <Link to={`/communities/create`} className="btn btn-primary">
-              Create a New Community
-            </Link>
-          </div>
+          <Link to={`/communities/create`} className="btn btn-primary">
+            Create a New Community
+          </Link>
         </div>
         <div className="container-fluid">
           {state.length === 0
@@ -89,6 +118,7 @@ const CommunitiesList = () => {
                       className="card-img-top"
                       src="https://images.pexels.com/photos/3280130/pexels-photo-3280130.jpeg?auto=compress&cs=tinysrgb&w=600"
                       alt="community"
+                      style={imgStyle}
                     />
                     <div className="card-body">
                       <h5 className="card-title fw-bold fs-4">

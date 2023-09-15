@@ -6,14 +6,28 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const navbarStyle = {
-    background: "transparent",
+    background: "white",
+    zIndex: "10000",
+    position: "fixed",
+    top: "0px",
+    width: "100%",
+    borderBottom: "solid green",
+  };
+
+  const imgStyle = {
+    height: "35px",
   };
 
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid" style={navbarStyle}>
         <NavLink className="navbar-brand" to={`${process.env.PUBLIC_URL}`}>
-          Green Bean
+          <img
+            className="img-fluid h-full"
+            src="https://emoji.slack-edge.com/T03AAE15UA0/cool_beans/a6d470806ddcbd77.png"
+            alt="Green Bea Slackmoji"
+            style={imgStyle}
+          />
         </NavLink>
         <button
           className="navbar-toggler"
@@ -25,7 +39,7 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div
-          className="collapse navbar-collapse d-flex justify-content-around"
+          className="collapse navbar-collapse d-flex justify-content-end"
           id="navbarScroll"
         >
           <ul className="navbar-nav">

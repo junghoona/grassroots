@@ -9,12 +9,12 @@ const LoginForm = () => {
   const { login } = useToken();
   const navigate = useNavigate();
 
-  const containerStyle = {
-    marginTop: "10%",
-  };
-
   const backgroundColor = {
     backgroundColor: "#f3f2f2",
+  };
+
+  const containerStyle = {
+    marginTop: "10%",
   };
 
   const headerStyle = {
@@ -25,6 +25,7 @@ const LoginForm = () => {
   const imgStyle = {
     borderTopLeftRadius: "1rem",
     borderBottomLeftRadius: "1rem",
+    height: "100%",
   };
 
   const buttonColor = {

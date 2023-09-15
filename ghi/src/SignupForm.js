@@ -31,6 +31,7 @@ const SignupForm = () => {
   const imgStyle = {
     borderTopLeftRadius: "1rem",
     borderBottomLeftRadius: "1rem",
+    height: "100%",
   };
 
   const buttonStyle = {
@@ -67,7 +68,7 @@ const SignupForm = () => {
             <div className="col-8 col-lg-7 col-xl-8">
               <div className="card">
                 <div className="row g-0">
-                  <div className="col-md-4 d-none d-md-block">
+                  <div className="col-md-4 w-45 d-none d-md-block">
                     <img
                       className="img-fluid h-full"
                       src={GreenBean}

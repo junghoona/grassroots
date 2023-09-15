@@ -15,6 +15,7 @@ function Main() {
     marginTop: "25px",
     fontSize: "40px",
     fontStyle: "bold",
+    fontFamily: "Georgia",
   };
 
   const textStyle = {
@@ -26,6 +27,7 @@ function Main() {
 
   const imgStyle = {
     height: "50rem",
+    width: "auto",
   };
 
   const captionHeader = {
@@ -86,7 +88,7 @@ function Main() {
                 </h2>
               </a>
             </div>
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center mt-2">
               <Carousel>
                 {events
                   .filter((event) => {
@@ -113,7 +115,7 @@ function Main() {
                             >
                               <h3 style={captionHeader}>{event.name}</h3>
                             </a>
-                            <div className="d-flex align-items-center flex-column">
+                            <div className="d-flex mt-2 align-items-center flex-column">
                               <div className="d-flex gap-2 mb-3">
                                 <div>
                                   <BsGeoAlt />
