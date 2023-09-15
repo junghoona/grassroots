@@ -1,4 +1,3 @@
-import { BsTag, BsGeoAlt, BsTextParagraph } from "react-icons/bs";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
