@@ -10,6 +10,8 @@ const VideoBackground = () => {
     overflow: "hidden",
     width: "100%",
     height: "200pv",
+    width: "100%",
+    height: "200pv",
   };
 
   const videoBgStyle = {
@@ -22,9 +24,7 @@ const VideoBackground = () => {
   };
 
   const contentStyle = {
-    position: "absolute",
     margin: "0",
-    position: "absolute",
     top: "25%",
     left: "50%",
     transform: `translate(-50%, -50%)`,

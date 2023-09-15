@@ -45,6 +45,7 @@ function Main() {
         .then((user) => getUserData());
       getEvents();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, user]);
 
   const getEvents = async () => {
