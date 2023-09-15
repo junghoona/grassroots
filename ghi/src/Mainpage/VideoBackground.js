@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom";
 import videoBg from "../Assets/videoBg.mp4";
 import React, { useState } from "react";
-import React, { useState } from "react";
 
 const VideoBackground = () => {
-  const [buttonColor, setButtonColor] = useState("transparent");
-
   const [buttonColor, setButtonColor] = useState("transparent");
 
   const videoContainerStyle = {
@@ -19,10 +16,8 @@ const VideoBackground = () => {
 
   const videoBgStyle = {
     position: "fixed",
-    position: "fixed",
     top: "0",
     left: "0",
-    minWidth: "100%",
     minWidth: "100%",
     height: "200px",
     zIndex: "-1",
