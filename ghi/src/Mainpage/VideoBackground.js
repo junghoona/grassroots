@@ -22,6 +22,7 @@ const VideoBackground = () => {
   };
 
   const contentStyle = {
+    position: "absolute",
     margin: "0",
     top: "25%",
     left: "50%",
