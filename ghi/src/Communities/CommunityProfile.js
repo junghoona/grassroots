@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchMembers } from "../MembersList";
 import { getCurrentUser } from "../UserProfilePage/UserProfilePage";
 
-
 export async function fetchCommunity(community_id) {
   const url = `${process.env.REACT_APP_API_HOST}/api/communities/${community_id}`;
   const response = await fetch(url);
@@ -36,6 +35,10 @@ function CommunityProfile() {
   const [user, setUser] = useState({});
   const [clicked, setClicked] = useState(false);
 
+  const containerStyle = {
+    marginTop: "5%",
+  };
+
   async function JoinCommunity() {
     const data = {
       community: community_id,
@@ -59,30 +62,31 @@ function CommunityProfile() {
   }
 
   const handleClick = () => {
-    JoinCommunity(community_id, parseInt(user.id))
-      .then(() =>{
-        setClicked(true);
-        fetchMembers(community_id).then((data) => setMembers(data));
-      });
+    JoinCommunity(community_id, parseInt(user.id)).then(() => {
+      setClicked(true);
+      fetchMembers(community_id).then((data) => setMembers(data));
+    });
   };
 
   useEffect(() => {
     fetchCommunity(community_id).then((data) => setCommunity(data));
-    Promise.all([getCurrentUser(), fetchMembers(community_id)]).then((resolvedPromises) => {
-      const [userData, memberData] = resolvedPromises;
-      setMembers(memberData);
-      setUser(userData);
-      if (memberData.map((member) => member.person).includes(userData.id)) {
-        setClicked(true);
+    Promise.all([getCurrentUser(), fetchMembers(community_id)]).then(
+      (resolvedPromises) => {
+        const [userData, memberData] = resolvedPromises;
+        setMembers(memberData);
+        setUser(userData);
+        if (memberData.map((member) => member.person).includes(userData.id)) {
+          setClicked(true);
+        }
       }
-    });
+    );
     fetchEvents(community_id).then((data) => setEvents(data));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div>
-      <div className="container">
+      <div className="container" style={containerStyle}>
         <div className="row">
           <div className="col-md-8">
             <h1>{community.name}</h1>
@@ -90,8 +94,8 @@ function CommunityProfile() {
               type="submit"
               className="btn btn-primary"
               onClick={handleClick}
-              >
-                {clicked ? "Joined" : "Join Community"}
+            >
+              {clicked ? "Joined" : "Join Community"}
             </button>
             <div className="row">
               <div className="col-md-6" style={{ width: "100%" }}>
@@ -120,7 +124,7 @@ function CommunityProfile() {
                           <p className="card-text">{event.description}</p>
                           <button
                             type="button"
-                            className="btn btn-primary btn-md"
+                            className="btn btn-outlin-primary btn-md"
                             onClick={() => {
                               navigate(`/events/${event.id}`);
                             }}

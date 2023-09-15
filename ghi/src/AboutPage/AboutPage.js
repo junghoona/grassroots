@@ -2,7 +2,7 @@ import Founders from "./Founders";
 
 function AboutPage() {
   return (
-    <div className="text-center d-flex flex-column align-items-center mt-4">
+    <div className="text-center d-flex flex-column align-items-center mt-5">
       <div style={{ width: "800px" }}>
         <h1>Our Mission</h1>
         <div>
