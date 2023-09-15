@@ -80,7 +80,7 @@ function Main() {
       {token ? (
         <div className="main">
           <VideoBackground />
-          <div className="container-fluid mt-5">
+          <div className="container-fluid mt-2">
             <div className="d-flex justify-content-between">
               <h2 style={headerStyle}>Events near {userData.city} </h2>
               <a href={process.env.PUBLIC_URL + "/events/all"}>
