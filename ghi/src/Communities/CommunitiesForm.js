@@ -205,16 +205,20 @@ const CommunitiesForm = () => {
                           </select>
                         </div>
                         <div className={formClass}>
-                          <label htmlFor="type">Type</label>
-                          <input
-                            value={type}
+                          <select
                             onChange={(e) => setType(e.target.value)}
-                            placeholder="Fill in Type..."
-                            type="text"
-                            name="type"
+                            required
                             id="type"
-                            className="form-control"
-                          />
+                            className="form-select"
+                            aria-label="Select a community type"
+                          >
+                          <option value="">Select a Type</option>
+                          <option value="Biodiversity">Biodiversity</option>
+                          <option value="Waste Reduction">Waste Reduction</option>
+                          <option value="Sustainable Energy">Sustainable Energy</option>
+                          <option value="Sustainable Food Management">Sustainable Food Management</option>
+                          <option value="Air Quality">Air Quality</option>
+                          </select>
                         </div>
                         <div className={formClass}>
                           <label htmlFor="description">Description</label>

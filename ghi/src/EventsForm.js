@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getCurrentUser } from "./UserProfilePage/UserProfilePage";
 
 export async function fetchStates() {
@@ -56,6 +56,7 @@ function EventForm() {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [image, setImage] = useState("");
+  const dateInputRef = useRef(null);
 
   async function fetchUserCommunities() {
     const url = `${process.env.REACT_APP_API_HOST}/api/communities/user/${creator}`;
@@ -195,16 +196,19 @@ function EventForm() {
               </select>
             </div>
             <div className="form-floating mb-3">
-              <input
-                value={type}
+              <select
                 onChange={(e) => setType(e.target.value)}
-                placeholder="ie Community Trash Pick Up..."
-                type="text"
-                name="type"
+                required
                 id="type"
-                className="form-control"
-              />
-              <label htmlFor="type">Type of Event</label>
+                className="form-select"
+                aria-label="Select an event type"
+              >
+              <option value="">Select a Type</option>
+              <option value="Fundraising">Fundraising</option>
+              <option value="Protesting">Protesting</option>
+              <option value="Educational">Educational</option>
+              <option value="Educational">Community in Action</option>
+              </select>
             </div>
             <div className="form-floating mb-3">
               <input
@@ -264,14 +268,15 @@ function EventForm() {
               <input
                 value={day}
                 onChange={(e) => setDay(e.target.value)}
+                ref={dateInputRef}
                 placeholder="ie Tuesday"
                 required
-                type="text"
+                type="date"
                 name="day"
                 id="day"
                 className="form-control"
               />
-              <label htmlFor="day">Day</label>
+              <label htmlFor="day">{day}</label>
             </div>
             <div className="form-floating mb-3">
               <input
@@ -279,7 +284,7 @@ function EventForm() {
                 onChange={(e) => setStartTime(e.target.value)}
                 placeholder="ie 3pm"
                 required
-                type="text"
+                type="time"
                 name="start_time"
                 id="start_time"
                 className="form-control"
@@ -292,7 +297,7 @@ function EventForm() {
                 onChange={(e) => setEndTime(e.target.value)}
                 placeholder="ie 5pm"
                 required
-                type="text"
+                type="time"
                 name="end_time"
                 id="end_time"
                 className="form-control"
