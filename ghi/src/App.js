@@ -23,6 +23,10 @@ function App() {
   const domain = /https:\/\/[^/]+/;
   const basename = process.env.PUBLIC_URL.replace(domain, "");
 
+  const backgroundColor = {
+    backgroundColor: "#f3f2f2",
+  };
+
   return (
     <div>
       <BrowserRouter basename={basename}>

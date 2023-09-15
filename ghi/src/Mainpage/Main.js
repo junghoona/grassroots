@@ -4,8 +4,10 @@ import useToken from "@galvanize-inc/jwtdown-for-react";
 import VideoBackground from "./VideoBackground";
 import Carousel from "react-bootstrap/Carousel";
 import { BsCalendarCheck, BsGeoAlt, BsTextParagraph } from "react-icons/bs";
+import { BsCalendarCheck, BsGeoAlt, BsTextParagraph } from "react-icons/bs";
 
 function Main() {
+  const [user, setUser] = useState({});
   const [user, setUser] = useState({});
   const [userData, setUserData] = useState({});
   const { token } = useToken();
