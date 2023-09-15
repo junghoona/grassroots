@@ -15,7 +15,7 @@ const Navbar = () => {
   };
 
   const imgStyle = {
-    height: "35px",
+    height: "25px",
   };
 
   return (
